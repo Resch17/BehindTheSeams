@@ -21,7 +21,7 @@ namespace BehindTheSeams.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Username, FirebaseUserId, Email, RegisterDateTime, IsAdministrator FROM User";
+                        SELECT Id, Username, FirebaseUserId, Email, RegisterDateTime, IsAdministrator FROM [User]";
                     var reader = cmd.ExecuteReader();
                     var users = new List<User>();
                     while (reader.Read())
@@ -42,7 +42,7 @@ namespace BehindTheSeams.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Username, FirebaseUserId, Email, RegisterDateTime, IsAdministrator FROM User
+                        SELECT Id, Username, FirebaseUserId, Email, RegisterDateTime, IsAdministrator FROM [User]
                         WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -69,7 +69,7 @@ namespace BehindTheSeams.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Username, FirebaseUserId, Email, RegisterDateTime, IsAdministrator FROM User
+                        SELECT Id, Username, FirebaseUserId, Email, RegisterDateTime, IsAdministrator FROM [User]
                         WHERE FirebaseUserId = @FirebaseUserId";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
 
@@ -96,7 +96,7 @@ namespace BehindTheSeams.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO User (Username, FirebaseUserId, Email, RegisterDateTime, IsAdministrator)
+                        INSERT INTO [User] (Username, FirebaseUserId, Email, RegisterDateTime, IsAdministrator)
                         OUTPUT INSERTED.ID
                         VALUES (@Username, @FirebaseUserId, @Email, SYSDATETIME(), @IsAdministrator";
                     DbUtils.AddParameter(cmd, "@Username", user.Username);
