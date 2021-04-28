@@ -96,7 +96,7 @@ CREATE TABLE [ProjectFabric] (
   [Id] int PRIMARY KEY IDENTITY NOT NULL,
   [ProjectId] integer NOT NULL,
   [FabricId] integer NOT NULL,
-  [Yards] decimal
+  [Yards] decimal(18,4)
 )
 GO
 
@@ -138,8 +138,8 @@ CREATE TABLE [Fabric] (
   [UserId] integer NOT NULL,
   [Name] nvarchar(255) NOT NULL,
   [Url] nvarchar(255),
-  [PricePerYard] decimal,
-  [YardsInStock] decimal NOT NULL DEFAULT 0,
+  [PricePerYard] decimal(12,2),
+  [YardsInStock] decimal(18,4) NOT NULL DEFAULT 0,
   [FabricTypeId] integer NOT NULL,
   [Notes] nvarchar(MAX)
 )
@@ -156,7 +156,7 @@ CREATE TABLE [PatternSize] (
   [Id] integer PRIMARY KEY IDENTITY NOT NULL,
   [PatternId] integer NOT NULL,
   [SizeId] integer NOT NULL,
-  [Yards] decimal
+  [Yards] decimal(18,4)
 )
 GO
 
