@@ -10,6 +10,7 @@ namespace BehindTheSeams.Models
         public int Id { get; set; }
         public int ProjectId { get; set; }
         public int FabricId { get; set; }
+        public Fabric Fabric { get; set; }
         public decimal Yards { get; set; }
     }
 }

@@ -13,7 +13,9 @@ namespace BehindTheSeams.Models
         public string Name { get; set; }
         public DateTime PurchaseDate { get; set; }
         public int FabricTypeId { get; set; }
+        public FabricType FabricType { get; set; }
         public string Notes { get; set; }
         public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

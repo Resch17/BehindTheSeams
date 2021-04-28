@@ -10,6 +10,7 @@ namespace BehindTheSeams.Models
         public int Id { get; set; }
         public int PatternId { get; set; }
         public int SizeId { get; set; }
+        public Size Size { get; set; }
         public decimal Yards { get; set; }
     }
 }
