@@ -42,7 +42,40 @@ namespace BehindTheSeams.Repositories
                     return patterns;
                 }
             }
+        }
 
+        public Pattern GetById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT p.Id, p.UserId, p.[Url], p.[Name], p.PublisherId, p.PurchaseDate, p.FabricTypeId, p.Notes, p.CategoryId,
+	                        pub.[Name] AS PublisherName, pub.[Url] AS PublisherUrl,
+	                        f.[Name] AS FabricTypeName,
+	                        c.[Name] AS CategoryName
+                        FROM Pattern p
+	                        LEFT JOIN Publisher pub ON p.PublisherId = pub.Id
+	                        LEFT JOIN FabricType f ON p.FabricTypeId = f.Id
+	                        LEFT JOIN Category c ON p.CategoryId = c.Id
+                        WHERE p.Id = @Id";
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    Pattern pattern = null;
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        pattern = NewPatternFromDb(reader);
+                    }
+                    reader.Close();
+
+                    return pattern;
+                }
+            }
         }
 
         private Pattern NewPatternFromDb(SqlDataReader reader)

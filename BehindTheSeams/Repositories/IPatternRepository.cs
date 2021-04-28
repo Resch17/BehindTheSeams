@@ -6,5 +6,6 @@ namespace BehindTheSeams.Repositories
     public interface IPatternRepository
     {
         List<Pattern> GetAll(int userId);
+        Pattern GetById(int id);
     }
 }
