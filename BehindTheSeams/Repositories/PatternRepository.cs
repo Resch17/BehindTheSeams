@@ -26,13 +26,15 @@ namespace BehindTheSeams.Repositories
 	                        f.[Name] AS FabricTypeName,
 	                        c.[Name] AS CategoryName,
                             s.[Name] AS SizeName, s.[Id] AS SizeId, s.Abbreviation,
-                            ps.Yards, ps.Id AS PatternSizeId
+                            ps.Yards, ps.Id AS PatternSizeId,
+                            pi.[Id] AS PatternImageId, pi.[Url] AS PatternImageUrl, pi.IsCover
                         FROM Pattern p
 	                        LEFT JOIN Publisher pub ON p.PublisherId = pub.Id
 	                        LEFT JOIN FabricType f ON p.FabricTypeId = f.Id
 	                        LEFT JOIN Category c ON p.CategoryId = c.Id
                             LEFT JOIN PatternSize ps ON p.Id = ps.PatternId
                             LEFT JOIN Size s ON s.Id = ps.SizeId
+                            LEFT JOIN PatternImage pi ON pi.PatternId = p.Id
                         WHERE p.UserId = @UserId";
                     DbUtils.AddParameter(cmd, "@UserId", userId);
 
@@ -45,25 +47,51 @@ namespace BehindTheSeams.Repositories
                         if (existingPattern == null)
                         {
                             existingPattern = NewPatternFromDb(reader);
+
+                            // lists for PatternSizes and Images
                             existingPattern.PatternSizes = new List<PatternSize>();
+                            existingPattern.Images = new List<PatternImage>();
                             patterns.Add(existingPattern);
                         }
 
-                        if (DbUtils.IsNotDbNull(reader, "SizeId"))
+                        // populate pattern patternsizes list
+                        if (DbUtils.IsNotDbNull(reader, "PatternSizeId"))
                         {
-                            existingPattern.PatternSizes.Add(new PatternSize()
+                            var patternSizeId = DbUtils.GetInt(reader, "PatternSizeId");
+                            var existingPatternSize = existingPattern.PatternSizes.FirstOrDefault(ps => ps.Id == patternSizeId);
+                            if (existingPatternSize == null)
                             {
-                                Id = DbUtils.GetInt(reader, "PatternSizeId"),
-                                SizeId = DbUtils.GetInt(reader, "SizeId"),
-                                PatternId = DbUtils.GetInt(reader, "Id"),
-                                Yards = DbUtils.GetDecimal(reader, "Yards"),
-                                Size = new Size()
+                                existingPattern.PatternSizes.Add(new PatternSize()
                                 {
-                                    Id = DbUtils.GetInt(reader, "SizeId"),
-                                    Name = DbUtils.GetString(reader, "SizeName"),
-                                    Abbreviation = DbUtils.GetString(reader, "Abbreviation")
-                                }
-                            });
+                                    Id = DbUtils.GetInt(reader, "PatternSizeId"),
+                                    SizeId = DbUtils.GetInt(reader, "SizeId"),
+                                    PatternId = DbUtils.GetInt(reader, "Id"),
+                                    Yards = DbUtils.GetDecimal(reader, "Yards"),
+                                    Size = new Size()
+                                    {
+                                        Id = DbUtils.GetInt(reader, "SizeId"),
+                                        Name = DbUtils.GetString(reader, "SizeName"),
+                                        Abbreviation = DbUtils.GetString(reader, "Abbreviation")
+                                    }
+                                });
+                            }
+                        }
+
+                        // populate pattern images list
+                        if (DbUtils.IsNotDbNull(reader, "PatternImageId"))
+                        {
+                            var patternImageId = DbUtils.GetInt(reader, "PatternImageId");
+                            var existingPatternImage = existingPattern.Images.FirstOrDefault(pi => pi.Id == patternImageId);
+                            if (existingPatternImage == null)
+                            {
+                                existingPattern.Images.Add(new PatternImage()
+                                {
+                                    Id = DbUtils.GetInt(reader, "PatternImageId"),
+                                    PatternId = DbUtils.GetInt(reader, "Id"),
+                                    IsCover = reader.GetBoolean(reader.GetOrdinal("IsCover")),
+                                    Url = DbUtils.GetString(reader, "PatternImageUrl")
+                                });
+                            }
                         }
                     }
                     reader.Close();
@@ -85,13 +113,15 @@ namespace BehindTheSeams.Repositories
 	                        f.[Name] AS FabricTypeName,
 	                        c.[Name] AS CategoryName,
                             s.[Name] AS SizeName, s.[Id] AS SizeId, s.Abbreviation,
-                            ps.Yards, ps.Id AS PatternSizeId
+                            ps.Yards, ps.Id AS PatternSizeId,
+                            pi.[Id] AS PatternImageId, pi.[Url] AS PatternImageUrl, pi.IsCover
                         FROM Pattern p
 	                        LEFT JOIN Publisher pub ON p.PublisherId = pub.Id
 	                        LEFT JOIN FabricType f ON p.FabricTypeId = f.Id
 	                        LEFT JOIN Category c ON p.CategoryId = c.Id
                             LEFT JOIN PatternSize ps ON p.Id = ps.PatternId
                             LEFT JOIN Size s ON s.Id = ps.SizeId
+                            LEFT JOIN PatternImage pi ON pi.PatternId = p.Id 
                         WHERE p.Id = @Id";
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -105,25 +135,47 @@ namespace BehindTheSeams.Repositories
                         {
                             pattern = NewPatternFromDb(reader);
                             pattern.PatternSizes = new List<PatternSize>();
+                            pattern.Images = new List<PatternImage>();
                         }
-                        if (DbUtils.IsNotDbNull(reader, "SizeId"))
+
+                        if (DbUtils.IsNotDbNull(reader, "PatternSizeId"))
                         {
-                            pattern.PatternSizes.Add(new PatternSize()
+                            var patternSizeId = DbUtils.GetInt(reader, "PatternSizeId");
+                            var existingPatternSize = pattern.PatternSizes.FirstOrDefault(ps => ps.Id == patternSizeId);
+                            if (existingPatternSize == null)
                             {
-                                Id = DbUtils.GetInt(reader, "PatternSizeId"),
-                                SizeId = DbUtils.GetInt(reader, "SizeId"),
-                                PatternId = DbUtils.GetInt(reader, "Id"),
-                                Yards = DbUtils.GetDecimal(reader, "Yards"),
-                                Size = new Size()
+                                pattern.PatternSizes.Add(new PatternSize()
                                 {
-                                    Id = DbUtils.GetInt(reader, "SizeId"),
-                                    Name = DbUtils.GetString(reader, "SizeName"),
-                                    Abbreviation = DbUtils.GetString(reader, "Abbreviation")
-                                }
-                            });
+                                    Id = DbUtils.GetInt(reader, "PatternSizeId"),
+                                    SizeId = DbUtils.GetInt(reader, "SizeId"),
+                                    PatternId = DbUtils.GetInt(reader, "Id"),
+                                    Yards = DbUtils.GetDecimal(reader, "Yards"),
+                                    Size = new Size()
+                                    {
+                                        Id = DbUtils.GetInt(reader, "SizeId"),
+                                        Name = DbUtils.GetString(reader, "SizeName"),
+                                        Abbreviation = DbUtils.GetString(reader, "Abbreviation")
+                                    }
+                                });
+                            }
                         }
-                    }                    
-                    
+
+                        if (DbUtils.IsNotDbNull(reader, "PatternImageId"))
+                        {
+                            var patternImageId = DbUtils.GetInt(reader, "PatternImageId");
+                            var existingPatternImage = pattern.Images.FirstOrDefault(pi => pi.Id == patternImageId);
+                            if (existingPatternImage == null)
+                            {
+                                pattern.Images.Add(new PatternImage()
+                                {
+                                    Id = DbUtils.GetInt(reader, "PatternImageId"),
+                                    PatternId = DbUtils.GetInt(reader, "Id"),
+                                    IsCover = reader.GetBoolean(reader.GetOrdinal("IsCover")),
+                                    Url = DbUtils.GetString(reader, "PatternImageUrl")
+                                });
+                            }
+                        }
+                    }
                     reader.Close();
 
                     return pattern;
