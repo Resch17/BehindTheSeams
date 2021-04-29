@@ -68,6 +68,7 @@ CREATE TABLE [Project] (
   [UserId] integer NOT NULL,
   [PatternId] integer NOT NULL,
   [ProjectStatusId] integer NOT NULL DEFAULT 1,
+  [CreateDateTime] datetime NOT NULL,
   [PatternSizeId] integer NOT NULL,
   [IsComplete] bit NOT NULL DEFAULT 0
 )

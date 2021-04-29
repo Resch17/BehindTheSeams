@@ -121,10 +121,10 @@ INSERT INTO [Fabric] ([Id], [RetailerId], [UserId], [Name], [Url], [PricePerYard
 set IDENTITY_INSERT [Fabric] OFF
 
 set IDENTITY_INSERT [Project] ON
-INSERT INTO [Project] ([Id], [Name], [UserId], [PatternId], [ProjectStatusId], [PatternSizeId])
-    VALUES (1, 'Tie-dye Pants for Amanda', 2, 2, 3, 10);
-INSERT INTO [Project] ([Id], [Name], [UserId], [PatternId], [ProjectStatusId], [PatternSizeId])
-    VALUES (2, 'Awesome Dress', 2, 1, 2, 2);
+INSERT INTO [Project] ([Id], [Name], [UserId], [PatternId], [ProjectStatusId], [PatternSizeId], [CreateDateTime])
+    VALUES (1, 'Tie-dye Pants for Amanda', 2, 2, 3, 10, SYSDATETIME());
+INSERT INTO [Project] ([Id], [Name], [UserId], [PatternId], [ProjectStatusId], [PatternSizeId], [CreateDateTime])
+    VALUES (2, 'Awesome Dress', 2, 1, 2, 2, SYSDATETIME());
 set IDENTITY_INSERT [Project] OFF
 
 set IDENTITY_INSERT [ProjectFabric] ON
@@ -138,3 +138,10 @@ set IDENTITY_INSERT [ProjectNotes] ON
 INSERT INTO [ProjectNotes] ([Id], [ProjectId], [Text]) VALUES (1, 1, 'See if Amanda really wants these to be pink');
 INSERT INTO [ProjectNotes] ([Id], [ProjectId], [Text]) VALUES (2, 2, 'Seriously, this dress needs to happen');
 set IDENTITY_INSERT [ProjectNotes] OFF
+
+set IDENTITY_INSERT [PatternImage] ON
+INSERT INTO [PatternImage] ([Id], [PatternId], [Url], [IsCover]) VALUES (1, 1, 'https://www.seamwork.com/media/products/catalog/3060/3060-185e9c4e.jpg', 1);
+INSERT INTO [PatternImage] ([Id], [PatternId], [Url], [IsCover]) VALUES (2, 1, 'https://www.seamwork.com/media/products/catalog/3060/3060-77198d26.jpg', 0);
+INSERT INTO [PatternImage] ([Id], [PatternId], [Url], [IsCover]) VALUES (3, 1, 'https://www.seamwork.com/media/products/catalog/3060/3060-50eb4d92.jpg', 0);
+set IDENTITY_INSERT [PatternImage] OFF
+

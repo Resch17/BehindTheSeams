@@ -17,5 +17,8 @@ namespace BehindTheSeams.Models
         public int PatternSizeId { get; set; }
         public PatternSize PatternSize { get; set; }
         public bool IsComplete { get; set; }
+        public List<Fabric> Fabric { get; set; }
+        public List<ProjectImage> Images { get; set; }
+        public List<ProjectNotes> Notes { get; set; }
     }
 }
