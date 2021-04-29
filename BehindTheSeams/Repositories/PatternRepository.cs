@@ -27,7 +27,8 @@ namespace BehindTheSeams.Repositories
 	                        c.[Name] AS CategoryName,
                             s.[Name] AS SizeName, s.[Id] AS SizeId, s.Abbreviation,
                             ps.Yards, ps.Id AS PatternSizeId,
-                            pi.[Id] AS PatternImageId, pi.[Url] AS PatternImageUrl, pi.IsCover
+                            pi.[Id] AS PatternImageId, pi.[Url] AS PatternImageUrl, pi.IsCover,
+                            fil.[Id] AS FileId, fil.[Name] AS FileName, fil.[Path] AS FilePath
                         FROM Pattern p
 	                        LEFT JOIN Publisher pub ON p.PublisherId = pub.Id
 	                        LEFT JOIN FabricType f ON p.FabricTypeId = f.Id
@@ -35,6 +36,7 @@ namespace BehindTheSeams.Repositories
                             LEFT JOIN PatternSize ps ON p.Id = ps.PatternId
                             LEFT JOIN Size s ON s.Id = ps.SizeId
                             LEFT JOIN PatternImage pi ON pi.PatternId = p.Id
+                            LEFT JOIN [File] fil ON fil.PatternId = p.Id
                         WHERE p.UserId = @UserId";
                     DbUtils.AddParameter(cmd, "@UserId", userId);
 
@@ -48,13 +50,14 @@ namespace BehindTheSeams.Repositories
                         {
                             existingPattern = NewPatternFromDb(reader);
 
-                            // lists for PatternSizes and Images
+                            // lists for PatternSizes, PatternImages, and Files
                             existingPattern.PatternSizes = new List<PatternSize>();
                             existingPattern.Images = new List<PatternImage>();
+                            existingPattern.Files = new List<File>();
                             patterns.Add(existingPattern);
                         }
 
-                        // populate pattern patternsizes list
+                        // populate pattern PatternSizes list
                         if (DbUtils.IsNotDbNull(reader, "PatternSizeId"))
                         {
                             var patternSizeId = DbUtils.GetInt(reader, "PatternSizeId");
@@ -93,6 +96,22 @@ namespace BehindTheSeams.Repositories
                                 });
                             }
                         }
+
+                        if (DbUtils.IsNotDbNull(reader,"FileId"))
+                        {
+                            var fileId = DbUtils.GetInt(reader, "FileId");
+                            var existingFile = existingPattern.Files.FirstOrDefault(f => f.Id == fileId);
+                            if (existingFile == null)
+                            {
+                                existingPattern.Files.Add(new File()
+                                {
+                                    Id = fileId,
+                                    PatternId = DbUtils.GetInt(reader, "Id"),
+                                    Path = DbUtils.GetString(reader, "FilePath"),
+                                    Name = DbUtils.GetString(reader, "FileName")
+                                });
+                            }
+                        }
                     }
                     reader.Close();
                     return patterns;
@@ -114,7 +133,8 @@ namespace BehindTheSeams.Repositories
 	                        c.[Name] AS CategoryName,
                             s.[Name] AS SizeName, s.[Id] AS SizeId, s.Abbreviation,
                             ps.Yards, ps.Id AS PatternSizeId,
-                            pi.[Id] AS PatternImageId, pi.[Url] AS PatternImageUrl, pi.IsCover
+                            pi.[Id] AS PatternImageId, pi.[Url] AS PatternImageUrl, pi.IsCover,
+                            fil.[Id] AS FileId, fil.[Name] AS FileName, fil.[Path] AS FilePath
                         FROM Pattern p
 	                        LEFT JOIN Publisher pub ON p.PublisherId = pub.Id
 	                        LEFT JOIN FabricType f ON p.FabricTypeId = f.Id
@@ -122,6 +142,7 @@ namespace BehindTheSeams.Repositories
                             LEFT JOIN PatternSize ps ON p.Id = ps.PatternId
                             LEFT JOIN Size s ON s.Id = ps.SizeId
                             LEFT JOIN PatternImage pi ON pi.PatternId = p.Id 
+                            LEFT JOIN [File] fil ON fil.PatternId = p.Id
                         WHERE p.Id = @Id";
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -136,6 +157,7 @@ namespace BehindTheSeams.Repositories
                             pattern = NewPatternFromDb(reader);
                             pattern.PatternSizes = new List<PatternSize>();
                             pattern.Images = new List<PatternImage>();
+                            pattern.Files = new List<File>();
                         }
 
                         if (DbUtils.IsNotDbNull(reader, "PatternSizeId"))
@@ -156,6 +178,22 @@ namespace BehindTheSeams.Repositories
                                         Name = DbUtils.GetString(reader, "SizeName"),
                                         Abbreviation = DbUtils.GetString(reader, "Abbreviation")
                                     }
+                                });
+                            }
+                        }
+
+                        if (DbUtils.IsNotDbNull(reader, "FileId"))
+                        {
+                            var fileId = DbUtils.GetInt(reader, "FileId");
+                            var existingFile = pattern.Files.FirstOrDefault(f => f.Id == fileId);
+                            if (existingFile == null)
+                            {
+                                pattern.Files.Add(new File()
+                                {
+                                    Id = fileId,
+                                    PatternId = DbUtils.GetInt(reader, "Id"),
+                                    Path = DbUtils.GetString(reader, "FilePath"),
+                                    Name = DbUtils.GetString(reader, "FileName")
                                 });
                             }
                         }
@@ -191,6 +229,13 @@ namespace BehindTheSeams.Repositories
                 UserId = DbUtils.GetInt(reader, "UserId"),
                 Url = DbUtils.GetString(reader, "Url"),
                 Name = DbUtils.GetString(reader, "Name"),
+                PublisherId = DbUtils.GetInt(reader, "PublisherId"),
+                Publisher = new Publisher()
+                {
+                    Id = DbUtils.GetInt(reader, "PublisherId"),
+                    Name = DbUtils.GetString(reader, "PublisherName"),
+                    Url = DbUtils.GetString(reader, "PublisherUrl")
+                },
                 PurchaseDate = DbUtils.GetDateTime(reader, "PurchaseDate"),
                 FabricTypeId = DbUtils.GetInt(reader, "FabricTypeId"),
                 FabricType = new FabricType()

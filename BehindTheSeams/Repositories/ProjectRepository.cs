@@ -30,7 +30,7 @@ namespace BehindTheSeams.Repositories
 							patsize.[Yards], s.[Name] AS SizeName, s.[Abbreviation],
 							patimg.[Id] AS PatternImageId, patimg.[IsCover], patimg.[Url] AS PatternImageUrl,
 							f.[Id] AS FabricId, f.[Name] AS FabricName, ft.[Name] AS FabricTypeName, f.[PricePerYard],
-							f.[YardsInStock], r.[Name] AS RetailerName,
+							f.[YardsInStock], r.[Name] AS RetailerName, r.[Url] AS RetailerUrl,
 							fi.[Url] AS FabricImageUrl, fi.[FabricId] AS ImageFabricId
 						FROM Project p
 							LEFT JOIN Pattern pat ON pat.Id = p.PatternId
@@ -97,7 +97,8 @@ namespace BehindTheSeams.Repositories
                                     YardsInStock = DbUtils.GetDecimal(reader, "YardsInStock"),
                                     Retailer = new Retailer()
                                     {
-                                        Name = DbUtils.GetString(reader, "RetailerName")
+                                        Name = DbUtils.GetString(reader, "RetailerName"),
+                                        Url = DbUtils.GetString(reader, "RetailerUrl")
                                     }
                                 });
                             }
@@ -156,7 +157,7 @@ namespace BehindTheSeams.Repositories
 							patsize.[Yards], s.[Name] AS SizeName, s.[Abbreviation],
 							patimg.[Id] AS PatternImageId, patimg.[IsCover], patimg.[Url] AS PatternImageUrl,
 							f.[Id] AS FabricId, f.[Name] AS FabricName, ft.[Name] AS FabricTypeName, f.[PricePerYard],
-							f.[YardsInStock], r.[Name] AS RetailerName,
+							f.[YardsInStock], r.[Name] AS RetailerName, r.[Url] AS RetailerUrl
 							fi.[Url] AS FabricImageUrl, fi.[FabricId] AS ImageFabricId
 						FROM Project p
 							LEFT JOIN Pattern pat ON pat.Id = p.PatternId
@@ -220,7 +221,8 @@ namespace BehindTheSeams.Repositories
                                     YardsInStock = DbUtils.GetDecimal(reader, "YardsInStock"),
                                     Retailer = new Retailer()
                                     {
-                                        Name = DbUtils.GetString(reader, "RetailerName")
+                                        Name = DbUtils.GetString(reader, "RetailerName"),
+                                        Url = DbUtils.GetString(reader, "RetailerUrl")
                                     }
                                 });
                             }
