@@ -23,10 +23,12 @@ namespace BehindTheSeams.Repositories
                     cmd.CommandText = @"
                     SELECT f.Id, f.RetailerId, f.UserId, f.[Name], f.[Url], f.PricePerYard, f.YardsInStock,
                     	f.FabricTypeId, ft.[Name] AS FabricTypeName, f.Notes,
-	                    r.[Name] AS RetailerName, r.[Url] AS RetailerUrl
+	                    r.[Name] AS RetailerName, r.[Url] AS RetailerUrl,
+                        fi.Id AS FabricImageId, fi.[Url] AS FabricImageUrl
                     FROM Fabric f
 	                    LEFT JOIN FabricType ft ON ft.Id = f.FabricTypeId
 	                    LEFT JOIN Retailer r ON r.Id = f.RetailerId
+                        LEFT JOIN FabricImage fi ON fi.FabricId = f.Id
                     WHERE f.UserId = @UserId";
                     DbUtils.AddParameter(cmd, "@UserId", userId);
 
@@ -34,7 +36,28 @@ namespace BehindTheSeams.Repositories
                     var fabrics = new List<Fabric>();
                     while (reader.Read())
                     {
-                        fabrics.Add(NewFabricFromDb(reader));
+                        var fabricId = DbUtils.GetInt(reader, "Id");
+                        var existingFabric = fabrics.FirstOrDefault(f => f.Id == fabricId);
+                        if (existingFabric == null)
+                        {
+                            existingFabric = NewFabricFromDb(reader);
+                            existingFabric.Images = new List<FabricImage>();
+                            fabrics.Add(existingFabric);
+                        }
+
+                        if (DbUtils.IsNotDbNull(reader, "FabricImageId"))
+                        {
+                            var fabricImageId = DbUtils.GetInt(reader, "FabricImageId");
+                            var existingFabricImage = existingFabric.Images.FirstOrDefault(fi => fi.Id == fabricImageId);
+                            if (existingFabricImage == null)
+                            {
+                                existingFabric.Images.Add(new FabricImage()
+                                {
+                                    Id = fabricImageId,
+                                    Url = DbUtils.GetString(reader, "FabricImageUrl")
+                                });
+                            }
+                        }
                     }
                     reader.Close();
                     return fabrics;
@@ -52,18 +75,39 @@ namespace BehindTheSeams.Repositories
                     cmd.CommandText = @"
                         SELECT f.Id, f.RetailerId, f.UserId, f.[Name], f.[Url], f.PricePerYard, f.YardsInStock,
                     	    f.FabricTypeId, ft.[Name] AS FabricTypeName, f.Notes,
-	                        r.[Name] AS RetailerName, r.[Url] AS RetailerUrl
+	                        r.[Name] AS RetailerName, r.[Url] AS RetailerUrl,
+                            fi.Id AS FabricImageId, fi.[Url] AS FabricImageUrl
                         FROM Fabric f
 	                        LEFT JOIN FabricType ft ON ft.Id = f.FabricTypeId
 	                        LEFT JOIN Retailer r ON r.Id = f.RetailerId
+                            LEFT JOIN FabricImage fi ON fi.FabricId = f.Id
                         WHERE f.Id = @Id";
                     DbUtils.AddParameter(cmd, "@Id", id);
 
                     Fabric fabric = null;
                     var reader = cmd.ExecuteReader();
-                    if (reader.Read())
+
+                    while (reader.Read())
                     {
-                        fabric = NewFabricFromDb(reader);
+                        if (fabric == null)
+                        {
+                            fabric = NewFabricFromDb(reader);
+                            fabric.Images = new List<FabricImage>();
+                        }
+
+                        if (DbUtils.IsNotDbNull(reader, "FabricImageId"))
+                        {
+                            var fabricImageId = DbUtils.GetInt(reader, "FabricImageId");
+                            var existingFabricImage = fabric.Images.FirstOrDefault(fi => fi.Id == fabricImageId);
+                            if (existingFabricImage == null)
+                            {
+                                fabric.Images.Add(new FabricImage()
+                                {
+                                    Id = fabricImageId,
+                                    Url = DbUtils.GetString(reader, "FabricImageUrl")
+                                });
+                            }
+                        }
                     }
                     reader.Close();
                     return fabric;
