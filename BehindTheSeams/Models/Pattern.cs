@@ -17,5 +17,6 @@ namespace BehindTheSeams.Models
         public string Notes { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+        public List<PatternSize> PatternSizes { get; set; }
     }
 }

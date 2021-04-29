@@ -14,28 +14,28 @@ namespace BehindTheSeams.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class PatternController : ControllerBase
+    public class FabricController : ControllerBase
     {
-        private readonly IPatternRepository _patternRepository;
+        private readonly IFabricRepository _fabricRepository;
         private readonly IUserRepository _userRepository;
 
-        public PatternController(IUserRepository userRepository, IPatternRepository patternRepository)
+        public FabricController(IUserRepository userRepository, IFabricRepository fabricRepository)
         {
+            _fabricRepository = fabricRepository;
             _userRepository = userRepository;
-            _patternRepository = patternRepository;
         }
 
         [HttpGet]
-        public IActionResult GetAllPatterns()
+        public IActionResult GetAllFabric()
         {
             var user = GetCurrentUser();
-            return Ok(_patternRepository.GetAll(user.Id));
+            return Ok(_fabricRepository.GetAll(user.Id));
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            return Ok(_patternRepository.GetById(id));
+            return Ok(_fabricRepository.GetById(id));
         }
 
         private User GetCurrentUser()

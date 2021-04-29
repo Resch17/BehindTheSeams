@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace BehindTheSeams.Repositories
 {
-    public interface IPatternRepository
+    public interface IFabricRepository
     {
-        List<Pattern> GetAll(int userId);
-        Pattern GetById(int id);
+        List<Fabric> GetAll(int userId);
+        Fabric GetById(int id);
     }
 }

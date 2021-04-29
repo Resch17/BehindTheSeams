@@ -117,7 +117,7 @@ set IDENTITY_INSERT [PatternSize] OFF
 
 set IDENTITY_INSERT [Fabric] ON
 INSERT INTO [Fabric] ([Id], [RetailerId], [UserId], [Name], [Url], [PricePerYard], [YardsInStock], [FabricTypeId], [Notes]) VALUES (1, 1, 2, 'Washed Pink Dye UV 50+ Nylon Spandex', 'https://knitfabric.com/washed-pink-dye-uv-50-nylon-spandex/', 16, 5.5, 1, 'This fabric is kinda ugly tbh');
-INSERT INTO [Fabric] ([Id], [RetailerId], [UserId], [Name], [Url], [PricePerYard], [YardsInStock], [FabricTypeId], [Notes]) VALUES (1, 3, 2, 'Vertical Rainbow Brushed Poly', 'https://milymaefabricshop.com/collections/brushed-poly/products/vertical-rainbow', 8.50, 3, 1, 'This fabric is kinda amazing tbh');
+INSERT INTO [Fabric] ([Id], [RetailerId], [UserId], [Name], [Url], [PricePerYard], [YardsInStock], [FabricTypeId], [Notes]) VALUES (2, 3, 2, 'Vertical Rainbow Brushed Poly', 'https://milymaefabricshop.com/collections/brushed-poly/products/vertical-rainbow', 8.50, 3, 1, 'This fabric is kinda amazing tbh');
 set IDENTITY_INSERT [Fabric] OFF
 
 set IDENTITY_INSERT [Project] ON
