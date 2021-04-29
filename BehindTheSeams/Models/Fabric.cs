@@ -18,5 +18,6 @@ namespace BehindTheSeams.Models
         public int FabricTypeId { get; set; }
         public FabricType FabricType { get; set; }
         public string Notes { get; set; }
+        public List<FabricImage> Images { get; set; }
     }
 }

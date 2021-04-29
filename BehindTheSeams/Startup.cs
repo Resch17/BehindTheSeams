@@ -32,6 +32,7 @@ namespace BehindTheSeams
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPatternRepository, PatternRepository>();
             services.AddTransient<IFabricRepository, FabricRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
