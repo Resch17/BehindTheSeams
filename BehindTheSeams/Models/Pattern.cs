@@ -11,6 +11,8 @@ namespace BehindTheSeams.Models
         public string Url { get; set; } 
         public int UserId { get; set; }
         public string Name { get; set; }
+        public int PublisherId { get; set; }
+        public Publisher Publisher { get; set; }
         public DateTime PurchaseDate { get; set; }
         public int FabricTypeId { get; set; }
         public FabricType FabricType { get; set; }
@@ -19,5 +21,6 @@ namespace BehindTheSeams.Models
         public Category Category { get; set; }
         public List<PatternSize> PatternSizes { get; set; }
         public List<PatternImage> Images { get; set; }
+        public List<File> Files { get; set; }
     }
 }

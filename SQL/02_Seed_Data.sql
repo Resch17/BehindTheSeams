@@ -152,3 +152,8 @@ VALUES (1, 1, 'https://cdn11.bigcommerce.com/s-daswymv3tx/images/stencil/960w/pr
 INSERT INTO [FabricImage] ([Id], [FabricId], [Url])
 VALUES (2, 2, 'https://cdn.shopify.com/s/files/1/2281/1887/products/image_837d2ccd-fecf-4066-912e-ea2ba00e6d5f_720x.png');
 set IDENTITY_INSERT [FabricImage] OFF
+
+set IDENTITY_INSERT [File] ON
+INSERT INTO [File] ([Id], [Name], [Path], [PatternId])
+VALUES (1, 'Instructions', 'https://drive.google.com/file/d/1TXZtqm37JcVOxUHNknKURxf8R16qFqF4/view?usp=sharing', 1)
+set IDENTITY_INSERT [File] OFF
