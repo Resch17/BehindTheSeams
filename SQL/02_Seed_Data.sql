@@ -143,5 +143,12 @@ set IDENTITY_INSERT [PatternImage] ON
 INSERT INTO [PatternImage] ([Id], [PatternId], [Url], [IsCover]) VALUES (1, 1, 'https://www.seamwork.com/media/products/catalog/3060/3060-185e9c4e.jpg', 1);
 INSERT INTO [PatternImage] ([Id], [PatternId], [Url], [IsCover]) VALUES (2, 1, 'https://www.seamwork.com/media/products/catalog/3060/3060-77198d26.jpg', 0);
 INSERT INTO [PatternImage] ([Id], [PatternId], [Url], [IsCover]) VALUES (3, 1, 'https://www.seamwork.com/media/products/catalog/3060/3060-50eb4d92.jpg', 0);
+INSERT INTO [PatternImage] ([Id], [PatternId], [Url], [IsCover]) VALUES (4, 2, 'https://assets.bigcartel.com/product_images/202839518/Hudson+pant+hero-1354.jpg', 1)
 set IDENTITY_INSERT [PatternImage] OFF
 
+set IDENTITY_INSERT [FabricImage] ON
+INSERT INTO [FabricImage] ([Id], [FabricId], [Url])
+VALUES (1, 1, 'https://cdn11.bigcommerce.com/s-daswymv3tx/images/stencil/960w/products/10993/10870/BTP1129C1__06531__87656.1615479451.jpg');
+INSERT INTO [FabricImage] ([Id], [FabricId], [Url])
+VALUES (2, 2, 'https://cdn.shopify.com/s/files/1/2281/1887/products/image_837d2ccd-fecf-4066-912e-ea2ba00e6d5f_720x.png');
+set IDENTITY_INSERT [FabricImage] OFF

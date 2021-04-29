@@ -9,6 +9,7 @@ namespace BehindTheSeams.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public DateTime CreateDateTime { get; set; }
         public int UserId { get; set; }
         public int PatternId { get; set; }
         public Pattern Pattern { get; set; }

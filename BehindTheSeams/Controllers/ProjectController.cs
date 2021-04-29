@@ -32,6 +32,12 @@ namespace BehindTheSeams.Controllers
             return Ok(_projectRepository.GetAll(user.Id));
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_projectRepository.GetById(id));
+        }
+
         private User GetCurrentUser()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
