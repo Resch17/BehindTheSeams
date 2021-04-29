@@ -1,22 +1,25 @@
 import React, { useContext, useEffect } from 'react';
 import { FabricContext } from './providers/FabricProvider';
 import { PatternContext } from './providers/PatternProvider';
+import { ProjectContext } from './providers/ProjectProvider';
 import { UserContext } from './providers/UserProvider';
 
 export const Hello = () => {
     const { getAllUsers, users } = useContext(UserContext);
     const { getAllPatterns, patterns } = useContext(PatternContext);
     const { getAllFabric, fabric } = useContext(FabricContext);
+    const { getAllProjects, projects} = useContext(ProjectContext);
     const currentUser = JSON.parse(localStorage.getItem('userProfile'));
 
     useEffect(() => {
-        getAllUsers().then(getAllPatterns).then(getAllFabric);
+        getAllUsers().then(getAllPatterns).then(getAllFabric).then(getAllProjects);
     }, []);
 
     const logging = () => {
         console.log('fabric', fabric);
         console.log('patterns', patterns);
         console.log('users', users);
+        console.log('projects', projects);
     };
 
     return (

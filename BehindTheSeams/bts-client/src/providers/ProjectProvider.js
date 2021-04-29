@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from './UserProvider';
 
-export const FabricContext = React.createContext();
+export const ProjectContext = React.createContext();
 
-export const FabricProvider = (props) => {
+export const ProjectProvider = (props) => {
     const { getToken } = useContext(UserContext);
-    const [fabric, setFabric] = useState([]);
+    const [projects, setProjects] = useState([]);
 
-    const apiUrl = '/api/fabric';
+    const apiUrl = '/api/project';
 
-    const getAllFabric = () => {
+    const getAllProjects = () => {
         return getToken()
             .then((token) =>
                 fetch(apiUrl, {
@@ -21,12 +21,12 @@ export const FabricProvider = (props) => {
             )
             .then((res) => res.json())
             .then((parsed) => {
-                setFabric(parsed);
+                setProjects(parsed);
                 return parsed;
             });
     };
 
-    const getFabricById = (id) => {
+    const getProjectById = (id) => {
         return getToken()
             .then((token) =>
                 fetch(`${apiUrl}/${id}`, {
@@ -39,24 +39,11 @@ export const FabricProvider = (props) => {
             .then((res) => res.json());
     };
 
-    const addFabric = (fabric) => {
-        return getToken().then((token) =>
-            fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(fabric),
-            })
-        );
-    };
-
     return (
-        <FabricContext.Provider
-            value={{ getAllFabric, getFabricById, addFabric, fabric }}
+        <ProjectContext.Provider
+            value={{ getAllProjects, getProjectById, projects }}
         >
             {props.children}
-        </FabricContext.Provider>
+        </ProjectContext.Provider>
     );
 };

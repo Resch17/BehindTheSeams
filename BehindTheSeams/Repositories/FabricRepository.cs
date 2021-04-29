@@ -115,6 +115,83 @@ namespace BehindTheSeams.Repositories
             }
         }
 
+        public void Add(Fabric fabric)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Fabric ([RetailerId], [UserId], [Name], [Url],
+                            [PricePerYard], [YardsInStock], [FabricTypeId], [Notes])
+                        OUTPUT INSERTED.ID
+                        VALUES (@RetailerId, @UserId, @Name, @Url, @PricePerYard, @YardsInStock,
+                            @FabricTypeId, @Notes)";
+
+                    DbUtils.AddParameter(cmd, "@RetailerId", fabric.Retailerid);
+                    DbUtils.AddParameter(cmd, "@UserId", fabric.UserId);
+                    DbUtils.AddParameter(cmd, "@Name", fabric.Name);
+                    DbUtils.AddParameter(cmd, "@Url", fabric.Url);
+                    DbUtils.AddParameter(cmd, "@PricePerYard", fabric.PricePerYard);
+                    DbUtils.AddParameter(cmd, "@YardsInStock", fabric.YardsInStock);
+                    DbUtils.AddParameter(cmd, "@FabricTypeId", fabric.FabricTypeId);
+                    DbUtils.AddParameter(cmd, "@Notes", fabric.Notes);
+
+                    fabric.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Update(Fabric fabric)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Fabric
+                            SET [RetailerId] = @RetailerId,
+                                [Name] = @Name,
+                                [Url] = @Url,
+                                [PricePerYard] = @PricePerYard,
+                                [YardsInStock] = @YardsInStock,
+                                [FabricTypeId] = @FabricTypeId,
+                                [Notes] = @Notes
+                        WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@RetailerId", fabric.Retailerid);
+                    DbUtils.AddParameter(cmd, "@Name", fabric.Name);
+                    DbUtils.AddParameter(cmd, "@Url", fabric.Url);
+                    DbUtils.AddParameter(cmd, "@PricePerYard", fabric.PricePerYard);
+                    DbUtils.AddParameter(cmd, "@YardsInStock", fabric.YardsInStock);
+                    DbUtils.AddParameter(cmd, "@FabricTypeId", fabric.FabricTypeId);
+                    DbUtils.AddParameter(cmd, "@Notes", fabric.Notes);
+                    DbUtils.AddParameter(cmd, "@Id", fabric.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        DELETE FabricImage WHERE FabricId = @Id;
+                        DELETE ProjectFabric WHERE FabricId = @Id
+                        DELETE Fabric WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@Id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         private Fabric NewFabricFromDb(SqlDataReader reader)
         {
             return new Fabric()
