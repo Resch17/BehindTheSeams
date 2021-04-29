@@ -98,7 +98,7 @@ namespace BehindTheSeams.Repositories
                     cmd.CommandText = @"
                         INSERT INTO [User] (Username, FirebaseUserId, Email, RegisterDateTime, IsAdministrator)
                         OUTPUT INSERTED.ID
-                        VALUES (@Username, @FirebaseUserId, @Email, SYSDATETIME(), @IsAdministrator";
+                        VALUES (@Username, @FirebaseUserId, @Email, SYSDATETIME(), @IsAdministrator)";
                     DbUtils.AddParameter(cmd, "@Username", user.Username);
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", user.FirebaseUserId);
                     DbUtils.AddParameter(cmd, "@Email", user.Email);
