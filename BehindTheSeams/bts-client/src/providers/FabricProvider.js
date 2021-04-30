@@ -52,9 +52,27 @@ export const FabricProvider = (props) => {
         );
     };
 
+    const deleteFabric = (id) => {
+        return getToken().then((token) =>
+            fetch(`${apiUrl}/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+        );
+    };
+
     return (
         <FabricContext.Provider
-            value={{ getAllFabric, getFabricById, addFabric, fabric }}
+            value={{
+                getAllFabric,
+                getFabricById,
+                addFabric,
+                deleteFabric,
+                fabric,
+                setFabric,
+            }}
         >
             {props.children}
         </FabricContext.Provider>

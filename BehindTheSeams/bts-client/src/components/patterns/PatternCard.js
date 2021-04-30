@@ -6,14 +6,16 @@ export const PatternCard = ({ pattern, modifying }) => {
         return date.toLocaleDateString('en-US');
     };
 
-    const modifyingStyle = () =>
-        modifying
-            ? { justifyContent: 'space-between' }
-            : { justifyContent: 'center' };
-
     return (
         <div className="pattern-card">
-            <div className="pattern-card__top-row" style={modifyingStyle()}>
+            <div
+                className="pattern-card__top-row"
+                style={
+                    modifying
+                        ? { justifyContent: 'space-between' }
+                        : { justifyContent: 'center' }
+                }
+            >
                 {modifying ? (
                     <div className="pattern-card__delete-button">
                         <i className="fas fa-trash fa-2x"></i>
