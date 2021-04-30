@@ -126,9 +126,11 @@
     justify-content: space-between;
     margin-bottom: 10px;
 }
+
 .fabric-details__top-row-buttons button {
     margin: 5px;
 }
+
 .fabric-details__body {
     display: flex;
     flex-direction: row;
