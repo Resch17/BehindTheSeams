@@ -8,6 +8,7 @@ export const PatternList = () => {
     const { patterns, setPatterns, getAllPatterns } = useContext(
         PatternContext
     );
+    const [modifying, setModifying] = useState(false);
 
     useEffect(() => {
         getAllPatterns();
@@ -22,18 +23,23 @@ export const PatternList = () => {
             <div className="patterns__top-row">
                 <h1>Patterns</h1>
                 <button className="button">New Pattern</button>
-                <button className="button">Edit/Delete</button>
+                <button
+                    className="button"
+                    onClick={() => setModifying(!modifying)}
+                >
+                    Edit/Delete
+                </button>
                 <button className="button">Filter List</button>
             </div>
             <div className="patterns__pattern-list">
                 {patterns.map((p) => {
-                    return <PatternCard pattern={p} key={p.id} />;
-                })}
-                {patterns.map((p) => {
-                    return <PatternCard pattern={p} key={p.id} />;
-                })}
-                {patterns.map((p) => {
-                    return <PatternCard pattern={p} key={p.id} />;
+                    return (
+                        <PatternCard
+                            pattern={p}
+                            key={p.id}
+                            modifying={modifying}
+                        />
+                    );
                 })}
             </div>
         </main>

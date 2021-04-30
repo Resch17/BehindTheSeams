@@ -1,14 +1,31 @@
 import React from 'react';
 
-export const PatternCard = ({ pattern }) => {
+export const PatternCard = ({ pattern, modifying }) => {
     const dateFormatter = (dateTime) => {
         let date = new Date(dateTime);
         return date.toLocaleDateString('en-US');
     };
 
+    const modifyingStyle = () =>
+        modifying
+            ? { justifyContent: 'space-between' }
+            : { justifyContent: 'center' };
+
     return (
         <div className="pattern-card">
-            <div className="pattern-card__title">{pattern.name}</div>
+            <div className="pattern-card__top-row" style={modifyingStyle()}>
+                {modifying ? (
+                    <div className="pattern-card__delete-button">
+                        <i className="fas fa-trash fa-2x"></i>
+                    </div>
+                ) : null}
+                <div className="pattern-card__title">{pattern.name}</div>
+                {modifying ? (
+                    <div className="pattern-card__edit-button">
+                        <i className="fas fa-pencil-alt fa-2x"></i>
+                    </div>
+                ) : null}
+            </div>
             <div className="pattern-card__body">
                 <div className="pattern-card__image-container">
                     {pattern.images.length > 0 ? (
@@ -31,7 +48,13 @@ export const PatternCard = ({ pattern }) => {
                         Category: {pattern.category.name}
                     </div>
                     <div className="pattern-card__property">
-                        <a href={pattern.publisher.url} target="_blank" rel="noreferrer">Publisher: {pattern.publisher.name}</a>
+                        <a
+                            href={pattern.publisher.url}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            Publisher: {pattern.publisher.name}
+                        </a>
                     </div>
                     <div className="pattern-card__property">
                         Purchased: {dateFormatter(pattern.purchaseDate)}
