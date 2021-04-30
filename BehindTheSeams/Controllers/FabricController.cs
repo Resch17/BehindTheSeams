@@ -35,7 +35,45 @@ namespace BehindTheSeams.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            return Ok(_fabricRepository.GetById(id));
+            var user = GetCurrentUser();
+            var fabric = _fabricRepository.GetById(id);
+            if (user.Id != fabric.UserId)
+            {
+                return Unauthorized();
+            }
+            return Ok(fabric);
+        }
+
+        [HttpPost]
+        public IActionResult AddFabric(Fabric fabric)
+        {
+            var currentUser = GetCurrentUser();
+            fabric.UserId = currentUser.Id;
+            _fabricRepository.Add(fabric);
+            return CreatedAtAction(nameof(GetById), new { id = fabric.Id }, fabric);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _fabricRepository.Delete(id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Fabric fabric)
+        {
+            var currentUser = GetCurrentUser();
+            if (fabric.UserId != currentUser.Id)
+            {
+                return Unauthorized();
+            }
+            if (id != fabric.Id)
+            {
+                return BadRequest();
+            }
+            _fabricRepository.Update(fabric);
+            return NoContent();
         }
 
         private User GetCurrentUser()

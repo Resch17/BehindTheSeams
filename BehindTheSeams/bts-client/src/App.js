@@ -4,6 +4,8 @@ import { UserProvider } from './providers/UserProvider';
 import { ApplicationViews } from './ApplicationViews';
 import { PatternProvider } from './providers/PatternProvider';
 import { FabricProvider } from './providers/FabricProvider';
+import { ProjectProvider } from './providers/ProjectProvider';
+import { Navbar } from './components/Navbar';
 
 export const App = () => {
     return (
@@ -11,7 +13,10 @@ export const App = () => {
             <UserProvider>
                 <PatternProvider>
                     <FabricProvider>
-                        <ApplicationViews />
+                        <ProjectProvider>
+                            <Navbar />
+                            <ApplicationViews />
+                        </ProjectProvider>
                     </FabricProvider>
                 </PatternProvider>
             </UserProvider>

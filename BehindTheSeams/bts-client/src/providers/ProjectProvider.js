@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from './UserProvider';
 
-export const PatternContext = React.createContext();
+export const ProjectContext = React.createContext();
 
-export const PatternProvider = (props) => {
+export const ProjectProvider = (props) => {
     const { getToken } = useContext(UserContext);
-    const [patterns, setPatterns] = useState([]);
+    const [projects, setProjects] = useState([]);
 
-    const apiUrl = '/api/pattern';
+    const apiUrl = '/api/project';
 
-    const getAllPatterns = () => {
+    const getAllProjects = () => {
         return getToken()
             .then((token) =>
                 fetch(apiUrl, {
@@ -21,12 +21,12 @@ export const PatternProvider = (props) => {
             )
             .then((res) => res.json())
             .then((parsed) => {
-                setPatterns(parsed);
+                setProjects(parsed);
                 return parsed;
             });
     };
 
-    const getPatternById = (id) => {
+    const getProjectById = (id) => {
         return getToken()
             .then((token) =>
                 fetch(`${apiUrl}/${id}`, {
@@ -40,10 +40,10 @@ export const PatternProvider = (props) => {
     };
 
     return (
-        <PatternContext.Provider
-            value={{ getAllPatterns, getPatternById, patterns, setPatterns }}
+        <ProjectContext.Provider
+            value={{ getAllProjects, getProjectById, projects }}
         >
             {props.children}
-        </PatternContext.Provider>
+        </ProjectContext.Provider>
     );
 };

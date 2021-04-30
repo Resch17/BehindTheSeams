@@ -39,9 +39,22 @@ export const FabricProvider = (props) => {
             .then((res) => res.json());
     };
 
+    const addFabric = (fabric) => {
+        return getToken().then((token) =>
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(fabric),
+            })
+        );
+    };
+
     return (
         <FabricContext.Provider
-            value={{ getAllFabric, getFabricById, fabric}}
+            value={{ getAllFabric, getFabricById, addFabric, fabric }}
         >
             {props.children}
         </FabricContext.Provider>

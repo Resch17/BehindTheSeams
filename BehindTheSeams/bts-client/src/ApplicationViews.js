@@ -4,7 +4,8 @@ import { Login } from './components/auth/Login';
 import { Register } from './components/auth/Register';
 import { UserContext } from './providers/UserProvider';
 
-import { Hello } from "./Hello";
+import { Hello } from './Hello';
+import { PatternList } from './components/patterns/PatternList';
 
 export const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext);
@@ -19,6 +20,10 @@ export const ApplicationViews = () => {
                 <Login />
                 <Register />
             </Route>
+
+            <Route path="/patterns" exact>
+                <PatternList />
+            </Route>
         </Switch>
-    )
+    );
 };
