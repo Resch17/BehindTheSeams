@@ -54,6 +54,7 @@
 }
 
 .pattern-card__title {
+    cursor: pointer;
     font-size: 20px;
     text-align: center;
 }
@@ -74,6 +75,7 @@
 .pattern-card__image-container {
     border: 2px solid var(--dark-color1);
     border-radius: 5px;
+    cursor: pointer;
     height: 125px;
     width: 100px;
     overflow: hidden;

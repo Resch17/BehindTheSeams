@@ -5,14 +5,14 @@ import '../../styles/Fabric.css';
 import { FabricCard } from './FabricCard';
 
 export const FabricList = () => {
-    const { fabric, setFabric, getAllFabric } = useContext(FabricContext);
+    const { fabrics, setFabrics, getAllFabric } = useContext(FabricContext);
     const [modifying, setModifying] = useState(false);
 
     useEffect(() => {
         getAllFabric();
     }, []);
 
-    if (fabric.length < 1) {
+    if (fabrics.length < 1) {
         return null;
     }
 
@@ -30,7 +30,7 @@ export const FabricList = () => {
                 <button className="button">Filter List</button>
             </div>
             <div className="fabric__fabric-list">
-                {fabric.map((f) => (
+                {fabrics.map((f) => (
                     <FabricCard key={f.id} fabric={f} modifying={modifying} setModifying={setModifying} />
                 ))}
             </div>

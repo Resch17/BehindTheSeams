@@ -5,7 +5,7 @@ export const FabricContext = React.createContext();
 
 export const FabricProvider = (props) => {
     const { getToken } = useContext(UserContext);
-    const [fabric, setFabric] = useState([]);
+    const [fabrics, setFabrics] = useState([]);
 
     const apiUrl = '/api/fabric';
 
@@ -21,7 +21,7 @@ export const FabricProvider = (props) => {
             )
             .then((res) => res.json())
             .then((parsed) => {
-                setFabric(parsed);
+                setFabrics(parsed);
                 return parsed;
             });
     };
@@ -70,8 +70,8 @@ export const FabricProvider = (props) => {
                 getFabricById,
                 addFabric,
                 deleteFabric,
-                fabric,
-                setFabric,
+                fabrics,
+                setFabrics,
             }}
         >
             {props.children}
