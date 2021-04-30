@@ -7,7 +7,7 @@ import { UserContext } from './providers/UserProvider';
 export const Hello = () => {
     const { getAllUsers, users } = useContext(UserContext);
     const { getAllPatterns, patterns } = useContext(PatternContext);
-    const { getAllFabric, fabric } = useContext(FabricContext);
+    const { getAllFabric, fabrics } = useContext(FabricContext);
     const { getAllProjects, projects} = useContext(ProjectContext);
     const currentUser = JSON.parse(localStorage.getItem('userProfile'));
 
@@ -16,7 +16,7 @@ export const Hello = () => {
     }, []);
 
     const logging = () => {
-        console.log('fabric', fabric);
+        console.log('fabric', fabrics);
         console.log('patterns', patterns);
         console.log('users', users);
         console.log('projects', projects);
@@ -24,7 +24,7 @@ export const Hello = () => {
 
     return (
         <>
-            {fabric.length > 0 &&
+            {fabrics.length > 0 &&
                 patterns.length > 0 &&
                 users.length > 0 &&
                 logging()}

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 export const PatternCard = ({ pattern, modifying }) => {
+    const history = useHistory();
+
     const dateFormatter = (dateTime) => {
         let date = new Date(dateTime);
         return date.toLocaleDateString('en-US');
@@ -21,7 +24,12 @@ export const PatternCard = ({ pattern, modifying }) => {
                         <i className="fas fa-trash fa-2x"></i>
                     </div>
                 ) : null}
-                <div className="pattern-card__title">{pattern.name}</div>
+                <div
+                    className="pattern-card__title"
+                    onClick={() => history.push(`/pattern/${pattern.id}`)}
+                >
+                    {pattern.name}
+                </div>
                 {modifying ? (
                     <div className="pattern-card__edit-button">
                         <i className="fas fa-pencil-alt fa-2x"></i>
