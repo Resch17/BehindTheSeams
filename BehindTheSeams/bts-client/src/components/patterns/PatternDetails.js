@@ -72,19 +72,31 @@ export const PatternDetails = () => {
                             Sizes & fabric requirements:
                         </div>
                         <div className="pattern-details__size-list">
-                            {pattern.patternSizes.map((ps)=>{
-                                return (<div key={ps.id} className="pattern-size">
-                                    <div className="pattern-size-name">{ps.size.abbreviation}</div>
-                                    <div className="pattern-size-yards">{ps.yards}yds</div>
-                                </div>)
+                            {pattern.patternSizes.map((ps) => {
+                                return (
+                                    <div key={ps.id} className="pattern-size">
+                                        <div className="pattern-size-name">
+                                            {ps.size.abbreviation}
+                                        </div>
+                                        <div className="pattern-size-yards">
+                                            {ps.yards}yds
+                                        </div>
+                                    </div>
+                                );
                             })}
                         </div>
                     </div>
                     {pattern.files.length > 0 ? (
                         <div className="pattern-details__files-container">
                             <div className="pattern-details__files-top-row">
+                                <div className="pattern-details__deleteFile">
+                                    <i className="fas fa-trash fa-2x"></i>
+                                </div>
                                 <div className="pattern-details__files-title">
                                     Files
+                                </div>
+                                <div className="pattern-details__addFile">
+                                    <i className="fas fa-plus-circle fa-2x"></i>
                                 </div>
                             </div>
                             <div className="pattern-details__files">
