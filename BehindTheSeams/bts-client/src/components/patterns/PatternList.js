@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { PatternContext } from '../../providers/PatternProvider';
 import '../../styles/Pattern.css';
+import { PatternCard } from './PatternCard';
 
 export const PatternList = () => {
     const { patterns, setPatterns, getAllPatterns } = useContext(
@@ -26,7 +27,13 @@ export const PatternList = () => {
             </div>
             <div className="patterns__pattern-list">
                 {patterns.map((p) => {
-                    return <h4 key={p.id}>{p.name}</h4>;
+                    return <PatternCard pattern={p} key={p.id} />;
+                })}
+                {patterns.map((p) => {
+                    return <PatternCard pattern={p} key={p.id} />;
+                })}
+                {patterns.map((p) => {
+                    return <PatternCard pattern={p} key={p.id} />;
                 })}
             </div>
         </main>

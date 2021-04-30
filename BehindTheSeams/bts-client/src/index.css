@@ -8,13 +8,19 @@
   --body-font: 'Montserrat', sans-serif;
 }
 
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  box-sizing: inherit;
+  color: var(--dark-color1);
+  font-family: var(--body-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  width: 100vw;
+}
+
+#root {
+  width: 100%;
 }
 
 code {
