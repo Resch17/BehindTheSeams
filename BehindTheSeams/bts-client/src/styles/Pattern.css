@@ -1,0 +1,19 @@
+.patterns {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    width: 100%;
+}
+
+.patterns__top-row {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.patterns__top-row h1 {
+    color: var(--dark-color1);
+    font-family: var(--heading-font);
+}

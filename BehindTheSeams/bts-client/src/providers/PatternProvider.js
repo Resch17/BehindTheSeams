@@ -41,7 +41,7 @@ export const PatternProvider = (props) => {
 
     return (
         <PatternContext.Provider
-            value={{ getAllPatterns, getPatternById, patterns }}
+            value={{ getAllPatterns, getPatternById, patterns, setPatterns }}
         >
             {props.children}
         </PatternContext.Provider>
