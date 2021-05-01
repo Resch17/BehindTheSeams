@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FabricContext } from '../../providers/FabricProvider';
+import { Slideshow } from '../Slideshow';
 
 export const FabricDetails = () => {
     const [fabric, setFabric] = useState(null);
@@ -31,9 +32,9 @@ export const FabricDetails = () => {
             <section className="fabric-details__body">
                 <div className="fabric-details__image-container">
                     {fabric.images.length > 0 ? (
-                        <img src={fabric.images[0].url} />
+                        <Slideshow images={fabric.images} containerWidth={400} />
                     ) : (
-                        <img src="./patternPlaceholder.png" />
+                        <img src="./assets/patternPlaceholder.png" />
                     )}
                 </div>
                 <div className="fabric-details__content">

@@ -140,11 +140,10 @@
 }
 
 .fabric-details__image-container {
-    border: 2px dashed var(--dark-color1);
+    border: 2px dashed var(--dark-color2);
     border-radius: 5px;
     flex-basis: 400px;
     margin-right: 2em;
-    max-height: 400px;
     max-width: 400px;
 }
 

@@ -9,6 +9,7 @@ import { PatternList } from './components/patterns/PatternList';
 import { FabricList } from './components/fabric/FabricList';
 import { FabricDetails } from './components/fabric/FabricDetails';
 import { PatternDetails } from './components/patterns/PatternDetails';
+import { ProjectList } from './components/projects/ProjectList';
 
 export const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext);
@@ -22,6 +23,10 @@ export const ApplicationViews = () => {
             <Route path="/auth" exact>
                 <Login />
                 <Register />
+            </Route>
+
+            <Route path="/projects" exact>
+                <ProjectList />
             </Route>
 
             <Route path="/patterns" exact>

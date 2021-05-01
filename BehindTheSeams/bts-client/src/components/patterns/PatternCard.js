@@ -46,7 +46,7 @@ export const PatternCard = ({ pattern, modifying }) => {
                     ) : (
                         <img
                             className="pattern-card__image"
-                            src="./patternPlaceholder.png"
+                            src="./assets/patternPlaceholder.png"
                         />
                     )}
                 </div>
