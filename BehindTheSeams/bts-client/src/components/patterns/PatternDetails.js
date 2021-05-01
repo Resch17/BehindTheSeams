@@ -38,7 +38,7 @@ export const PatternDetails = () => {
                     {pattern.images.length > 0 ? (
                         <img src={pattern.images[0].url} />
                     ) : (
-                        <img src="./patternPlaceholder.png" />
+                        <img src="./assets/patternPlaceholder.png" />
                     )}
                 </div>
                 <div className="pattern-details__content">

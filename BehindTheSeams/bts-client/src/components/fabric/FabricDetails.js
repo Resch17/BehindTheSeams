@@ -33,7 +33,7 @@ export const FabricDetails = () => {
                     {fabric.images.length > 0 ? (
                         <img src={fabric.images[0].url} />
                     ) : (
-                        <img src="./patternPlaceholder.png" />
+                        <img src="./assets/patternPlaceholder.png" />
                     )}
                 </div>
                 <div className="fabric-details__content">

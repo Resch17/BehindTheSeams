@@ -62,7 +62,7 @@ export const FabricCard = ({ fabric, modifying, setModifying }) => {
                         <img
                             onClick={() => history.push(`/fabric/${fabric.id}`)}
                             className="fabric-card__image"
-                            src="./patternPlaceholder.png"
+                            src="./assets/patternPlaceholder.png"
                         />
                     )}
                 </div>
