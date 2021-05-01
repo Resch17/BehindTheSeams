@@ -21,12 +21,12 @@ export const Slideshow = ({ images, containerWidth }) => {
 
     const progressStyle = (index) => {
         let style = {
-            borderBottom: '2px solid var(--dark-color1)',
+            borderBottom: '2px solid var(--light-color1)',
             margin: '5px 2px',
             width: '40px',
         };
         if (index === counter) {
-            style.borderBottom = '2px solid var(--dark-color2)';
+            style.borderBottom = '2px solid var(--dark-color1)';
         }
         return style;
     };
@@ -84,6 +84,7 @@ export const Slideshow = ({ images, containerWidth }) => {
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'center',
+                    marginBottom: '6px',
                 }}
             >
                 {images.map((im, index) => {
