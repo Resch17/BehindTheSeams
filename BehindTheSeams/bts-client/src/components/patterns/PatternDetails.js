@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { PatternContext } from '../../providers/PatternProvider';
+import { Slideshow } from '../Slideshow';
 
 export const PatternDetails = () => {
     const [pattern, setPattern] = useState(null);
@@ -36,7 +37,7 @@ export const PatternDetails = () => {
             <section className="pattern-details__body">
                 <div className="pattern-details__image-container">
                     {pattern.images.length > 0 ? (
-                        <img src={pattern.images[0].url} />
+                        <Slideshow images={pattern.images} containerWidth={400} />
                     ) : (
                         <img src="./assets/patternPlaceholder.png" />
                     )}
