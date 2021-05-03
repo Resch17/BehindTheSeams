@@ -37,11 +37,11 @@
     align-items: center;
     background-color: var(--light-color2);
     border-radius: 7px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 3fr;
     height: 270px;
-    flex-direction: row;
-    justify-content: space-around;
     margin: 18px 0;
+    padding: 0.5em 1em 1em;
     width: 90%;
 }
 
