@@ -109,6 +109,7 @@ export const UserProvider = (props) => {
         <UserContext.Provider
             value={{
                 isLoggedIn,
+                setIsLoggedIn,
                 login,
                 logout,
                 register,
