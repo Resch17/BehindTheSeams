@@ -27,7 +27,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     width: 100%;
 }
 
@@ -37,11 +37,11 @@
     align-items: center;
     background-color: var(--light-color2);
     border-radius: 7px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 3fr;
     height: 270px;
-    flex-direction: row;
-    justify-content: space-around;
     margin: 18px 0;
+    padding: 0.5em 1em 1em;
     width: 90%;
 }
 
@@ -154,4 +154,288 @@
 .project-card__date {
     grid-area: date;
     justify-self: end;
+}
+
+/* project details */
+
+.project-details {
+    align-items: center;
+    background-color: var(--light-color2);
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    min-height: 900px;
+    margin: 2em auto;
+    width: 95%;
+}
+
+.project-details__top {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.project-details__title {
+    font-family: var(--heading-font);
+    font-size: 48px;
+}
+
+.project-details__status-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 1em;
+    width: 70%;
+}
+
+.project-details__status-group {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    font-size: 22px;
+}
+
+.project-details__status-box {
+    background-color: var(--light-color1);
+    height: 29px;
+    text-align: center;
+    width: 29px;
+}
+
+.project-details__status-label {
+    font-size: 24px;
+    margin-left: 10px;
+}
+
+.project-details__empty-box {
+    height: 1em;
+    width: 1em;
+}
+
+.project-details__content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+}
+
+.project-details__content-patern {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.project-details__pattern-title {
+    border-bottom: 2px solid var(--dark-color1);
+    font-family: var(--heading-font);
+    font-size: 36px;
+    margin: 0 auto;
+    text-align: center;
+    width: 80%;
+}
+
+.project-details__content-pattern-properties {
+    text-align: center;
+    margin-top: 0.25em;
+}
+
+.project-details__pattern-name {
+    font-size: 24px;
+}
+
+.project-details__pattern-size-row {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 7px 0; 
+}
+
+.project-details__size-label {
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.project-details__size-icon {
+    background-color: var(--light-color1);
+    border-radius: 10px;
+    font-size: 36px;
+    width: 1em;
+    padding: 2px;
+    text-align: center;
+}
+
+.project-details__pattern-yards {
+    font-size: 24px;
+}
+
+.project-details__pattern-image-container {
+    border: 2px dashed var(--dark-color1);
+    border-radius: 5px;
+    height: auto;
+    margin: 1em auto;
+    width: 250px;
+}
+
+.project-details__pattern-image {
+    height: auto;
+    width: 100%;
+}
+
+.project-details__content-center {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#projectCompleteButton {
+    height: 65px;
+    padding: 4px;
+    margin-bottom: 1em;
+}
+
+.project-details__start-date,
+.project-details__fabric-cost {
+    font-size: 24px;
+    margin: 8px 0;
+}
+
+#viewImagesButton {
+    margin: 1em 0;
+}
+
+.project-details__notes-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.project-details__notes-top-row {
+    align-items: baseline;
+    border-bottom: 2px solid var(--dark-color1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1em;
+}
+
+.project-details__notes-title {
+    font-family: var(--heading-font);
+    font-size: 36px;
+}
+
+.project-details__notes-controls {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.project-details__notes-controls i {
+    cursor: pointer;
+}
+
+.project-details__notes-list {
+    margin-top: 8px;
+}
+
+.project-details__note {
+    border: 2px dashed var(--dark-color1);
+    border-radius: 5px;
+    padding: 1em;
+}
+
+.project-details__content-fabric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.project-details__fabric-top-row {
+    align-items: center;
+    border-bottom: 2px solid var(--dark-color1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 0 1em;
+    width: 80%;
+}
+
+.project-details__fabric-top-row i {
+    cursor: pointer;
+}
+
+.project-details__fabric-title {
+    font-family: var(--heading-font);
+    font-size: 36px;
+}
+
+.project-details__fabric-list {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-details__fabric-card {
+    border: 2px dashed var(--dark-color2);
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 2fr repeat(4, 1fr) 1.5fr;
+    grid-template-areas:
+        'h h'
+        'pic type'
+        'pic price'
+        'pic yards'
+        'pic retailer'
+        '. .';
+    height: 250px;
+    width: 320px;
+    margin: 10px 20px;
+}
+
+.project-details__fabric-card-name {
+    align-self: center;
+    font-size: 18px;
+    grid-area: h;
+    justify-self: center;
+    text-align: center;
+    width: 90%;
+}
+
+.project-details__fabric-card-image-container {
+    align-self: center;
+    border: 2px solid var(--dark-color1);
+    border-radius: 5px;
+    height: 100px;
+    justify-self: center;
+    width: 100px;
+    grid-area: pic;
+}
+
+.project-details__fabric-card-property {
+    align-self: start;
+    font-size: 14px;
+}
+
+.project-details__fabric-card-property--type {
+    grid-area: type;
+}
+.project-details__fabric-card-property--price {
+    grid-area: price;
+}
+.project-details__fabric-card-property--yards {
+    grid-area: yards;
+}
+.project-details__fabric-card-property--retailer {
+    grid-area: retailer;
+}
+
+.project-details__fabric-card-image {
+    height: auto;
+    width: 100%;
 }

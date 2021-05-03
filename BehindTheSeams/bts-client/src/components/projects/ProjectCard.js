@@ -120,14 +120,15 @@ export const ProjectCard = ({ project }) => {
                 <button
                     className="button project-complete-button"
                     id="projectCompleteButton"
-                    style={{}}
                 >
                     Project Complete
                 </button>
             </div>
             <div className="project-card__content">
                 <div className="project-card__title">
-                    <div>{project.name}</div>
+                    <div>
+                        <a href={`/project/${project.id}`}>{project.name}</a>
+                    </div>
                 </div>
                 <div className="project-card__property project-card__pattern">
                     Pattern: {project.pattern.name}

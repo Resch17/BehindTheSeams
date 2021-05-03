@@ -157,7 +157,7 @@ namespace BehindTheSeams.Repositories
 							patsize.[Yards], s.[Name] AS SizeName, s.[Abbreviation],
 							patimg.[Id] AS PatternImageId, patimg.[IsCover], patimg.[Url] AS PatternImageUrl,
 							f.[Id] AS FabricId, f.[Name] AS FabricName, ft.[Name] AS FabricTypeName, f.[PricePerYard],
-							f.[YardsInStock], r.[Name] AS RetailerName, r.[Url] AS RetailerUrl
+							f.[YardsInStock], r.[Name] AS RetailerName, r.[Url] AS RetailerUrl,
 							fi.[Url] AS FabricImageUrl, fi.[FabricId] AS ImageFabricId
 						FROM Project p
 							LEFT JOIN Pattern pat ON pat.Id = p.PatternId
