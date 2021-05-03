@@ -120,7 +120,6 @@ export const ProjectCard = ({ project }) => {
                 <button
                     className="button project-complete-button"
                     id="projectCompleteButton"
-                    style={{}}
                 >
                     Project Complete
                 </button>

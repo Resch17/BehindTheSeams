@@ -155,3 +155,47 @@
     grid-area: date;
     justify-self: end;
 }
+
+/* project details */
+
+.project-details {
+    align-items: center;
+    background-color: var(--light-color2);
+    display: flex;
+    flex-direction: column;
+    margin: 2em auto;
+    width: 95%;
+}
+
+.project-details__top {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.project-details__title {
+    font-family: var(--heading-font);
+    font-size: 48px;
+}
+
+.project-details__status-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 1em;
+    width: 70%;
+}
+
+.project-details__status-group {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.project-details__status-box {
+    background-color: var(--light-color1);
+    height: 29px;
+    text-align: center;
+    width: 29px;
+}
