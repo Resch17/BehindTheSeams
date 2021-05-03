@@ -127,7 +127,9 @@ export const ProjectCard = ({ project }) => {
             </div>
             <div className="project-card__content">
                 <div className="project-card__title">
-                    <div>{project.name}</div>
+                    <div>
+                        <a href={`/project/${project.id}`}>{project.name}</a>
+                    </div>
                 </div>
                 <div className="project-card__property project-card__pattern">
                     Pattern: {project.pattern.name}

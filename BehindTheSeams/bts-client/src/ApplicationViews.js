@@ -5,11 +5,12 @@ import { Register } from './components/auth/Register';
 import { UserContext } from './providers/UserProvider';
 
 import { Hello } from './Hello';
+import { ProjectList } from './components/projects/ProjectList';
 import { PatternList } from './components/patterns/PatternList';
 import { FabricList } from './components/fabric/FabricList';
-import { FabricDetails } from './components/fabric/FabricDetails';
+import { ProjectDetails } from "./components/projects/ProjectDetails";
 import { PatternDetails } from './components/patterns/PatternDetails';
-import { ProjectList } from './components/projects/ProjectList';
+import { FabricDetails } from './components/fabric/FabricDetails';
 
 export const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext);
@@ -37,12 +38,16 @@ export const ApplicationViews = () => {
                 <FabricList />
             </Route>
 
-            <Route path="/fabric/:id">
-                <FabricDetails />
+            <Route path="/project/:id">
+                <ProjectDetails />
             </Route>
 
             <Route path="/pattern/:id">
                 <PatternDetails />
+            </Route>
+
+            <Route path="/fabric/:id">
+                <FabricDetails />
             </Route>
         </Switch>
     );
