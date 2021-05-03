@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export const UserContext = createContext();
 
@@ -113,10 +114,25 @@ export const UserProvider = (props) => {
                 register,
                 getToken,
                 getAllUsers,
-                users
+                users,
             }}
         >
-            {isFirebaseReady ? props.children : <h1>HANG ON</h1>}
+            {isFirebaseReady ? (
+                props.children
+            ) : (
+                <div
+                    style={{
+                        width: '100vw',
+                        height: '100vh',
+                        backgroundColor: 'var(--light-color1)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <ClipLoader color={'#2b4743'} loading={true} size={50} />
+                </div>
+            )}
         </UserContext.Provider>
     );
 };

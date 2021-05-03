@@ -83,7 +83,7 @@ export const ProjectDetails = () => {
                     <div className="project-details__status-group">
                         <div
                             className="project-details__status-box"
-                            id="2"
+                            id="3"
                             onClick={handleBoxClick}
                         >
                             {statusId >= 3 ? (
@@ -105,7 +105,7 @@ export const ProjectDetails = () => {
                     <div className="project-details__status-group">
                         <div
                             className="project-details__status-box"
-                            id="2"
+                            id="4"
                             onClick={handleBoxClick}
                         >
                             {statusId >= 4 ? (
@@ -132,19 +132,21 @@ export const ProjectDetails = () => {
                     <div className="project-details__pattern-title">
                         Pattern
                     </div>
-                    <div className="project-details__pattern-name">
-                        {project.pattern.name}
-                    </div>
-                    <div className="project-details__pattern-size-row">
-                        <div className="project-detalis__size-label">
-                            Size:{' '}
+                    <div className="project-details__content-pattern-properties">
+                        <div className="project-details__pattern-name">
+                            {project.pattern.name}
                         </div>
-                        <div className="project-details__size-icon">
-                            {project.patternSize.size.abbreviation}
+                        <div className="project-details__pattern-size-row">
+                            <div className="project-details__size-label">
+                                Size:{' '}
+                            </div>
+                            <div className="project-details__size-icon">
+                                {project.patternSize.size.abbreviation}
+                            </div>
                         </div>
-                    </div>
-                    <div className="project-details__pattern-yards">
-                        Yards needed: {project.patternSize.yards}
+                        <div className="project-details__pattern-yards">
+                            Yards needed: {project.patternSize.yards}
+                        </div>
                     </div>
                     <div className="project-details__pattern-image-container">
                         <img
@@ -218,32 +220,28 @@ export const ProjectDetails = () => {
                                     <div className="project-details__fabric-card-name">
                                         {f.name}
                                     </div>
-                                    <div className="project-details__fabric-card-content">
-                                        <div className="project-details__fabric-card-image-container">
-                                            <img
-                                                className="project-details__fabric-card-image"
-                                                alt="fabric image"
-                                                src={
-                                                    f.images.length > 0
-                                                        ? f.images[0].url
-                                                        : '/assets/patternPlaceholder.png'
-                                                }
-                                            />
-                                        </div>
-                                        <div className="project-details__fabric-card-properties">
-                                            <div className="project-details__fabric-card-property">
-                                                Fabric type: {f.fabricType.name}
-                                            </div>
-                                            <div className="project-details__fabric-card-property">
-                                                Price/yd: {f.pricePerYard}
-                                            </div>
-                                            <div className="project-details__fabric-card-property">
-                                                Yds in stock: {f.yardsInStock}
-                                            </div>
-                                            <div className="project-details__fabric-card-property">
-                                                Retailer: {f.retailer.name}
-                                            </div>
-                                        </div>
+                                    <div className="project-details__fabric-card-image-container">
+                                        <img
+                                            className="project-details__fabric-card-image"
+                                            alt="fabric image"
+                                            src={
+                                                f.images.length > 0
+                                                    ? f.images[0].url
+                                                    : '/assets/patternPlaceholder.png'
+                                            }
+                                        />
+                                    </div>
+                                    <div className="project-details__fabric-card-property project-details__fabric-card-property--type">
+                                        Fabric type: {f.fabricType.name}
+                                    </div>
+                                    <div className="project-details__fabric-card-property project-details__fabric-card-property--price">
+                                        Price/yd: ${f.pricePerYard.toFixed(2)}
+                                    </div>
+                                    <div className="project-details__fabric-card-property project-details__fabric-card-property--yards">
+                                        Yds in stock: {f.yardsInStock}
+                                    </div>
+                                    <div className="project-details__fabric-card-property project-details__fabric-card-property--retailer">
+                                        Retailer: {f.retailer.name}
                                     </div>
                                 </div>
                             ))}
