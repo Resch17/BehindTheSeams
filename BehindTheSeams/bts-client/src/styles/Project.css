@@ -1,0 +1,157 @@
+/* project list */
+.projects {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 97%;
+}
+
+.projects__top-row {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.projects__top-row button:last-of-type {
+    font-size: 20px;
+}
+
+.projects__top-row h1 {
+    font-family: var(--heading-font);
+    font-size: 42px;
+}
+
+.projects__project-list {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 100%;
+}
+
+/* project list */
+
+.project-card {
+    align-items: center;
+    background-color: var(--light-color2);
+    border-radius: 7px;
+    display: flex;
+    height: 270px;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 18px 0;
+    width: 90%;
+}
+
+.project-card__image-container {
+    border: 2px dashed var(--dark-color1);
+    border-radius: 5px;
+    height: 250px;
+    overflow: hidden;
+    width: 200px;
+}
+
+.project-card__image {
+    height: auto;
+    width: 100%;
+}
+
+.project-card__controls {
+    display: flex;
+    flex-direction: column;
+    width: 230px;
+}
+
+.project-card__status-group {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    font-size: 22px;
+    margin-bottom: 6px;
+    margin-left: 8px;
+}
+
+.project-card__status-box {
+    background-color: var(--light-color1);
+    margin-right: 7px;
+    padding: 2px;
+}
+
+.project-card__empty-box {
+    height: 1em;
+    width: 1em;
+}
+
+#projectCompleteButton {
+    align-self: center;
+    background-color: var(--dark-color2);
+    color: var(--light-color2);
+    font-size: 22px;
+    margin-top: 10px;
+    width: 200px;
+}
+
+.project-card__content {
+    display: grid;
+    height: 80%;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 2fr repeat(3, 1fr);
+    grid-template-areas:
+        'header header'
+        'pattern size'
+        'fabric size'
+        'cost date';
+}
+
+.project-card__title {
+    grid-area: header;
+    text-align: center;
+}
+
+.project-card__title div {
+    font-family: var(--heading-font);
+    font-size: 36px;
+}
+
+.project-card__property {
+    align-self: center;
+    font-size: 24px;
+}
+
+.project-card__pattern {
+    grid-area: pattern;
+}
+
+.project-card__fabric {
+    grid-area: fabric;
+}
+
+.project-card__cost {
+    grid-area: cost;
+}
+
+.project-card__size {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    font-size: 24px;
+    grid-area: size;
+}
+
+.project-card__size-icon {
+    background-color: var(--light-color1);
+    border-radius: 10px;
+    font-size: 36px;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.project-card__date {
+    grid-area: date;
+    justify-self: end;
+}
