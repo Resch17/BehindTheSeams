@@ -121,47 +121,42 @@ export const FabricList = () => {
             <div className="fabric__top-row">
                 <h1>Fabric</h1>
                 <button className="button">New Fabric</button>
-                {fabrics.length > 0 && (
-                    <>
-                        <button
-                            className="button"
-                            onClick={() => setModifying(!modifying)}
-                        >
-                            Delete/Edit
-                        </button>
-                        <button
-                            className="button"
-                            onClick={() => {
-                                if (filtering) {
-                                    setFiltering(false);
-                                } else {
-                                    setShowingModal(true);
-                                }
-                            }}
-                        >
-                            {filtering ? 'Reset Filters' : 'Filter List'}
-                        </button>
-                        <div className="fabric__search">
-                            <i className="fas fa-search"></i>
-                            <input
-                                type="search"
-                                autoComplete="off"
-                                onChange={(evt) => {
-                                    setSearchTerms(
-                                        evt.target.value.toLowerCase()
-                                    );
-                                }}
-                            />
-                        </div>
-                    </>
-                )}
+
+                <button
+                    className="button"
+                    onClick={() => setModifying(!modifying)}
+                >
+                    Delete/Edit
+                </button>
+                <button
+                    className="button"
+                    onClick={() => {
+                        if (filtering) {
+                            setFiltering(false);
+                        } else {
+                            setShowingModal(true);
+                        }
+                    }}
+                >
+                    {filtering ? 'Reset Filters' : 'Filter List'}
+                </button>
+                <div className="fabric__search">
+                    <i className="fas fa-search"></i>
+                    <input
+                        type="search"
+                        autoComplete="off"
+                        onChange={(evt) => {
+                            setSearchTerms(evt.target.value.toLowerCase());
+                        }}
+                    />
+                </div>
             </div>
             {alertMessage.length > 0 && (
                 <div className="fabric__alert">{alertMessage}</div>
             )}
             {filtering && (
                 <div className="fabric__filter-display">
-                <strong>Showing: </strong>
+                    <strong>Showing: </strong>
                     {`${currentFabricFilter} fabric from `}
                     {currentRetailerFilter > 0
                         ? `${
