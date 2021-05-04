@@ -5,14 +5,21 @@ import '../../styles/Project.css';
 import { ProjectCard } from './ProjectCard';
 
 export const ProjectList = () => {
+    const [projects, setProjects] = useState([]);
     const [viewingActive, setViewingActive] = useState(true);
-    const { projects, setProjects, getAllProjects } = useContext(
-        ProjectContext
-    );
+    const { getAllProjects, getCompletedProjects } = useContext(ProjectContext);
 
     useEffect(() => {
-        getAllProjects();
+        getAllProjects().then(setProjects);
     }, []);
+
+    useEffect(() => {
+        if (!viewingActive) {
+            getCompletedProjects().then(setProjects);
+        } else {
+            getAllProjects().then(setProjects);
+        }
+    }, [viewingActive]);
 
     if (projects.length < 1) {
         return null;
@@ -28,15 +35,24 @@ export const ProjectList = () => {
                 )}
                 <button className="button">New Project</button>
                 {viewingActive ? (
-                    <button className="button">Finished Projects</button>
+                    <button
+                        className="button"
+                        onClick={() => setViewingActive(false)}
+                    >
+                        Finished Projects
+                    </button>
                 ) : (
-                    <button className="button">Active Projects</button>
+                    <button
+                        className="button"
+                        onClick={() => setViewingActive(true)}
+                    >
+                        Active Projects
+                    </button>
                 )}
             </div>
             <div className="projects__project-list">
-                {projects.map((p) => (
-                    <ProjectCard key={p.id} project={p} />
-                ))}
+                {projects.length > 0 &&
+                    projects.map((p) => <ProjectCard key={p.id} project={p} />)}
             </div>
         </main>
     );

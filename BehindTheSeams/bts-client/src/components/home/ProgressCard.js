@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import { ProjectContext } from '../../providers/ProjectProvider';
 
 export const ProgressCard = ({ project }) => {
     const [statusId, setStatusId] = useState(project.projectStatusId);
+    const { updateProject, getAllProjects } = useContext(ProjectContext);
     const history = useHistory();
 
     const highestCheckedBoxStyle = (boxNum) => {
@@ -27,6 +29,14 @@ export const ProgressCard = ({ project }) => {
             setStatusId(clicked - 1);
         }
     };
+
+    useEffect(() => {
+        if (statusId > 0) {
+            const newProject = { ...project };
+            newProject.projectStatusId = statusId;
+            updateProject(newProject).then(getAllProjects);
+        }
+    }, [statusId]);
 
     return (
         <div className="progress-card">
