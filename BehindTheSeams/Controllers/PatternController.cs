@@ -18,11 +18,13 @@ namespace BehindTheSeams.Controllers
     {
         private readonly IPatternRepository _patternRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IProjectRepository _projectRepository;
 
-        public PatternController(IUserRepository userRepository, IPatternRepository patternRepository)
+        public PatternController(IUserRepository userRepository, IPatternRepository patternRepository, IProjectRepository projectRepository)
         {
             _userRepository = userRepository;
             _patternRepository = patternRepository;
+            _projectRepository = projectRepository;
         }
 
         [HttpGet]
@@ -36,6 +38,17 @@ namespace BehindTheSeams.Controllers
         public IActionResult GetById(int id)
         {
             return Ok(_patternRepository.GetById(id));
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeletePattern(int id)
+        {
+            var user = GetCurrentUser();
+            List<Project> projects = _projectRepository.GetAll(user.Id).Where(p => p.PatternId == id).ToList();
+            List<Project> completedProjects = _projectRepository.GetAllComplete(user.Id).Where(p => p.PatternId == id).ToList();
+            List<Project> allUserProjects = projects.Concat(completedProjects).ToList();
+            _patternRepository.Delete(id, allUserProjects);
+            return NoContent();
         }
 
         private User GetCurrentUser()

@@ -7,5 +7,6 @@ namespace BehindTheSeams.Repositories
     {
         List<Pattern> GetAll(int userId);
         Pattern GetById(int id);
+        void Delete(int id, List<Project> patternProjects);
     }
 }

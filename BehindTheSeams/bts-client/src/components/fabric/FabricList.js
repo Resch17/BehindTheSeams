@@ -25,7 +25,7 @@ export const FabricList = () => {
                     className="button"
                     onClick={() => setModifying(!modifying)}
                 >
-                    Edit/Delete
+                    Delete/Edit
                 </button>
                 <button className="button">Filter List</button>
             </div>

@@ -42,7 +42,7 @@
 
 .home__in-progress-list {
     align-items: center;
-    background-color: var(--light-color2);
+    /* background-color: var(--light-color2); */
     border: 2px dashed var(--dark-color2);
     border-radius: 5px;
     display: flex;

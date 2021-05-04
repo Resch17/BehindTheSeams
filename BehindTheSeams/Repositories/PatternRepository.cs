@@ -221,6 +221,94 @@ namespace BehindTheSeams.Repositories
             }
         }
 
+        public void Add(Pattern pattern)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Pattern ([UserId], [Url], [Name], [PublisherId], 
+                                [PurchaseDate], [FabricTypeId], [Notes], [CategoryId])
+                        OUTPUT INSERTED.ID
+                        VALUES (@UserId, @Url, @Name, @PublisherId, @PurchaseDate, @FabricTypeId, @Notes, @CategoryId";
+
+                    DbUtils.AddParameter(cmd, "@UserId", pattern.UserId);
+                    DbUtils.AddParameter(cmd, "@Url", pattern.Url);
+                    DbUtils.AddParameter(cmd, "@Name", pattern.Name);
+                    DbUtils.AddParameter(cmd, "@PublisherId", pattern.PublisherId);
+                    DbUtils.AddParameter(cmd, "@PurchaseDate", pattern.PurchaseDate);
+                    DbUtils.AddParameter(cmd, "@FabricTypeId", pattern.FabricTypeId);
+                    DbUtils.AddParameter(cmd, "@Notes", pattern.Notes);
+                    DbUtils.AddParameter(cmd, "@CategoryId", pattern.CategoryId);
+
+                    pattern.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Update(Pattern pattern)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Pattern
+                            SET [Url] = @Url,
+                                [Name] = @Name,
+                                [PublisherId] = @PublisherId,
+                                [PurchaseDate] = @PurchaseDate,
+                                [FabricTypeId] = @FabricTypeId,
+                                [Notes] = @Notes,
+                                [CategoryId] = @CategoryId
+                        WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Url", pattern.Url);
+                    DbUtils.AddParameter(cmd, "@Name", pattern.Name);
+                    DbUtils.AddParameter(cmd, "@PublisherId", pattern.PublisherId);
+                    DbUtils.AddParameter(cmd, "@PurchaseDate", pattern.PurchaseDate);
+                    DbUtils.AddParameter(cmd, "@FabricTypeId", pattern.FabricTypeId);
+                    DbUtils.AddParameter(cmd, "@Notes", pattern.Notes);
+                    DbUtils.AddParameter(cmd, "@CategoryId", pattern.CategoryId);
+                    DbUtils.AddParameter(cmd, "@Id", pattern.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Delete(int id, List<Project> patternProjects)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    var sql = @"
+                        DELETE PatternImage WHERE PatternId = @Id;
+                        DELETE [File] WHERE PatternId = @Id;";
+
+                    for (int i = 0; i < patternProjects.Count(); i++)
+                    {
+                        sql += @$"DELETE ProjectFabric WHERE ProjectId = @ProjectId{i};
+                                  DELETE ProjectNotes WHERE ProjectId = @ProjectId{i};
+                                  DELETE ProjectImage WHERE ProjectId = @ProjectId{i};
+                                  DELETE Project WHERE Id = @ProjectId{i};";
+                        DbUtils.AddParameter(cmd, $"ProjectId{i}", patternProjects[i].Id);
+                    }
+                    sql += @"DELETE PatternSize WHERE PatternId = @Id;
+                             DELETE Pattern WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    cmd.CommandText = sql;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         private Pattern NewPatternFromDb(SqlDataReader reader)
         {
             return new Pattern()
