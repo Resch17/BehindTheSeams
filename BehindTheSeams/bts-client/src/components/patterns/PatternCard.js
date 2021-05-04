@@ -42,11 +42,17 @@ export const PatternCard = ({ pattern, modifying }) => {
                         <img
                             className="pattern-card__image"
                             src={pattern.images[0].url}
+                            onClick={() =>
+                                history.push(`/pattern/${pattern.id}`)
+                            }
                         />
                     ) : (
                         <img
                             className="pattern-card__image"
                             src="./assets/patternPlaceholder.png"
+                            onClick={() =>
+                                history.push(`/pattern/${pattern.id}`)
+                            }
                         />
                     )}
                 </div>

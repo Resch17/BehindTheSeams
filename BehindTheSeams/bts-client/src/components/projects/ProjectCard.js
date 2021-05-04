@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import '../../styles/Project.css';
 
 export const ProjectCard = ({ project }) => {
@@ -40,17 +40,19 @@ export const ProjectCard = ({ project }) => {
     return (
         <div className="project-card">
             <div className="project-card__image-container">
-                {project.pattern.images.length > 0 ? (
-                    <img
-                        className="project-card__image"
-                        src={project.pattern.images[0].url}
-                    />
-                ) : (
-                    <img
-                        className="project-card__image"
-                        src="./assets/patternPlaceholder.png"
-                    />
-                )}
+                <Link to={`/project/${project.id}`}>
+                    {project.pattern.images.length > 0 ? (
+                        <img
+                            className="project-card__image"
+                            src={project.pattern.images[0].url}
+                        />
+                    ) : (
+                        <img
+                            className="project-card__image"
+                            src="./assets/patternPlaceholder.png"
+                        />
+                    )}
+                </Link>
             </div>
             <div className="project-card__controls">
                 <div className="project-card__status-group">
@@ -127,18 +129,28 @@ export const ProjectCard = ({ project }) => {
             <div className="project-card__content">
                 <div className="project-card__title">
                     <div>
-                        <a href={`/project/${project.id}`}>{project.name}</a>
+                        <Link to={`/project/${project.id}`}>
+                            {project.name}
+                        </Link>
                     </div>
                 </div>
                 <div className="project-card__property project-card__pattern">
-                    Pattern: {project.pattern.name}
+                    <Link to={`/pattern/${project.pattern.id}`}>
+                        Pattern: {project.pattern.name}
+                    </Link>
                 </div>
                 <div className="project-card__property project-card__fabric">
-                    {project.fabric.length > 1
-                        ? `Fabric: ${project.fabric[0].name} + ${
-                              project.fabric.length - 1
-                          } more`
-                        : `Fabric: ${project.fabric[0].name}`}
+                    {project.fabric.length > 0 ? (
+                        <Link to={`/fabric/${project.fabric[0].id}`}>
+                            {project.fabric.length > 1
+                                ? `Fabric: ${project.fabric[0].name} + ${
+                                      project.fabric.length - 1
+                                  } more`
+                                : `Fabric: ${project.fabric[0].name}`}
+                        </Link>
+                    ) : (
+                        'No Fabric Selected'
+                    )}
                 </div>
                 <div className="project-card__property project-card__cost">
                     Approx. fabric cost: ${fabricCost().toFixed(2)}

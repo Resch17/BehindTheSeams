@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ProjectContext } from '../../providers/ProjectProvider';
 import '../../styles/Project.css';
 
@@ -125,7 +125,7 @@ export const ProjectDetails = () => {
                         </div>
                     </div>
                 </div>
-                <img src="/assets/thread.png" alt="page-divider" />
+                <img src="/assets/thread.png" alt="page divider" />
             </section>
             <section className="project-details__content">
                 <div className="project-details__content-pattern">
@@ -134,7 +134,9 @@ export const ProjectDetails = () => {
                     </div>
                     <div className="project-details__content-pattern-properties">
                         <div className="project-details__pattern-name">
-                            {project.pattern.name}
+                            <Link to={`/pattern/${project.pattern.id}`}>
+                                {project.pattern.name}
+                            </Link>
                         </div>
                         <div className="project-details__pattern-size-row">
                             <div className="project-details__size-label">
@@ -149,14 +151,16 @@ export const ProjectDetails = () => {
                         </div>
                     </div>
                     <div className="project-details__pattern-image-container">
-                        <img
-                            className="project-details__pattern-image"
-                            src={
-                                project.pattern.images.length > 0
-                                    ? project.pattern.images[0].url
-                                    : '/assets/patternPlaceholder.png'
-                            }
-                        />
+                        <Link to={`/pattern/${project.pattern.id}`}>
+                            <img
+                                className="project-details__pattern-image"
+                                src={
+                                    project.pattern.images.length > 0
+                                        ? project.pattern.images[0].url
+                                        : '/assets/patternPlaceholder.png'
+                                }
+                            />
+                        </Link>
                     </div>
                 </div>
                 <div className="project-details__content-center">
@@ -218,18 +222,22 @@ export const ProjectDetails = () => {
                                     className="project-details__fabric-card"
                                 >
                                     <div className="project-details__fabric-card-name">
-                                        {f.name}
+                                        <Link to={`/fabric/${f.id}`}>
+                                            {f.name}
+                                        </Link>
                                     </div>
                                     <div className="project-details__fabric-card-image-container">
-                                        <img
-                                            className="project-details__fabric-card-image"
-                                            alt="fabric image"
-                                            src={
-                                                f.images.length > 0
-                                                    ? f.images[0].url
-                                                    : '/assets/patternPlaceholder.png'
-                                            }
-                                        />
+                                        <Link to={`/fabric/${f.id}`}>
+                                            <img
+                                                className="project-details__fabric-card-image"
+                                                alt="fabric image"
+                                                src={
+                                                    f.images.length > 0
+                                                        ? f.images[0].url
+                                                        : '/assets/patternPlaceholder.png'
+                                                }
+                                            />
+                                        </Link>
                                     </div>
                                     <div className="project-details__fabric-card-property project-details__fabric-card-property--type">
                                         Fabric type: {f.fabricType.name}

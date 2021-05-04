@@ -49,6 +49,7 @@
     border: 2px dashed var(--dark-color1);
     border-radius: 5px;
     height: 250px;
+    justify-self: center;
     overflow: hidden;
     width: 200px;
 }

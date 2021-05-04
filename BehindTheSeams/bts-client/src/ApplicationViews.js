@@ -3,12 +3,12 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { Login } from './components/auth/Login';
 import { Register } from './components/auth/Register';
 import { UserContext } from './providers/UserProvider';
-
+import { Home } from './components/home/Home';
 import { Hello } from './Hello';
 import { ProjectList } from './components/projects/ProjectList';
 import { PatternList } from './components/patterns/PatternList';
 import { FabricList } from './components/fabric/FabricList';
-import { ProjectDetails } from "./components/projects/ProjectDetails";
+import { ProjectDetails } from './components/projects/ProjectDetails';
 import { PatternDetails } from './components/patterns/PatternDetails';
 import { FabricDetails } from './components/fabric/FabricDetails';
 
@@ -18,7 +18,7 @@ export const ApplicationViews = () => {
     return (
         <Switch>
             <Route path="/" exact>
-                {isLoggedIn ? <Hello /> : <Redirect to="/auth" />}
+                {isLoggedIn ? <Home /> : <Redirect to="/auth" />}
             </Route>
 
             <Route path="/auth" exact>
@@ -27,27 +27,27 @@ export const ApplicationViews = () => {
             </Route>
 
             <Route path="/projects" exact>
-                <ProjectList />
+                {isLoggedIn ? <ProjectList /> : <Redirect to="/auth" />}
             </Route>
 
             <Route path="/patterns" exact>
-                <PatternList />
+                {isLoggedIn ? <PatternList /> : <Redirect to="/auth" />}
             </Route>
 
             <Route path="/fabric" exact>
-                <FabricList />
+                {isLoggedIn ? <FabricList /> : <Redirect to="/auth" />}
             </Route>
 
             <Route path="/project/:id">
-                <ProjectDetails />
+                {isLoggedIn ? <ProjectDetails /> : <Redirect to="/auth" />}
             </Route>
 
             <Route path="/pattern/:id">
-                <PatternDetails />
+                {isLoggedIn ? <PatternDetails /> : <Redirect to="/auth" />}
             </Route>
 
             <Route path="/fabric/:id">
-                <FabricDetails />
+                {isLoggedIn ? <FabricDetails /> : <Redirect to="/auth" />}
             </Route>
         </Switch>
     );

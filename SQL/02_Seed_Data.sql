@@ -5,7 +5,7 @@ set IDENTITY_INSERT [User] ON
 INSERT INTO [User] ([ID], [UserName], [FirebaseUserId], [Email], [RegisterDateTime], [IsAdministrator])
 VALUES (1, 'Admin', 'i79KRygrWgRR9nZGeRd3JxGBSnc2', 'aaronmresch@gmail.com', SYSDATETIME(), 1);
 INSERT INTO [User] ([ID], [UserName], [FirebaseUserId], [Email], [RegisterDateTime], [IsAdministrator])
-VALUES (2, 'Test', 'ClRVNgCR0AVYEw9F5bozqnrcUDk2', 'test@example.com', SYSDATETIME(), 0);
+VALUES (2, 'TestUser54481', 'ClRVNgCR0AVYEw9F5bozqnrcUDk2', 'test@example.com', SYSDATETIME(), 0);
 set IDENTITY_INSERT [User] OFF
 
 set IDENTITY_INSERT [Category] ON
