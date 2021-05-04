@@ -29,7 +29,9 @@ namespace BehindTheSeams.Repositories
 	                    LEFT JOIN FabricType ft ON ft.Id = f.FabricTypeId
 	                    LEFT JOIN Retailer r ON r.Id = f.RetailerId
                         LEFT JOIN FabricImage fi ON fi.FabricId = f.Id
-                    WHERE f.UserId = @UserId";
+                    WHERE f.UserId = @UserId
+                    ORDER BY f.[Name]";
+
                     DbUtils.AddParameter(cmd, "@UserId", userId);
 
                     var reader = cmd.ExecuteReader();
@@ -129,7 +131,7 @@ namespace BehindTheSeams.Repositories
                         VALUES (@RetailerId, @UserId, @Name, @Url, @PricePerYard, @YardsInStock,
                             @FabricTypeId, @Notes)";
 
-                    DbUtils.AddParameter(cmd, "@RetailerId", fabric.Retailerid);
+                    DbUtils.AddParameter(cmd, "@RetailerId", fabric.RetailerId);
                     DbUtils.AddParameter(cmd, "@UserId", fabric.UserId);
                     DbUtils.AddParameter(cmd, "@Name", fabric.Name);
                     DbUtils.AddParameter(cmd, "@Url", fabric.Url);
@@ -161,7 +163,7 @@ namespace BehindTheSeams.Repositories
                                 [Notes] = @Notes
                         WHERE Id = @Id";
 
-                    DbUtils.AddParameter(cmd, "@RetailerId", fabric.Retailerid);
+                    DbUtils.AddParameter(cmd, "@RetailerId", fabric.RetailerId);
                     DbUtils.AddParameter(cmd, "@Name", fabric.Name);
                     DbUtils.AddParameter(cmd, "@Url", fabric.Url);
                     DbUtils.AddParameter(cmd, "@PricePerYard", fabric.PricePerYard);
@@ -197,7 +199,7 @@ namespace BehindTheSeams.Repositories
             return new Fabric()
             {
                 Id = DbUtils.GetInt(reader, "Id"),
-                Retailerid = DbUtils.GetInt(reader, "RetailerId"),
+                RetailerId = DbUtils.GetInt(reader, "RetailerId"),
                 Retailer = new Retailer()
                 {
                     Id = DbUtils.GetInt(reader, "RetailerId"),

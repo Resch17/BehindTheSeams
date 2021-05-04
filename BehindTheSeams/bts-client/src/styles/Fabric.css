@@ -22,6 +22,38 @@
     font-size: 42px;
 }
 
+.fabric__search {
+    border: 2px solid var(--dark-color1);
+    border-radius: 7px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.fabric__search i {
+   padding: 0 10px; 
+}
+
+.fabric__search input {
+    background-color: var(--light-color2);
+    border: none;
+    border-radius:  0 7px 7px 0;
+    color: var(--dark-color1);
+    font-family: var(--body-font);
+    font-size: 16px;
+    height: 36px;
+    padding: 0 0.5em;
+    outline: none;
+}
+
+.fabric__filter-display {
+    background-color: var(--light-color1);
+    border: 2px dashed var(--dark-color2);
+    border-radius: 5px;
+    color: var(--dark-color2);
+    padding: 15px;
+}
+
 .fabric__fabric-list {
     display: flex;
     flex-direction: row;

@@ -8,7 +8,7 @@ namespace BehindTheSeams.Models
     public class Fabric
     {
         public int Id { get; set; }
-        public int Retailerid { get; set; }
+        public int RetailerId { get; set; }
         public Retailer Retailer { get; set; }
         public int UserId { get; set; }
         public string Name { get; set; }
