@@ -184,7 +184,7 @@ namespace BehindTheSeams.Repositories
                 {
                     cmd.CommandText = @"
                         DELETE FabricImage WHERE FabricId = @Id;
-                        DELETE ProjectFabric WHERE FabricId = @Id
+                        DELETE ProjectFabric WHERE FabricId = @Id;
                         DELETE Fabric WHERE Id = @Id";
                     DbUtils.AddParameter(cmd, "@Id", id);
                     cmd.ExecuteNonQuery();

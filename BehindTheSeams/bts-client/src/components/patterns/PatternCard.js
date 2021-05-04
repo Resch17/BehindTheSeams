@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { PatternContext } from '../../providers/PatternProvider';
 
-export const PatternCard = ({ pattern, modifying }) => {
+export const PatternCard = ({ pattern, modifying, setModifying }) => {
+    const { getAllPatterns, deletePattern } = useContext(PatternContext);
     const history = useHistory();
 
     const dateFormatter = (dateTime) => {
         let date = new Date(dateTime);
         return date.toLocaleDateString('en-US');
+    };
+
+    const handleDelete = () => {
+        if (
+            window.confirm(
+                'Are you sure you want to delete this pattern? All projects using this pattern will be deleted, as will any images and files associated with the pattern or projects!'
+            )
+        ) {
+            if (
+                window.confirm(
+                    "Seriously, there's no going back. Are you REALLY sure?"
+                )
+            ) {
+                deletePattern(pattern.id)
+                    .then(getAllPatterns)
+                    .then(() => {
+                        setModifying(false);
+                    });
+            } else {
+                setModifying(false);
+            }
+        } else {
+            setModifying(false);
+        }
     };
 
     return (
@@ -20,7 +46,10 @@ export const PatternCard = ({ pattern, modifying }) => {
                 }
             >
                 {modifying ? (
-                    <div className="pattern-card__delete-button">
+                    <div
+                        className="pattern-card__delete-button"
+                        onClick={handleDelete}
+                    >
                         <i className="fas fa-trash fa-2x"></i>
                     </div>
                 ) : null}

@@ -17,6 +17,8 @@ export const FabricCard = ({ fabric, modifying, setModifying }) => {
                 .then(() => {
                     setModifying(false);
                 });
+        } else {
+            setModifying(false);
         }
     };
 

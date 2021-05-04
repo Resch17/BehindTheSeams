@@ -53,6 +53,10 @@
     width: 95%;
 }
 
+.pattern-card__delete-button, .pattern-card__edit-button {
+    cursor: pointer;
+}
+
 .pattern-card__title {
     cursor: pointer;
     font-size: 20px;
