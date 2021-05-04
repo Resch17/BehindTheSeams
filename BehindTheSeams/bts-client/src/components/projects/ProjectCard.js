@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { ProjectContext } from '../../providers/ProjectProvider';
 import '../../styles/Project.css';
 
 export const ProjectCard = ({ project }) => {
     const [statusId, setStatusId] = useState(project.projectStatusId);
+    const { updateProject, getAllProjects } = useContext(ProjectContext);
     const history = useHistory();
 
     const dateFormatter = (dateTime) => {
@@ -36,6 +38,14 @@ export const ProjectCard = ({ project }) => {
             setStatusId(clicked - 1);
         }
     };
+
+    useEffect(() => {
+        if (statusId > 0) {
+            const newProject = { ...project };
+            newProject.projectStatusId = statusId;
+            updateProject(newProject).then(getAllProjects);
+        }
+    }, [statusId]);
 
     return (
         <div className="project-card">
@@ -152,9 +162,11 @@ export const ProjectCard = ({ project }) => {
                         'No Fabric Selected'
                     )}
                 </div>
-                <div className="project-card__property project-card__cost">
-                    Approx. fabric cost: ${fabricCost().toFixed(2)}
-                </div>
+                {project.fabric.length > 0 && (
+                    <div className="project-card__property project-card__cost">
+                        Approx. fabric cost: ${fabricCost().toFixed(2)}
+                    </div>
+                )}
                 <div className="project-card__size">
                     <div className="project-card__size-label">Size: </div>
                     <div className="project-card__size-icon">

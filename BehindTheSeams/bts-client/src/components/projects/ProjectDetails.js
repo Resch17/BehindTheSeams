@@ -6,7 +6,9 @@ import '../../styles/Project.css';
 export const ProjectDetails = () => {
     const [project, setProject] = useState(null);
     const [statusId, setStatusId] = useState(null);
-    const { getProjectById } = useContext(ProjectContext);
+    const { getAllProjects, getProjectById, updateProject } = useContext(
+        ProjectContext
+    );
     const { id } = useParams();
 
     const dateFormatter = (dateTime) => {
@@ -48,6 +50,21 @@ export const ProjectDetails = () => {
             });
         }
     }, []);
+
+    useEffect(() => {
+        if (statusId && statusId !== project.projectStatusId) {
+            const newProject = { ...project };
+            newProject.projectStatusId = statusId;
+            updateProject(newProject)
+                .then(getAllProjects)
+                .then(() => {
+                    getProjectById(id).then((parsed) => {
+                        setProject(parsed);
+                        setStatusId(parsed.projectStatusId);
+                    });
+                });
+        }
+    }, [statusId]);
 
     if (!project) {
         return null;
@@ -164,18 +181,26 @@ export const ProjectDetails = () => {
                     </div>
                 </div>
                 <div className="project-details__content-center">
-                    <button
-                        className="button project-complete-button"
-                        id="projectCompleteButton"
-                    >
-                        Project Complete
-                    </button>
+                    {project.isComplete ? (
+                        <div className="project-details__completed-badge">
+                            Project is complete!
+                        </div>
+                    ) : (
+                        <button
+                            className="button project-complete-button"
+                            id="projectCompleteButton"
+                        >
+                            Project Complete
+                        </button>
+                    )}
                     <div className="project-details__start-date">
                         Start date: {dateFormatter(project.createDateTime)}
                     </div>
-                    <div className="project-details__fabric-cost">
-                        Approx fabric cost: ${fabricCost()}
-                    </div>
+                    {project.fabric.length > 0 ? (
+                        <div className="project-details__fabric-cost">
+                            Approx fabric cost: ${fabricCost()}
+                        </div>
+                    ) : null}
                     <button
                         className="button view-images-button"
                         id="viewImagesButton"
@@ -194,7 +219,7 @@ export const ProjectDetails = () => {
                             </div>
                         </div>
                         <div className="project-details__notes-list">
-                            {project.notes.length > 0 &&
+                            {project.notes.length > 0 ? (
                                 project.notes.map((n) => (
                                     <div
                                         key={n.id}
@@ -202,7 +227,17 @@ export const ProjectDetails = () => {
                                     >
                                         {n.text}
                                     </div>
-                                ))}
+                                ))
+                            ) : (
+                                <div
+                                    className="project-details__note"
+                                    style={{ textAlign: 'center' }}
+                                >
+                                    Click the{' '}
+                                    <i className="fas fa-plus-circle"></i> above
+                                    to write a note!
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
