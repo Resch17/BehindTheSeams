@@ -10,6 +10,8 @@ export const PatternList = () => {
     );
     const [modifying, setModifying] = useState(false);
 
+    const history = useHistory();
+
     useEffect(() => {
         getAllPatterns();
     }, []);
@@ -22,7 +24,12 @@ export const PatternList = () => {
         <main className="patterns">
             <div className="patterns__top-row">
                 <h1>Patterns</h1>
-                <button className="button">New Pattern</button>
+                <button
+                    className="button"
+                    onClick={() => history.push('/pattern/add')}
+                >
+                    New Pattern
+                </button>
                 <button
                     className="button"
                     onClick={() => setModifying(!modifying)}

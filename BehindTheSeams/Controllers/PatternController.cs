@@ -40,6 +40,15 @@ namespace BehindTheSeams.Controllers
             return Ok(_patternRepository.GetById(id));
         }
 
+        [HttpPost]
+        public IActionResult AddPattern(Pattern pattern)
+        {
+            var currentUser = GetCurrentUser();
+            pattern.UserId = currentUser.Id;
+            _patternRepository.Add(pattern);
+            return Ok(new { pattern.Id });
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeletePattern(int id)
         {
