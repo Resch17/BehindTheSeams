@@ -50,7 +50,7 @@ namespace BehindTheSeams.Controllers
             var currentUser = GetCurrentUser();
             fabric.UserId = currentUser.Id;
             _fabricRepository.Add(fabric);
-            return CreatedAtAction(nameof(GetById), new { id = fabric.Id }, fabric);
+            return Ok(new { fabric.Id });
         }
 
         [HttpDelete("{id}")]

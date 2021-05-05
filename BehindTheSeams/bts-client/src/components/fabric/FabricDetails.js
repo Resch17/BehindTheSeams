@@ -1,18 +1,31 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { FabricContext } from '../../providers/FabricProvider';
 import { Slideshow } from '../Slideshow';
 
 export const FabricDetails = () => {
     const [fabric, setFabric] = useState(null);
-    const { getFabricById } = useContext(FabricContext);
+    const { getFabricById, deleteFabric } = useContext(FabricContext);
     const { id } = useParams();
+    const history = useHistory();
 
     useEffect(() => {
         if (id) {
             getFabricById(id).then(setFabric);
         }
     }, []);
+
+    const handleDelete = () => {
+        if (
+            window.confirm(
+                'Are you sure you want to delete this fabric? It will also be removed from any projects.'
+            )
+        ) {
+            deleteFabric(fabric.id).then(() => {
+                history.push('/fabric');
+            });
+        }
+    };
 
     if (!fabric) {
         return null;
@@ -22,19 +35,24 @@ export const FabricDetails = () => {
         <main className="fabric-details">
             <div className="fabric-details__top-row">
                 <div className="fabric-details__top-row-title">
-                {fabric.name}
+                    {fabric.name}
                 </div>
                 <div className="fabric-details__top-row-buttons">
                     <button className="button">Edit Fabric</button>
-                    <button className="button">Delete Fabric</button>
+                    <button className="button" onClick={handleDelete}>
+                        Delete Fabric
+                    </button>
                 </div>
             </div>
             <section className="fabric-details__body">
                 <div className="fabric-details__image-container">
                     {fabric.images.length > 0 ? (
-                        <Slideshow images={fabric.images} containerWidth={400} />
+                        <Slideshow
+                            images={fabric.images}
+                            containerWidth={400}
+                        />
                     ) : (
-                        <img src="./assets/patternPlaceholder.png" />
+                        <img src="/assets/patternPlaceholder.png" />
                     )}
                 </div>
                 <div className="fabric-details__content">

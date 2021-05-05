@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FabricContext } from '../../providers/FabricProvider';
 
-export const FabricCard = ({ fabric, modifying, setModifying }) => {
+export const FabricCard = ({ fabric, modifying, setModifying, setFabrics, setFiltering }) => {
     const { deleteFabric, getAllFabric } = useContext(FabricContext);
     const history = useHistory();
 
@@ -14,8 +14,10 @@ export const FabricCard = ({ fabric, modifying, setModifying }) => {
         ) {
             deleteFabric(fabric.id)
                 .then(getAllFabric)
-                .then(() => {
+                .then((parsed) => {
                     setModifying(false);
+                    setFabrics(parsed);
+                    setFiltering(false);
                 });
         } else {
             setModifying(false);
