@@ -39,6 +39,19 @@ export const PatternProvider = (props) => {
             .then((res) => res.json());
     };
 
+    const addPattern = (pattern) => {
+        return getToken().then((token) =>
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(pattern),
+            })
+        );
+    };
+
     const deletePattern = (id) => {
         return getToken().then((token) =>
             fetch(`${apiUrl}/${id}`, {
@@ -52,7 +65,14 @@ export const PatternProvider = (props) => {
 
     return (
         <PatternContext.Provider
-            value={{ getAllPatterns, getPatternById, deletePattern, patterns, setPatterns }}
+            value={{
+                getAllPatterns,
+                getPatternById,
+                addPattern,
+                deletePattern,
+                patterns,
+                setPatterns,
+            }}
         >
             {props.children}
         </PatternContext.Provider>

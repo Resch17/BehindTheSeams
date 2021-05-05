@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { UserContext } from './UserProvider';
 
-export const FabricImageContext = React.createContext();
+export const PatternSizeContext = React.createContext();
 
-export const FabricImageProvider = (props) => {
+export const PatternSizeProvider = (props) => {
     const { getToken } = useContext(UserContext);
 
-    const apiUrl = '/api/fabricImage';
+    const apiUrl = '/api/patternSize';
 
-    const addFabricImage = (fabricImage) => {
+    const addPatternSize = (patternSize) => {
         return getToken().then((token) =>
             fetch(apiUrl, {
                 method: 'POST',
@@ -16,14 +16,14 @@ export const FabricImageProvider = (props) => {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(fabricImage),
+                body: JSON.stringify(patternSize),
             })
         );
     };
 
     return (
-        <FabricImageContext.Provider value={{ addFabricImage }}>
+        <PatternSizeContext.Provider value={{ addPatternSize }}>
             {props.children}
-        </FabricImageContext.Provider>
+        </PatternSizeContext.Provider>
     );
 };

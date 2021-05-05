@@ -26,8 +26,41 @@ export const FileProvider = (props) => {
         );
     };
 
+    const uploadFile = (files) => {
+        if (files.length === 0) {
+            return;
+        }
+
+        let fileToUpload = files[0];
+        const formData = new FormData();
+        formData.append('file', fileToUpload, fileToUpload.name);
+
+        return getToken().then((token) =>
+            fetch('/api/file', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: formData,
+            })
+        );
+    };
+
+    const addFile = (file) => {
+        return getToken().then((token) =>
+            fetch('/api/patternfile', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(file),
+            })
+        );
+    };
+
     return (
-        <FileContext.Provider value={{ uploadImage }}>
+        <FileContext.Provider value={{ uploadImage, uploadFile, addFile }}>
             {props.children}
         </FileContext.Provider>
     );

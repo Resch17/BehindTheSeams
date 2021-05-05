@@ -232,7 +232,7 @@ namespace BehindTheSeams.Repositories
                         INSERT INTO Pattern ([UserId], [Url], [Name], [PublisherId], 
                                 [PurchaseDate], [FabricTypeId], [Notes], [CategoryId])
                         OUTPUT INSERTED.ID
-                        VALUES (@UserId, @Url, @Name, @PublisherId, @PurchaseDate, @FabricTypeId, @Notes, @CategoryId";
+                        VALUES (@UserId, @Url, @Name, @PublisherId, @PurchaseDate, @FabricTypeId, @Notes, @CategoryId);";
 
                     DbUtils.AddParameter(cmd, "@UserId", pattern.UserId);
                     DbUtils.AddParameter(cmd, "@Url", pattern.Url);

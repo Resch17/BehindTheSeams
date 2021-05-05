@@ -4,7 +4,6 @@ import { FabricImageContext } from '../../providers/FabricImageProvider';
 import { FabricContext } from '../../providers/FabricProvider';
 import { FabricTypeContext } from '../../providers/FabricTypeProvider';
 import { FileContext } from '../../providers/FileProvider';
-import { PatternContext } from '../../providers/PatternProvider';
 import { RetailerContext } from '../../providers/RetailerProvider';
 import '../../styles/Fabric.css';
 
