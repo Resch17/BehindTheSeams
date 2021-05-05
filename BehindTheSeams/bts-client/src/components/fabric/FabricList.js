@@ -20,6 +20,7 @@ export const FabricList = () => {
     const [currentRetailerFilter, setCurrentRetailerFilter] = useState(0);
     const { getAllFabric } = useContext(FabricContext);
     const { getAllRetailers } = useContext(RetailerContext);
+    const history = useHistory();
 
     useEffect(() => {
         getAllRetailers().then(setRetailers);
@@ -120,7 +121,14 @@ export const FabricList = () => {
         <main className="fabric">
             <div className="fabric__top-row">
                 <h1>Fabric</h1>
-                <button className="button">New Fabric</button>
+                <button
+                    className="button"
+                    onClick={() => {
+                        history.push('/fabric/add');
+                    }}
+                >
+                    New Fabric
+                </button>
 
                 <button
                     className="button"
@@ -177,6 +185,8 @@ export const FabricList = () => {
                             fabric={f}
                             modifying={modifying}
                             setModifying={setModifying}
+                            setFabrics={setFabrics}
+                            setFiltering={setFiltering}
                         />
                     ))
                 ) : (

@@ -8,23 +8,29 @@ import { ProjectProvider } from './providers/ProjectProvider';
 import { Navbar } from './components/Navbar';
 import { RetailerProvider } from './providers/RetailerProvider';
 import { FabricTypeProvider } from './providers/FabricTypeProvider';
+import { FabricImageProvider } from './providers/FabricImageProvider';
+import { FileProvider } from './providers/FileProvider';
 
 export const App = () => {
     return (
         <Router>
             <UserProvider>
-                <RetailerProvider>
-                    <FabricTypeProvider>
-                        <PatternProvider>
-                            <FabricProvider>
-                                <ProjectProvider>
-                                    <Navbar />
-                                    <ApplicationViews />
-                                </ProjectProvider>
-                            </FabricProvider>
-                        </PatternProvider>
-                    </FabricTypeProvider>
-                </RetailerProvider>
+                <FileProvider>
+                    <RetailerProvider>
+                        <FabricTypeProvider>
+                            <FabricImageProvider>
+                                <PatternProvider>
+                                    <FabricProvider>
+                                        <ProjectProvider>
+                                            <Navbar />
+                                            <ApplicationViews />
+                                        </ProjectProvider>
+                                    </FabricProvider>
+                                </PatternProvider>
+                            </FabricImageProvider>
+                        </FabricTypeProvider>
+                    </RetailerProvider>
+                </FileProvider>
             </UserProvider>
         </Router>
     );

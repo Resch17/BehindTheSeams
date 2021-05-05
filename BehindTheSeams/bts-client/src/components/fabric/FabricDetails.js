@@ -34,7 +34,7 @@ export const FabricDetails = () => {
                     {fabric.images.length > 0 ? (
                         <Slideshow images={fabric.images} containerWidth={400} />
                     ) : (
-                        <img src="./assets/patternPlaceholder.png" />
+                        <img src="/assets/patternPlaceholder.png" />
                     )}
                 </div>
                 <div className="fabric-details__content">
