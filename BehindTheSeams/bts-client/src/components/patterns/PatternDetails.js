@@ -1,16 +1,35 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { PatternContext } from '../../providers/PatternProvider';
 import { Slideshow } from '../Slideshow';
 
 export const PatternDetails = () => {
     const [pattern, setPattern] = useState(null);
-    const { getPatternById } = useContext(PatternContext);
+    const { getPatternById, deletePattern } = useContext(PatternContext);
     const { id } = useParams();
+    const history = useHistory();
 
     const dateFormatter = (dateTime) => {
         let date = new Date(dateTime);
         return date.toLocaleDateString('en-US');
+    };
+
+    const handleDelete = () => {
+        if (
+            window.confirm(
+                'Are you sure you want to delete this pattern? All projects using this pattern will be deleted, as will any images and files associated with the pattern or projects!'
+            )
+        ) {
+            if (
+                window.confirm(
+                    "Seriously, there's no going back. Are you REALLY sure?"
+                )
+            ) {
+                deletePattern(pattern.id).then(() => {
+                    history.push('/patterns');
+                });
+            }
+        }
     };
 
     useEffect(() => {
@@ -31,13 +50,18 @@ export const PatternDetails = () => {
                 </div>
                 <div className="pattern-details__top-row-buttons">
                     <button className="button">Edit Pattern</button>
-                    <button className="button">Delete Pattern</button>
+                    <button className="button" onClick={handleDelete}>
+                        Delete Pattern
+                    </button>
                 </div>
             </div>
             <section className="pattern-details__body">
                 <div className="pattern-details__image-container">
                     {pattern.images.length > 0 ? (
-                        <Slideshow images={pattern.images} containerWidth={400} />
+                        <Slideshow
+                            images={pattern.images}
+                            containerWidth={400}
+                        />
                     ) : (
                         <img src="./assets/patternPlaceholder.png" />
                     )}

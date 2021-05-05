@@ -69,7 +69,7 @@ export const PatternForm = () => {
     };
 
     const handleFileUpload = (file, createdPatternId) => {
-        return uploadImage(file.file)
+        return uploadFile(file.file)
             .then((res) => {
                 if (res.ok) {
                     return res.json();

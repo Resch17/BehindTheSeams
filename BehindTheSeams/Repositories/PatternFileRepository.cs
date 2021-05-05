@@ -20,7 +20,7 @@ namespace BehindTheSeams.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO [File] ([Name], [Path], [PatternId]
+                        INSERT INTO [File] ([Name], [Path], [PatternId])
                         OUTPUT INSERTED.ID
                         VALUES (@Name, @Path, @PatternId)";
                     DbUtils.AddParameter(cmd, "@Name", file.Name);
