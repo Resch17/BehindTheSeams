@@ -4,6 +4,7 @@ import { FabricImageContext } from '../../providers/FabricImageProvider';
 import { FabricContext } from '../../providers/FabricProvider';
 import { FabricTypeContext } from '../../providers/FabricTypeProvider';
 import { FileContext } from '../../providers/FileProvider';
+import { PatternContext } from '../../providers/PatternProvider';
 import { RetailerContext } from '../../providers/RetailerProvider';
 import '../../styles/Fabric.css';
 
@@ -18,7 +19,7 @@ export const FabricForm = () => {
         notes: '',
     });
     const [imageMethod, setImageMethod] = useState('none');
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState([{}]);
 
     const { getAllRetailers, retailers } = useContext(RetailerContext);
     const { getAllFabricTypes, fabricTypes } = useContext(FabricTypeContext);
@@ -38,7 +39,7 @@ export const FabricForm = () => {
             notes: '',
         });
         setImageMethod('none');
-        setImages([]);
+        setImages([{}]);
     };
 
     const handleImageUpload = (image, createdFabricId) => {
@@ -77,13 +78,19 @@ export const FabricForm = () => {
             .then((createdFabric) => {
                 if (imageMethod === 'upload') {
                     images.forEach((image) => {
-                        handleImageUpload(image, createdFabric.id).then((fabricImage) =>
-                            addFabricImage(fabricImage)
-                        );
+                        handleImageUpload(
+                            image,
+                            createdFabric.id
+                        ).then((fabricImage) => addFabricImage(fabricImage));
+                    });
+                } else if (imageMethod === 'links') {
+                    images.forEach((image) => {
+                        image.fabricId = createdFabric.id;
+                        addFabricImage(image);
                     });
                 }
                 handleClearForm();
-                history.push(`/fabric/${createdFabric.id}`)
+                history.push(`/fabric/${createdFabric.id}`);
             });
     };
 
@@ -100,6 +107,7 @@ export const FabricForm = () => {
                     <input
                         name="fabric-name"
                         type="text"
+                        autoComplete="off"
                         required
                         value={fabric.name}
                         onChange={(evt) => {
@@ -113,6 +121,7 @@ export const FabricForm = () => {
                     <label htmlFor="fabric-url">URL</label>
                     <input
                         name="fabric-url"
+                        autoComplete="off"
                         type="text"
                         value={fabric.url}
                         onChange={(evt) => {
@@ -214,34 +223,28 @@ export const FabricForm = () => {
                         />
                     </div>
                 </div>
-                <div className="fabric-form__section-title">Images</div>
-                <div className="fabric-form__form-subgroup">
-                    <button
-                        className="button"
-                        onClick={() => setImageMethod('links')}
-                    >
-                        Links
-                    </button>
-                    <div className="fabric-form__image-button-text">OR</div>
-                    <button
-                        className="button"
-                        onClick={() => setImageMethod('upload')}
-                    >
-                        Upload
-                    </button>
-                </div>
+                <div className="fabric-form__section-title">Add Images</div>
+                {imageMethod === 'none' && (
+                    <div className="fabric-form__form-subgroup">
+                        <button
+                            className="button"
+                            onClick={() => setImageMethod('links')}
+                        >
+                            Links
+                        </button>
+                        <div className="fabric-form__image-button-text">OR</div>
+                        <button
+                            className="button"
+                            onClick={() => setImageMethod('upload')}
+                        >
+                            Upload
+                        </button>
+                    </div>
+                )}
                 {imageMethod !== 'none' && (
                     <div className="fabric-form__image-form">
                         {imageMethod === 'upload' ? (
                             <div className="fabric-form__image-upload-form">
-                                <i
-                                    className="fas fa-plus-circle fa-2x"
-                                    onClick={() => {
-                                        setImages((prevState) => {
-                                            return [...images, {}];
-                                        });
-                                    }}
-                                ></i>
                                 {images.length > 0 &&
                                     images.map((image, i) => {
                                         return (
@@ -278,9 +281,62 @@ export const FabricForm = () => {
                                             </div>
                                         );
                                     })}
+                                <i
+                                    className="fas fa-plus-circle fa-2x"
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => {
+                                        setImages((prevState) => {
+                                            return [...prevState, {}];
+                                        });
+                                    }}
+                                ></i>
                             </div>
                         ) : (
-                            <div className="fabric-form__image-link-form"></div>
+                            <div className="fabric-form__image-link-form">
+                                {images.length > 0 &&
+                                    images.map((image, i) => {
+                                        return (
+                                            <div
+                                                key={i}
+                                                className="image-link-group"
+                                            >
+                                                <label htmlFor="image-link-url">
+                                                    Image URL
+                                                </label>
+                                                <input
+                                                    type="url"
+                                                    name="image-link-url"
+                                                    autoComplete="off"
+                                                    onChange={(evt) => {
+                                                        setImages(
+                                                            (prevState) => {
+                                                                let newState = [
+                                                                    ...prevState,
+                                                                ];
+                                                                newState[i] = {
+                                                                    url:
+                                                                        evt
+                                                                            .target
+                                                                            .value,
+                                                                };
+                                                                return newState;
+                                                            }
+                                                        );
+                                                    }}
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                <i
+                                    className="fas fa-plus-circle fa-2x"
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => {
+                                        setImages((prevState) => {
+                                            return [...prevState, {}];
+                                        });
+                                    }}
+                                ></i>
+                            </div>
                         )}
                     </div>
                 )}
