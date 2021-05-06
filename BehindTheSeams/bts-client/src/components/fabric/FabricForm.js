@@ -256,7 +256,7 @@ export const FabricForm = () => {
                 )}
                 {imageMethod === 'links' && (
                     <div className="fabric-form__section-title">
-                        Use Images by Adding Links
+                        Add Images by Adding Links
                     </div>
                 )}
                 {imageMethod !== 'none' && (
