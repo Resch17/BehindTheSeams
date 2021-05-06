@@ -1,10 +1,12 @@
 import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { ProgressCard } from './ProgressCard';
 import { ProjectContext } from '../../providers/ProjectProvider';
 import '../../styles/Home.css';
 
 export const Home = () => {
     const { projects, getAllProjects } = useContext(ProjectContext);
+    const history = useHistory();
 
     const username = JSON.parse(localStorage.getItem('userProfile')).username;
 
@@ -18,8 +20,18 @@ export const Home = () => {
             <section className="home__controls">
                 <button className="button">Start a New Project</button>
                 <div className="home__controls-text">or add a...</div>
-                <button className="button">New Pattern</button>
-                <button className="button">New Fabric</button>
+                <button
+                    className="button"
+                    onClick={() => history.push('/pattern/add')}
+                >
+                    New Pattern
+                </button>
+                <button
+                    className="button"
+                    onClick={() => history.push('/fabric/add')}
+                >
+                    New Fabric
+                </button>
             </section>
             <img src="/assets/thread.png" alt="page divider" />
             <section className="home__in-progress">
