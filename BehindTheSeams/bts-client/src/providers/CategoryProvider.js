@@ -20,7 +20,10 @@ export const CategoryProvider = (props) => {
                 })
             )
             .then((res) => res.json())
-            .then(setCategories);
+            .then((parsed) => {
+                setCategories(parsed);
+                return parsed;
+            });
     };
 
     return (

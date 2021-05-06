@@ -8,6 +8,7 @@ import { SizeContext } from '../../providers/SizeProvider';
 import { PatternSizeContext } from '../../providers/PatternSizeProvider';
 import { FileContext } from '../../providers/FileProvider';
 import { CategoryContext } from '../../providers/CategoryProvider';
+import '../../styles/Pattern.css';
 
 export const PatternForm = () => {
     const [pattern, setPattern] = useState({

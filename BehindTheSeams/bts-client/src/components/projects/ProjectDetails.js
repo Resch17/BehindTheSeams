@@ -17,7 +17,8 @@ export const ProjectDetails = () => {
     };
 
     const fabricCost = () => {
-        return project.fabric[0].pricePerYard * project.patternSize.yards;
+        let cost = project.fabric[0].pricePerYard * project.patternSize.yards;
+        return cost.toFixed(2);
     };
 
     const highestCheckedBoxStyle = (boxNum) => {

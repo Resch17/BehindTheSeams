@@ -392,6 +392,28 @@ namespace BehindTheSeams.Repositories
             }
         }
 
+        public void Add(Project project)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Project ([Name], UserId, PatternId, ProjectStatusId,
+                            CreateDateTime, PatternSizeId)
+                        OUTPUT INSERTED.ID
+                        VALUES (@Name, @UserId, @PatternId, 1, SYSDATETIME(), @PatternSizeId)";
+                    DbUtils.AddParameter(cmd, "@Name", project.Name);
+                    DbUtils.AddParameter(cmd, "@UserId", project.UserId);
+                    DbUtils.AddParameter(cmd, "@PatternId", project.PatternId);
+                    DbUtils.AddParameter(cmd, "@PatternSizeId", project.PatternSizeId);
+
+                    project.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
         public void Update(Project project)
         {
             using (var conn = Connection)

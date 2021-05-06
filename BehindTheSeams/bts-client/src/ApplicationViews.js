@@ -13,6 +13,7 @@ import { PatternDetails } from './components/patterns/PatternDetails';
 import { FabricDetails } from './components/fabric/FabricDetails';
 import { FabricForm } from './components/fabric/FabricForm';
 import { PatternForm } from './components/patterns/PatternForm';
+import { ProjectForm } from "./components/projects/ProjectForm";
 
 export const ApplicationViews = () => {
     const { isLoggedIn } = useContext(UserContext);
@@ -38,6 +39,10 @@ export const ApplicationViews = () => {
 
             <Route path="/fabric" exact>
                 {isLoggedIn ? <FabricList /> : <Redirect to="/auth" />}
+            </Route>
+
+            <Route path="/project/add" exact>
+                {isLoggedIn ? <ProjectForm /> : <Redirect to="/auth" />}
             </Route>
 
             <Route path="/pattern/add" exact>

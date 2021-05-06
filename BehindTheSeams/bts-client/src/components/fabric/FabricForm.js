@@ -64,7 +64,7 @@ export const FabricForm = () => {
             fabric.retailerId < 1 ||
             fabric.fabricTypeId < 1
         ) {
-            window.alert('Please fill out all required fields forms');
+            window.alert('Please fill out all required fields');
             return;
         }
 
@@ -191,19 +191,22 @@ export const FabricForm = () => {
                 <div className="fabric-form__form-subgroup">
                     <div className="fabric-form__form-group">
                         <label htmlFor="fabric-price">Price Per Yard</label>
-                        <input
-                            type="number"
-                            name="fabric-price"
-                            value={fabric.pricePerYard}
-                            onChange={(evt) => {
-                                setFabric((prevState) => {
-                                    return {
-                                        ...prevState,
-                                        pricePerYard: evt.target.value,
-                                    };
-                                });
-                            }}
-                        />
+                        <span className="dollar">
+                            <input
+                                type="number"
+                                name="fabric-price"
+                                step="any"
+                                value={fabric.pricePerYard}
+                                onChange={(evt) => {
+                                    setFabric((prevState) => {
+                                        return {
+                                            ...prevState,
+                                            pricePerYard: evt.target.value,
+                                        };
+                                    });
+                                }}
+                            />
+                        </span>
                     </div>
                     <div className="fabric-form__form-group">
                         <label htmlFor="fabric-yards">Yards In Stock</label>
@@ -222,22 +225,38 @@ export const FabricForm = () => {
                         />
                     </div>
                 </div>
-                <div className="fabric-form__section-title">Add Images</div>
                 {imageMethod === 'none' && (
-                    <div className="fabric-form__form-subgroup">
-                        <button
-                            className="button"
-                            onClick={() => setImageMethod('links')}
-                        >
-                            Links
-                        </button>
-                        <div className="fabric-form__image-button-text">OR</div>
-                        <button
-                            className="button"
-                            onClick={() => setImageMethod('upload')}
-                        >
-                            Upload
-                        </button>
+                    <>
+                        <div className="fabric-form__section-title">
+                            Add Images
+                        </div>
+                        <div className="fabric-form__form-subgroup">
+                            <button
+                                className="button"
+                                onClick={() => setImageMethod('links')}
+                            >
+                                Links
+                            </button>
+                            <div className="fabric-form__image-button-text">
+                                OR
+                            </div>
+                            <button
+                                className="button"
+                                onClick={() => setImageMethod('upload')}
+                            >
+                                Upload
+                            </button>
+                        </div>
+                    </>
+                )}
+                {imageMethod === 'upload' && (
+                    <div className="fabric-form__section-title">
+                        Add Images by Uploading
+                    </div>
+                )}
+                {imageMethod === 'links' && (
+                    <div className="fabric-form__section-title">
+                        Add Images by Adding Links
                     </div>
                 )}
                 {imageMethod !== 'none' && (
@@ -280,15 +299,18 @@ export const FabricForm = () => {
                                             </div>
                                         );
                                     })}
-                                <i
-                                    className="fas fa-plus-circle fa-2x"
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => {
-                                        setImages((prevState) => {
-                                            return [...prevState, {}];
-                                        });
-                                    }}
-                                ></i>
+                                <div className="add-button-group">
+                                    <i
+                                        className="fas fa-plus-circle fa-2x"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => {
+                                            setImages((prevState) => {
+                                                return [...prevState, {}];
+                                            });
+                                        }}
+                                    ></i>{' '}
+                                    Upload another file
+                                </div>
                             </div>
                         ) : (
                             <div className="fabric-form__image-link-form">
@@ -326,15 +348,18 @@ export const FabricForm = () => {
                                             </div>
                                         );
                                     })}
-                                <i
-                                    className="fas fa-plus-circle fa-2x"
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => {
-                                        setImages((prevState) => {
-                                            return [...prevState, {}];
-                                        });
-                                    }}
-                                ></i>
+                                <div className="add-button-group">
+                                    <i
+                                        className="fas fa-plus-circle fa-2x"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => {
+                                            setImages((prevState) => {
+                                                return [...prevState, {}];
+                                            });
+                                        }}
+                                    ></i>{' '}
+                                    Add another link
+                                </div>
                             </div>
                         )}
                     </div>
@@ -348,13 +373,16 @@ export const FabricForm = () => {
                             return { ...prevState, notes: evt.target.value };
                         });
                     }}
+                    rows="10"
                 ></textarea>
-                <button className="button" onClick={handleClickSave}>
-                    Submit
-                </button>
-                <button className="button" onClick={handleClearForm}>
-                    Clear Form
-                </button>
+                <div className="form-buttons">
+                    <button className="button" onClick={handleClickSave}>
+                        Submit
+                    </button>
+                    <button className="button" onClick={handleClearForm}>
+                        Clear Form
+                    </button>
+                </div>
             </div>
         </main>
     );
