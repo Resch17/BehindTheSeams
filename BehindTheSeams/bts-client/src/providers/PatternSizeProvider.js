@@ -8,6 +8,19 @@ export const PatternSizeProvider = (props) => {
 
     const apiUrl = '/api/patternSize';
 
+    const getPatternSizesByPatternId = (patternId) => {
+        return getToken()
+            .then((token) =>
+                fetch(`${apiUrl}/${patternId}`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+            )
+            .then((res) => res.json());
+    };
+
     const addPatternSize = (patternSize) => {
         return getToken().then((token) =>
             fetch(apiUrl, {
@@ -22,7 +35,7 @@ export const PatternSizeProvider = (props) => {
     };
 
     return (
-        <PatternSizeContext.Provider value={{ addPatternSize }}>
+        <PatternSizeContext.Provider value={{ addPatternSize, getPatternSizesByPatternId }}>
             {props.children}
         </PatternSizeContext.Provider>
     );

@@ -18,7 +18,12 @@ export const Home = () => {
         <main className="home">
             <div className="home__heading">Welcome, {username}!</div>
             <section className="home__controls">
-                <button className="button">Start a New Project</button>
+                <button
+                    className="button"
+                    onClick={() => history.push('/project/add')}
+                >
+                    Start a New Project
+                </button>
                 <div className="home__controls-text">or add a...</div>
                 <button
                     className="button"

@@ -8,6 +8,7 @@ namespace BehindTheSeams.Repositories
         List<Project> GetAll(int userId);
         Project GetById(int id);
         void Update(Project project);
+        void Add(Project project);
         List<Project> GetAllComplete(int userId);
     }
 }

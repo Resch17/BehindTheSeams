@@ -22,6 +22,12 @@ namespace BehindTheSeams.Controllers
             _patternSizeRepository = patternSizeRepository;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetByPatternId(int id)
+        {
+            return Ok(_patternSizeRepository.GetByPatternId(id));
+        }
+
         [HttpPost]
         public IActionResult AddPatternSize(PatternSize patternSize)
         {

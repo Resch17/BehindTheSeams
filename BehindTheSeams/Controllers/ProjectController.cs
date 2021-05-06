@@ -45,6 +45,15 @@ namespace BehindTheSeams.Controllers
             return Ok(_projectRepository.GetById(id));
         }
 
+        [HttpPost]
+        public IActionResult AddProject(Project project)
+        {
+            var currentUser = GetCurrentUser();
+            project.UserId = currentUser.Id;
+            _projectRepository.Add(project);
+            return Ok(new { project.Id });
+        }
+
         [HttpPut("{id}")]
         public IActionResult Update(int id, Project project)
         {

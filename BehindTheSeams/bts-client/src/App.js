@@ -15,36 +15,39 @@ import { PublisherProvider } from './providers/PublisherProvider';
 import { PatternImageProvider } from './providers/PatternImageProvider';
 import { SizeProvider } from './providers/SizeProvider';
 import { PatternSizeProvider } from './providers/PatternSizeProvider';
+import { ProjectFabricProvider } from './providers/ProjectFabricProvider';
 
 export const App = () => {
     return (
         <Router>
             <UserProvider>
                 <FileProvider>
-                    <PublisherProvider>
-                        <PatternSizeProvider>
-                            <SizeProvider>
-                                <RetailerProvider>
-                                    <FabricTypeProvider>
-                                        <FabricImageProvider>
-                                            <CategoryProvider>
-                                                <PatternImageProvider>
-                                                    <PatternProvider>
-                                                        <FabricProvider>
-                                                            <ProjectProvider>
-                                                                <Navbar />
-                                                                <ApplicationViews />
-                                                            </ProjectProvider>
-                                                        </FabricProvider>
-                                                    </PatternProvider>
-                                                </PatternImageProvider>
-                                            </CategoryProvider>
-                                        </FabricImageProvider>
-                                    </FabricTypeProvider>
-                                </RetailerProvider>
-                            </SizeProvider>
-                        </PatternSizeProvider>
-                    </PublisherProvider>
+                    <ProjectFabricProvider>
+                        <PublisherProvider>
+                            <PatternSizeProvider>
+                                <SizeProvider>
+                                    <RetailerProvider>
+                                        <FabricTypeProvider>
+                                            <FabricImageProvider>
+                                                <CategoryProvider>
+                                                    <PatternImageProvider>
+                                                        <PatternProvider>
+                                                            <FabricProvider>
+                                                                <ProjectProvider>
+                                                                    <Navbar />
+                                                                    <ApplicationViews />
+                                                                </ProjectProvider>
+                                                            </FabricProvider>
+                                                        </PatternProvider>
+                                                    </PatternImageProvider>
+                                                </CategoryProvider>
+                                            </FabricImageProvider>
+                                        </FabricTypeProvider>
+                                    </RetailerProvider>
+                                </SizeProvider>
+                            </PatternSizeProvider>
+                        </PublisherProvider>
+                    </ProjectFabricProvider>
                 </FileProvider>
             </UserProvider>
         </Router>

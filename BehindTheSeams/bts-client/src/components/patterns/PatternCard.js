@@ -2,7 +2,13 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { PatternContext } from '../../providers/PatternProvider';
 
-export const PatternCard = ({ pattern, modifying, setModifying }) => {
+export const PatternCard = ({
+    pattern,
+    modifying,
+    setModifying,
+    projectUse,
+    setProjectPattern,
+}) => {
     const { getAllPatterns, deletePattern } = useContext(PatternContext);
     const history = useHistory();
 
@@ -37,6 +43,17 @@ export const PatternCard = ({ pattern, modifying, setModifying }) => {
 
     return (
         <div className="pattern-card">
+            {projectUse ? (
+                <i
+                    className="fas fa-plus-circle fa-2x pattern-add-button"
+                    style={{ marginTop: '5px' }}
+                    onClick={() => {
+                        setProjectPattern((prevState) => {
+                            return { ...prevState, patternId: pattern.id };
+                        });
+                    }}
+                ></i>
+            ) : null}
             <div
                 className="pattern-card__top-row"
                 style={
