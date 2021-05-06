@@ -8,6 +8,7 @@ export const ProjectList = () => {
     const [projects, setProjects] = useState([]);
     const [viewingActive, setViewingActive] = useState(true);
     const { getAllProjects, getCompletedProjects } = useContext(ProjectContext);
+    const history = useHistory();
 
     useEffect(() => {
         getAllProjects().then(setProjects);
@@ -33,7 +34,12 @@ export const ProjectList = () => {
                 ) : (
                     <h1>Finished Projects</h1>
                 )}
-                <button className="button">New Project</button>
+                <button
+                    className="button"
+                    onClick={() => history.push('/project/add')}
+                >
+                    New Project
+                </button>
                 {viewingActive ? (
                     <button
                         className="button"

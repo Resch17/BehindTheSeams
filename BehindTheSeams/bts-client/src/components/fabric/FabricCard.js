@@ -2,7 +2,16 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FabricContext } from '../../providers/FabricProvider';
 
-export const FabricCard = ({ fabric, modifying, setModifying, setFabrics, setFiltering }) => {
+export const FabricCard = ({
+    fabric,
+    modifying,
+    setModifying,
+    setFabrics,
+    setFiltering,
+    projectUse,
+    setProjectFabric,
+    setFabricSearchTerms,
+}) => {
     const { deleteFabric, getAllFabric } = useContext(FabricContext);
     const history = useHistory();
 
@@ -26,6 +35,20 @@ export const FabricCard = ({ fabric, modifying, setModifying, setFabrics, setFil
 
     return (
         <div className="fabric-card">
+            {projectUse
+                ? !projectUse.find((f) => f.id === fabric.id) && (
+                      <i
+                          className="fas fa-plus-circle fa-2x fabric-add-button"
+                          style={{ marginTop: '5px' }}
+                          onClick={() => {
+                              setFabricSearchTerms('');
+                              setProjectFabric((prevState) => {
+                                  return [...prevState, fabric];
+                              });
+                          }}
+                      ></i>
+                  )
+                : null}
             <div
                 className="fabric-card__top-row"
                 style={
@@ -66,7 +89,7 @@ export const FabricCard = ({ fabric, modifying, setModifying, setFabrics, setFil
                         <img
                             onClick={() => history.push(`/fabric/${fabric.id}`)}
                             className="fabric-card__image"
-                            src="./assets/patternPlaceholder.png"
+                            src="/assets/patternPlaceholder.png"
                         />
                     )}
                 </div>

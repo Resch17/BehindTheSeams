@@ -400,7 +400,7 @@ namespace BehindTheSeams.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Project ([Name], UserId, PatternId, ProjectStatusId
+                        INSERT INTO Project ([Name], UserId, PatternId, ProjectStatusId,
                             CreateDateTime, PatternSizeId)
                         OUTPUT INSERTED.ID
                         VALUES (@Name, @UserId, @PatternId, 1, SYSDATETIME(), @PatternSizeId)";

@@ -95,7 +95,7 @@ export const PatternCard = ({
                     ) : (
                         <img
                             className="pattern-card__image"
-                            src="./assets/patternPlaceholder.png"
+                            src="/assets/patternPlaceholder.png"
                             onClick={() =>
                                 history.push(`/pattern/${pattern.id}`)
                             }

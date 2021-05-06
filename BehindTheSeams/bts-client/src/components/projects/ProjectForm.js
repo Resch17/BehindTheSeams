@@ -5,6 +5,8 @@ import { FabricContext } from '../../providers/FabricProvider';
 import { PatternContext } from '../../providers/PatternProvider';
 import { PatternSizeContext } from '../../providers/PatternSizeProvider';
 import { ProjectFabricContext } from '../../providers/ProjectFabricProvider';
+import { ProjectContext } from '../../providers/ProjectProvider';
+import { FabricCard } from '../fabric/FabricCard';
 import { PatternCard } from '../patterns/PatternCard';
 
 export const ProjectForm = () => {
@@ -16,23 +18,61 @@ export const ProjectForm = () => {
     const [patterns, setPatterns] = useState([]);
     const [categories, setCategories] = useState([]);
     const [patternFilter, setPatternFilter] = useState(0);
+    const [patternSearchTerms, setPatternSearchTerms] = useState('');
+    const [fabricSearchTerms, setFabricSearchTerms] = useState('');
     const [fabrics, setFabrics] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [selectedPattern, setSelectedPattern] = useState({});
     const [selectedSize, setSelectedSize] = useState({ id: 0 });
-    const [projectFabricIds, setProjectFabricIds] = useState([]);
+    const [projectFabric, setProjectFabric] = useState([]);
+    const [addingFabric, setAddingFabric] = useState(true);
+
+    const { addProject } = useContext(ProjectContext);
     const { getAllPatterns, getPatternById } = useContext(PatternContext);
     const { getAllFabric } = useContext(FabricContext);
     const { addProjectFabric } = useContext(ProjectFabricContext);
     const { getPatternSizesByPatternId } = useContext(PatternSizeContext);
     const { getAllCategories } = useContext(CategoryContext);
 
+    const history = useHistory();
+
     const handleClearForm = () => {
         setProject({ name: '', patternId: 0, patternSizeId: 0 });
         setSelectedSize({ id: 0 });
         setSelectedPattern({});
-        setProjectFabricIds([]);
+        setProjectFabric([]);
         setPatternFilter(0);
+        setPatternSearchTerms('');
+        getAllPatterns().then(setPatterns);
+    };
+
+    const handleClickSave = () => {
+        if (
+            project.name.length < 1 ||
+            project.patternId < 0 ||
+            project.patternSizeId < 0
+        ) {
+            window.alert('Please fill out all required fields');
+            return;
+        }
+
+        addProject(project)
+            .then((response) => {
+                console.log(response);
+                if (response.ok) {
+                    return response.json();
+                }
+            })
+            .then((createdProject) => {
+                projectFabric.forEach((f) => {
+                    addProjectFabric({
+                        fabricId: f.id,
+                        projectId: createdProject.id,
+                    });
+                });
+                handleClearForm();
+                history.push(`/project/${createdProject.id}`);
+            });
     };
 
     useEffect(() => {
@@ -72,6 +112,51 @@ export const ProjectForm = () => {
             getAllPatterns().then(setPatterns);
         }
     }, [patternFilter]);
+
+    useEffect(() => {
+        if (fabricSearchTerms.length > 0) {
+            let searchResults = [...fabrics];
+            searchResults = searchResults.filter((f) => {
+                if (
+                    f.name
+                        .toLowerCase()
+                        .includes(fabricSearchTerms.toLowerCase()) ||
+                    f.fabricType.name
+                        .toLowerCase()
+                        .includes(fabricSearchTerms.toLowerCase())
+                ) {
+                    return f;
+                }
+            });
+            if (searchResults.length > 0) {
+                setFabrics(searchResults);
+            } else {
+                getAllFabric().then((parsed) => {
+                    setFabrics(parsed);
+                    window.alert('No search results found');
+                    setFabricSearchTerms('');
+                });
+            }
+        }
+    }, [fabricSearchTerms]);
+
+    useEffect(() => {
+        if (patternSearchTerms.length > 0) {
+            let searchResults = [...patterns];
+            searchResults = searchResults.filter((p) =>
+                p.name.toLowerCase().includes(patternSearchTerms.toLowerCase())
+            );
+            if (searchResults.length > 0) {
+                setPatterns(searchResults);
+            } else {
+                getAllPatterns().then((parsed) => {
+                    setPatterns(parsed);
+                    window.alert('No search results found');
+                    setPatternSearchTerms('');
+                });
+            }
+        }
+    }, [patternSearchTerms]);
 
     return (
         <main className="project-form">
@@ -117,6 +202,15 @@ export const ProjectForm = () => {
                                     );
                                 })}
                         </select>
+                        <label htmlFor="pattern-search">Search Patterns</label>
+                        <input
+                            type="search"
+                            name="pattern-search"
+                            value={patternSearchTerms}
+                            onChange={(evt) => {
+                                setPatternSearchTerms(evt.target.value);
+                            }}
+                        />
                     </div>
                 </>
             )}
@@ -176,7 +270,75 @@ export const ProjectForm = () => {
                     )}
                 </section>
             ) : null}
-            <button className="button">Save Project</button>
+            {selectedSize.id > 0 && selectedPattern && (
+                <section className="project-form__fabric">
+                    {projectFabric.length === 0 ? (
+                        <div className="project-form__section-title">
+                            Select Fabric
+                        </div>
+                    ) : (
+                        <div className="project-form__selected-fabric">
+                            <div className="project-form__section-title">
+                                Selected Fabric
+                            </div>
+                            <div className="project-form__selected-fabric-list">
+                                {projectFabric.map((f) => {
+                                    return <FabricCard key={f.id} fabric={f} />;
+                                })}
+                            </div>
+                        </div>
+                    )}
+                    {addingFabric && (
+                        <>
+                            <div className="project-form__fabric-search-group">
+                                <label htmlFor="fabric-search">
+                                    Search Fabric
+                                </label>
+                                <input
+                                    type="search"
+                                    name="fabric-search"
+                                    value={fabricSearchTerms}
+                                    onChange={(evt) => {
+                                        setFabricSearchTerms(evt.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className="project-form__fabric-list">
+                                {fabrics.length > 0 ? (
+                                    fabrics.map((f) => {
+                                        if (
+                                            !projectFabric.find(
+                                                (pf) => pf.id === f.id
+                                            )
+                                        ) {
+                                            return (
+                                                <FabricCard
+                                                    key={f.id}
+                                                    fabric={f}
+                                                    projectUse={projectFabric}
+                                                    setProjectFabric={
+                                                        setProjectFabric
+                                                    }
+                                                    setFabricSearchTerms={
+                                                        setFabricSearchTerms
+                                                    }
+                                                />
+                                            );
+                                        }
+                                    })
+                                ) : (
+                                    <div className="project-form__fabric-empty-message">
+                                        No Fabric Found
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    )}
+                </section>
+            )}
+            <button className="button" onClick={handleClickSave}>
+                Save Project
+            </button>
             <button className="button" onClick={handleClearForm}>
                 Clear Form
             </button>

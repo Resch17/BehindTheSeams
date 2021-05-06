@@ -59,7 +59,7 @@ export const ProjectCard = ({ project }) => {
                     ) : (
                         <img
                             className="project-card__image"
-                            src="./assets/patternPlaceholder.png"
+                            src="/assets/patternPlaceholder.png"
                         />
                     )}
                 </Link>

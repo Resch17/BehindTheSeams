@@ -56,6 +56,19 @@ export const ProjectProvider = (props) => {
             .then((res) => res.json());
     };
 
+    const addProject = (project) => {
+        return getToken().then((token) =>
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(project),
+            })
+        );
+    } 
+
     const updateProject = (project) => {
         return getToken().then((token) =>
             fetch(`${apiUrl}/${project.id}`, {
@@ -75,6 +88,7 @@ export const ProjectProvider = (props) => {
                 getAllProjects,
                 getCompletedProjects,
                 getProjectById,
+                addProject,
                 updateProject,
                 projects,
                 setProjects,
