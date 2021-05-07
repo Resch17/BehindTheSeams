@@ -38,7 +38,7 @@ export const FabricCard = ({
             {projectUse
                 ? !projectUse.find((f) => f.id === fabric.id) && (
                       <i
-                          className="fas fa-plus-circle fa-2x fabric-add-button"
+                          className="fas fa-plus-circle fa-2x fabric-add-button cursorPointer"
                           style={{ marginTop: '5px' }}
                           onClick={() => {
                               setFabricSearchTerms('');

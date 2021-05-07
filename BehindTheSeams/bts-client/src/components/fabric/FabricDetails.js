@@ -124,7 +124,7 @@ export const FabricDetails = () => {
                                     Yards in stock: {fabric.yardsInStock}
                                     <i
                                         style={{ marginLeft: '1em' }}
-                                        className="fas fa-pencil-alt edit-stock-button"
+                                        className="fas fa-pencil-alt cursorPointer edit-stock-button"
                                         onClick={() => setEditingStock(true)}
                                     ></i>
                                 </>
@@ -157,7 +157,7 @@ export const FabricDetails = () => {
                             <div>Notes</div>
                             {!editingNotes && (
                                 <i
-                                    className="fas fa-pencil-alt"
+                                    className="fas fa-pencil-alt cursorPointer"
                                     onClick={() => setEditingNotes(true)}
                                 ></i>
                             )}

@@ -149,7 +149,7 @@ GO
 CREATE TABLE [Retailer] (
   [Id] integer PRIMARY KEY IDENTITY NOT NULL,
   [Name] nvarchar(255) NOT NULL,
-  [Url] nvarchar(255) NOT NULL
+  [Url] nvarchar(255)
 )
 GO
 

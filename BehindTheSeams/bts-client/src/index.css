@@ -31,10 +31,6 @@ a {
     text-decoration: none;
 }
 
-i {
-    cursor: pointer;
-}
-
 button {
     background-color: var(--dark-color1);
     border: none;
@@ -46,4 +42,8 @@ button {
     height: 56px;
     outline: none;
     min-width: 185px;
+}
+
+.cursorPointer {
+    cursor: pointer;
 }

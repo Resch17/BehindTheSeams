@@ -168,7 +168,7 @@ export const PatternDetails = () => {
                     <div className="pattern-details__notes-title">Notes</div>
                     {!editingNotes && (
                         <i
-                            className="fas fa-pencil-alt fa-2x"
+                            className="fas fa-pencil-alt fa-2x cursorPointer"
                             onClick={() => setEditingNotes(true)}
                         ></i>
                     )}

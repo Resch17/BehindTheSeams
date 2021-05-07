@@ -6,6 +6,7 @@ import { ProjectCard } from './ProjectCard';
 
 export const ProjectList = () => {
     const [projects, setProjects] = useState([]);
+    const [completeProjects, setCompleteProjects] = useState([]);
     const [viewingActive, setViewingActive] = useState(true);
     const { getAllProjects, getCompletedProjects } = useContext(ProjectContext);
     const history = useHistory();
@@ -15,16 +16,13 @@ export const ProjectList = () => {
     }, []);
 
     useEffect(() => {
+        console.log(viewingActive);
         if (!viewingActive) {
-            getCompletedProjects().then(setProjects);
+            getCompletedProjects().then(setCompleteProjects);
         } else {
             getAllProjects().then(setProjects);
         }
     }, [viewingActive]);
-
-    if (projects.length < 1) {
-        return null;
-    }
 
     return (
         <main className="projects">
@@ -57,8 +55,26 @@ export const ProjectList = () => {
                 )}
             </div>
             <div className="projects__project-list">
-                {projects.length > 0 &&
-                    projects.map((p) => <ProjectCard key={p.id} project={p} />)}
+                {viewingActive ? (
+                    projects.length > 0 ? (
+                        projects.map((p) => (
+                            <ProjectCard
+                                key={p.id}
+                                project={p}
+                                setProjects={setProjects}
+                            />
+                        ))
+                    ) : (
+                        <h1>No Projects Found</h1>
+                    )
+                ) : (
+                    completeProjects.map((p) => (
+                        <ProjectCard
+                            key={p.id}
+                            project={p}
+                        />
+                    ))
+                )}
             </div>
         </main>
     );

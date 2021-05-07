@@ -1,9 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { ProjectContext } from '../../providers/ProjectProvider';
 import { ProjectFabricContext } from '../../providers/ProjectFabricProvider';
 import { ProjectNoteContext } from '../../providers/ProjectNoteProvider';
 import '../../styles/Project.css';
+import { ProjectFabricModal } from './ProjectFabricModal';
+import { PatternSizeContext } from '../../providers/PatternSizeProvider';
 
 export const ProjectDetails = () => {
     const [project, setProject] = useState(null);
@@ -11,13 +13,19 @@ export const ProjectDetails = () => {
     const [updatedNotes, setUpdatedNotes] = useState([]);
     const [addingNotes, setAddingNotes] = useState(false);
     const [deleteNoteMode, setDeleteNoteMode] = useState(false);
+    const [deleteFabricMode, setDeleteFabricMode] = useState(false);
+    const [showingFabricModal, setShowingFabricModal] = useState(false);
+    const [updatedProjectFabric, setUpdatedProjectFabric] = useState([]);
+
     const { getAllProjects, getProjectById, updateProject } = useContext(
         ProjectContext
     );
     const { addProjectNote, deleteProjectNote } = useContext(
         ProjectNoteContext
     );
+    const { deleteProjectFabric } = useContext(ProjectFabricContext);
     const { id } = useParams();
+    const history = useHistory();
 
     const dateFormatter = (dateTime) => {
         let date = new Date(dateTime);
@@ -51,15 +59,22 @@ export const ProjectDetails = () => {
         }
     };
 
+    const initializeProjectState = (apiProject) => {
+        setProject(apiProject);
+        setStatusId(apiProject.projectStatusId);
+        setUpdatedNotes(apiProject.notes);
+        setUpdatedProjectFabric(apiProject.fabric);
+        setAddingNotes(false);
+        setDeleteNoteMode(false);
+        setDeleteFabricMode(false);
+    };
+
     const handleAddNote = () => {
         updatedNotes.forEach((n) => {
             if (!n.id) {
                 addProjectNote(n).then(() =>
                     getProjectById(id).then((parsed) => {
-                        setProject(parsed);
-                        setStatusId(parsed.projectStatusId);
-                        setUpdatedNotes(parsed.notes);
-                        setAddingNotes(false);
+                        initializeProjectState(parsed);
                     })
                 );
             }
@@ -69,21 +84,26 @@ export const ProjectDetails = () => {
     const handleDeleteNote = (noteId) => {
         deleteProjectNote(noteId).then(() => {
             getProjectById(id).then((parsed) => {
-                setProject(parsed);
-                setStatusId(parsed.projectStatusId);
-                setUpdatedNotes(parsed.notes);
-                setDeleteNoteMode(false);
+                initializeProjectState(parsed);
+            });
+        });
+    };
+
+    const handleProjectFabricDelete = (projectFabricId) => {
+        deleteProjectFabric(projectFabricId).then(() => {
+            getProjectById(id).then((parsed) => {
+                initializeProjectState(parsed);
             });
         });
     };
 
     useEffect(() => {
         if (id) {
-            getProjectById(id).then((parsed) => {
-                setProject(parsed);
-                setStatusId(parsed.projectStatusId);
-                setUpdatedNotes(parsed.notes);
-            });
+            getProjectById(id)
+                .then((parsed) => {
+                    initializeProjectState(parsed);
+                })
+                .catch(() => history.push('/projects'));
         }
     }, []);
 
@@ -91,14 +111,14 @@ export const ProjectDetails = () => {
         if (statusId && statusId !== project.projectStatusId) {
             const newProject = { ...project };
             newProject.projectStatusId = statusId;
-            updateProject(newProject)
-                .then(getAllProjects)
-                .then(() => {
-                    getProjectById(id).then((parsed) => {
-                        setProject(parsed);
-                        setStatusId(parsed.projectStatusId);
-                    });
+            if (newProject.projectStatusId === 5) {
+                newProject.isComplete = true;
+            }
+            updateProject(newProject).then(() => {
+                getProjectById(id).then((parsed) => {
+                    initializeProjectState(parsed);
                 });
+            });
         }
     }, [statusId]);
 
@@ -121,6 +141,14 @@ export const ProjectDetails = () => {
             }
         }
     }, [addingNotes]);
+
+    useEffect(() => {
+        if (!showingFabricModal) {
+            getProjectById(id).then((parsed) => {
+                initializeProjectState(parsed);
+            });
+        }
+    }, [showingFabricModal]);
 
     if (!project) {
         return null;
@@ -245,6 +273,15 @@ export const ProjectDetails = () => {
                         <button
                             className="button project-complete-button"
                             id="projectCompleteButton"
+                            onClick={() => {
+                                if (
+                                    window.confirm(
+                                        "Are you sure you're done with this project?"
+                                    )
+                                ) {
+                                    setStatusId(5);
+                                }
+                            }}
                         >
                             Project Complete
                         </button>
@@ -257,12 +294,12 @@ export const ProjectDetails = () => {
                             Approx fabric cost: ${fabricCost()}
                         </div>
                     ) : null}
-                    <button
+                    {/* <button
                         className="button view-images-button"
                         id="viewImagesButton"
                     >
                         View Images
-                    </button>
+                    </button> */}
                     <div className="project-details__notes-container">
                         <div className="project-details__notes-top-row">
                             <div className="project-details__notes-title">
@@ -381,20 +418,50 @@ export const ProjectDetails = () => {
                 </div>
                 <div className="project-details__content-fabric">
                     <div className="project-details__fabric-top-row">
-                        <i className="fas fa-plus-circle fa-2x"></i>
-                        <div className="project-details__fabric-title">
+                        {!project.isComplete && (
+                            <i
+                                className="fas fa-plus-circle fa-2x"
+                                onClick={() => setShowingFabricModal(true)}
+                            ></i>
+                        )}
+                        <div
+                            className="project-details__fabric-title"
+                            style={{ margin: '0 auto' }}
+                        >
                             Fabric
                         </div>
-                        <i className="fas fa-trash fa-2x"></i>
+                        {!project.isComplete && (
+                            <i
+                                className="fas fa-trash fa-2x"
+                                onClick={() =>
+                                    setDeleteFabricMode(!deleteFabricMode)
+                                }
+                            ></i>
+                        )}
                     </div>
                     <div className="project-details__fabric-list">
-                        {project.fabric.length > 0 &&
+                        {project.fabric.length > 0 ? (
                             project.fabric.map((f) => (
                                 <div
                                     key={f.id}
                                     className="project-details__fabric-card"
                                 >
                                     <div className="project-details__fabric-card-name">
+                                        {deleteFabricMode && (
+                                            <div
+                                                className="project-details__fabric-remove"
+                                                style={{ marginTop: '5px' }}
+                                            >
+                                                <i
+                                                    className="fas fa-times-circle fa-2x cursorPointer"
+                                                    onClick={() => {
+                                                        handleProjectFabricDelete(
+                                                            f.projectFabricId
+                                                        );
+                                                    }}
+                                                ></i>
+                                            </div>
+                                        )}
                                         <Link to={`/fabric/${f.id}`}>
                                             {f.name}
                                         </Link>
@@ -425,10 +492,28 @@ export const ProjectDetails = () => {
                                         Retailer: {f.retailer.name}
                                     </div>
                                 </div>
-                            ))}
+                            ))
+                        ) : (
+                            <h3 style={{ textAlign: 'center' }}>
+                                No fabric selected.
+                                <br /> Click{' '}
+                                <i className="fas fa-plus-circle"></i> above to
+                                add fabric.
+                            </h3>
+                        )}
                     </div>
                 </div>
             </section>
+            {showingFabricModal && (
+                <div className="project-fabric-modal">
+                    <ProjectFabricModal
+                        projectFabric={updatedProjectFabric}
+                        setProjectFabric={setUpdatedProjectFabric}
+                        setShowingFabricModal={setShowingFabricModal}
+                        projectId={parseInt(id)}
+                    />
+                </div>
+            )}
         </main>
     );
 };

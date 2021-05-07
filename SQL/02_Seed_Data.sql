@@ -19,8 +19,8 @@ INSERT INTO [Category] ([Id],[Name]) VALUES (7, 'Men''s Shirts');
 INSERT INTO [Category] ([Id],[Name]) VALUES (8, 'Men''s Pants');
 INSERT INTO [Category] ([Id],[Name]) VALUES (9, 'Women''s Shirts');
 INSERT INTO [Category] ([Id],[Name]) VALUES (10, 'Women''s Pants');
-INSERT INTO [Category] ([Id],[Name]) VALUES (11, 'Kid'' Shirts');
-INSERT INTO [Category] ([Id],[Name]) VALUES (12, 'Kid'' Pants');
+INSERT INTO [Category] ([Id],[Name]) VALUES (11, 'Kid''s Shirts');
+INSERT INTO [Category] ([Id],[Name]) VALUES (12, 'Kid''s Pants');
 INSERT INTO [Category] ([Id],[Name]) VALUES (13, 'Other');
 set IDENTITY_INSERT [Category] OFF
 
@@ -72,7 +72,7 @@ INSERT INTO [Publisher] ([Id], [Name], [Url]) VALUES (3, 'Closet Core', 'https:/
 INSERT INTO [Publisher] ([Id], [Name], [Url]) VALUES (4, 'Peek-a-Boo', 'https://www.peekaboopatternshop.com/');
 INSERT INTO [Publisher] ([Id], [Name], [Url]) VALUES (5, 'Rad Patterns', 'https://www.radpatterns.com/');
 INSERT INTO [Publisher] ([Id], [Name], [Url]) VALUES (6, 'Seamwork', 'https://www.seamwork.com/');
-INSERT INTO [Publisher] ([Id], [Name]) VALUES (6, 'Other');
+INSERT INTO [Publisher] ([Id], [Name]) VALUES (7, 'Other');
 set IDENTITY_INSERT [Publisher] OFF
 
 set IDENTITY_INSERT [Retailer] ON
