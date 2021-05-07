@@ -28,5 +28,12 @@ namespace BehindTheSeams.Controllers
             _projectFabricRepository.Add(projectFabric);
             return Ok(new { projectFabric.Id });
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteProjectFabric(int id)
+        {
+            _projectFabricRepository.Delete(id);
+            return NoContent();
+        }
     }
 }

@@ -283,7 +283,7 @@ namespace BehindTheSeams.Repositories
 							n.[Id] AS NoteId, n.[Text] AS NoteText,
 							patsize.[Yards], s.[Name] AS SizeName, s.[Abbreviation],
 							patimg.[Id] AS PatternImageId, patimg.[IsCover], patimg.[Url] AS PatternImageUrl,
-							f.[Id] AS FabricId, f.[Name] AS FabricName, ft.[Name] AS FabricTypeName, f.[PricePerYard],
+							f.[Id] AS FabricId, pf.[Id] AS ProjectFabricId, f.[Name] AS FabricName, ft.[Name] AS FabricTypeName, f.[PricePerYard],
 							f.[YardsInStock], r.[Name] AS RetailerName, r.[Url] AS RetailerUrl,
 							fi.[Url] AS FabricImageUrl, fi.[FabricId] AS ImageFabricId
 						FROM Project p
@@ -346,6 +346,7 @@ namespace BehindTheSeams.Repositories
                                         Name = DbUtils.GetString(reader, "FabricTypeName")
                                     },
                                     YardsInStock = DbUtils.GetDecimal(reader, "YardsInStock"),
+                                    ProjectFabricId = DbUtils.GetInt(reader, "ProjectFabricId"),
                                     Retailer = new Retailer()
                                     {
                                         Name = DbUtils.GetString(reader, "RetailerName"),

@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { ProjectContext } from '../../providers/ProjectProvider';
 import '../../styles/Project.css';
 
-export const ProjectCard = ({ project }) => {
+export const ProjectCard = ({ project, setProjects }) => {
     const [statusId, setStatusId] = useState(project.projectStatusId);
     const { updateProject, getAllProjects } = useContext(ProjectContext);
     const history = useHistory();
@@ -43,7 +43,10 @@ export const ProjectCard = ({ project }) => {
         if (statusId > 0) {
             const newProject = { ...project };
             newProject.projectStatusId = statusId;
-            updateProject(newProject).then(getAllProjects);
+            if (newProject.projectStatusId === 5) {
+                newProject.isComplete = true;
+            }
+            updateProject(newProject).then(getAllProjects).then(setProjects);
         }
     }, [statusId]);
 
@@ -65,76 +68,91 @@ export const ProjectCard = ({ project }) => {
                 </Link>
             </div>
             <div className="project-card__controls">
-                <div className="project-card__status-group">
-                    <div
-                        className="project-card__status-box"
-                        id="2"
-                        onClick={handleBoxClick}
-                    >
-                        {statusId >= 2 ? (
-                            <i
-                                className="fas fa-check"
-                                style={highestCheckedBoxStyle(2)}
-                            ></i>
-                        ) : (
+                {!project.isComplete && (
+                    <>
+                        <div className="project-card__status-group">
                             <div
-                                className="project-card__empty-box"
-                                style={emptyBoxStyle(2)}
-                            ></div>
-                        )}
-                    </div>
-                    <div className="project-card__status-label">
-                        Fabric Ordered
-                    </div>
-                </div>
-                <div className="project-card__status-group">
-                    <div
-                        className="project-card__status-box"
-                        id="3"
-                        onClick={handleBoxClick}
-                    >
-                        {statusId >= 3 ? (
-                            <i
-                                className="fas fa-check"
-                                style={highestCheckedBoxStyle(3)}
-                            ></i>
-                        ) : (
+                                className="project-card__status-box"
+                                id="2"
+                                onClick={handleBoxClick}
+                            >
+                                {statusId >= 2 ? (
+                                    <i
+                                        className="fas fa-check"
+                                        style={highestCheckedBoxStyle(2)}
+                                    ></i>
+                                ) : (
+                                    <div
+                                        className="project-card__empty-box"
+                                        style={emptyBoxStyle(2)}
+                                    ></div>
+                                )}
+                            </div>
+                            <div className="project-card__status-label">
+                                Fabric Ordered
+                            </div>
+                        </div>
+                        <div className="project-card__status-group">
                             <div
-                                className="project-card__empty-box"
-                                style={emptyBoxStyle(3)}
-                            ></div>
-                        )}
-                    </div>
-                    <div className="project-card__status-label">Fabric Cut</div>
-                </div>
-                <div className="project-card__status-group">
-                    <div
-                        className="project-card__status-box"
-                        id="4"
-                        onClick={handleBoxClick}
-                    >
-                        {statusId >= 4 ? (
-                            <i
-                                className="fas fa-check"
-                                style={highestCheckedBoxStyle(4)}
-                            ></i>
-                        ) : (
+                                className="project-card__status-box"
+                                id="3"
+                                onClick={handleBoxClick}
+                            >
+                                {statusId >= 3 ? (
+                                    <i
+                                        className="fas fa-check"
+                                        style={highestCheckedBoxStyle(3)}
+                                    ></i>
+                                ) : (
+                                    <div
+                                        className="project-card__empty-box"
+                                        style={emptyBoxStyle(3)}
+                                    ></div>
+                                )}
+                            </div>
+                            <div className="project-card__status-label">
+                                Fabric Cut
+                            </div>
+                        </div>
+                        <div className="project-card__status-group">
                             <div
-                                className="project-card__empty-box"
-                                style={emptyBoxStyle(4)}
-                            ></div>
-                        )}
-                    </div>
-                    <div className="project-card__status-label">
-                        Sewing Started
-                    </div>
-                </div>
-                <button
-                    className="button project-complete-button"
-                    id="projectCompleteButton"
-                >
-                    Project Complete
-                </button>
+                                className="project-card__status-box"
+                                id="4"
+                                onClick={handleBoxClick}
+                            >
+                                {statusId >= 4 ? (
+                                    <i
+                                        className="fas fa-check"
+                                        style={highestCheckedBoxStyle(4)}
+                                    ></i>
+                                ) : (
+                                    <div
+                                        className="project-card__empty-box"
+                                        style={emptyBoxStyle(4)}
+                                    ></div>
+                                )}
+                            </div>
+                            <div className="project-card__status-label">
+                                Sewing Started
+                            </div>
+                        </div>
+                        <button
+                            className="button project-complete-button"
+                            id="projectCompleteButton"
+                            onClick={() => {
+                                if (
+                                    window.confirm(
+                                        "Are you sure you're done with this project?"
+                                    )
+                                ) {
+                                    setStatusId(5);
+                                }
+                            }}
+                        >
+                            Project Complete
+                        </button>
+                    </>
+                )}
             </div>
             <div className="project-card__content">
                 <div className="project-card__title">

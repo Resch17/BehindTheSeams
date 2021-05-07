@@ -52,6 +52,19 @@ export const FabricProvider = (props) => {
         );
     };
 
+    const updateFabric = (fabric) => {
+        return getToken().then((token) =>
+            fetch(`${apiUrl}/${fabric.id}`, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(fabric),
+            })
+        );
+    };
+
     const deleteFabric = (id) => {
         return getToken().then((token) =>
             fetch(`${apiUrl}/${id}`, {
@@ -69,6 +82,7 @@ export const FabricProvider = (props) => {
                 getAllFabric,
                 getFabricById,
                 addFabric,
+                updateFabric,
                 deleteFabric,
                 fabrics,
                 setFabrics,

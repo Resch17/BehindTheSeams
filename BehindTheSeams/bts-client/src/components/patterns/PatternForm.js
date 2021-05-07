@@ -197,17 +197,19 @@ export const PatternForm = () => {
                     >
                         <option value="0">Select a Category</option>
                         {categories.length > 0 &&
-                            categories.map((c) => {
-                                return (
-                                    <option
-                                        key={c.id}
-                                        value={c.id}
-                                        className="pattern-category__option"
-                                    >
-                                        {c.name}
-                                    </option>
-                                );
-                            })}
+                            categories
+                                .sort((a, b) => a.name.localeCompare(b.name))
+                                .map((c) => {
+                                    return (
+                                        <option
+                                            key={c.id}
+                                            value={c.id}
+                                            className="pattern-category__option"
+                                        >
+                                            {c.name}
+                                        </option>
+                                    );
+                                })}
                     </select>
                 </div>
                 <div className="pattern-form__form-group">
@@ -255,17 +257,19 @@ export const PatternForm = () => {
                     >
                         <option value="0">Select a Publisher</option>
                         {publishers.length > 0 &&
-                            publishers.map((p) => {
-                                return (
-                                    <option
-                                        key={p.id}
-                                        value={p.id}
-                                        className="pattern-publisher__option"
-                                    >
-                                        {p.name}
-                                    </option>
-                                );
-                            })}
+                            publishers
+                                .sort((a, b) => a.name.localeCompare(b.name))
+                                .map((p) => {
+                                    return (
+                                        <option
+                                            key={p.id}
+                                            value={p.id}
+                                            className="pattern-publisher__option"
+                                        >
+                                            {p.name}
+                                        </option>
+                                    );
+                                })}
                     </select>
                 </div>
                 <div className="pattern-form__form-group">
@@ -283,61 +287,63 @@ export const PatternForm = () => {
                         }}
                     />
                 </div>
-                <div className="pattern-form__size-form">
-                    {patternSizes.map((ps, i) => {
-                        return (
-                            <div key={i} className="pattern-size">
-                                <div className="size-group">
-                                    <label htmlFor="size-select">Size</label>
-                                    <select
-                                        name="size-select"
-                                        value={patternSizes[i].sizeId}
-                                        onChange={(evt) => {
-                                            setPatternSizes((prevState) => {
-                                                let newState = [...prevState];
-                                                newState[i] = {
-                                                    ...newState[i],
-                                                    sizeId: parseInt(
-                                                        evt.target.value
-                                                    ),
-                                                };
-                                                return newState;
-                                            });
-                                        }}
-                                    >
-                                        <option value="0">Select a Size</option>
-                                        {sizes.map((s) => {
-                                            return (
-                                                <option key={s.id} value={s.id}>
-                                                    {s.abbreviation}
-                                                </option>
-                                            );
-                                        })}
-                                    </select>
-                                </div>
-                                <div className="size-group">
-                                    <label htmlFor="size-yards">
-                                        Yards Required for Size
-                                    </label>
-                                    <input
-                                        type="number"
-                                        name="size-yards"
-                                        value={patternSizes[i].yards}
-                                        onChange={(evt) => {
-                                            setPatternSizes((prevState) => {
-                                                let newState = [...prevState];
-                                                newState[i] = {
-                                                    ...newState[i],
-                                                    yards: evt.target.value,
-                                                };
-                                                return newState;
-                                            });
-                                        }}
-                                    />
-                                </div>
+            </div>
+            <div className="pattern-form__size-form">
+                {patternSizes.map((ps, i) => {
+                    return (
+                        <div key={i} className="pattern-size">
+                            <div className="size-group">
+                                <label htmlFor="size-select">Size</label>
+                                <select
+                                    name="size-select"
+                                    value={patternSizes[i].sizeId}
+                                    onChange={(evt) => {
+                                        setPatternSizes((prevState) => {
+                                            let newState = [...prevState];
+                                            newState[i] = {
+                                                ...newState[i],
+                                                sizeId: parseInt(
+                                                    evt.target.value
+                                                ),
+                                            };
+                                            return newState;
+                                        });
+                                    }}
+                                >
+                                    <option value="0">Select a Size</option>
+                                    {sizes.map((s) => {
+                                        return (
+                                            <option key={s.id} value={s.id}>
+                                                {s.abbreviation}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
                             </div>
-                        );
-                    })}
+                            <div className="size-group">
+                                <label htmlFor="size-yards">
+                                    Yards Required for Size
+                                </label>
+                                <input
+                                    type="number"
+                                    name="size-yards"
+                                    value={patternSizes[i].yards}
+                                    onChange={(evt) => {
+                                        setPatternSizes((prevState) => {
+                                            let newState = [...prevState];
+                                            newState[i] = {
+                                                ...newState[i],
+                                                yards: evt.target.value,
+                                            };
+                                            return newState;
+                                        });
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    );
+                })}
+                <div className="add-size-button">
                     <i
                         className="fas fa-plus-circle fa-2x"
                         style={{ cursor: 'pointer' }}
@@ -347,113 +353,66 @@ export const PatternForm = () => {
                             });
                         }}
                     ></i>
+                    <div className="size-button-label">Add a size</div>
                 </div>
-                <div className="pattern-form__section-title">Add Images</div>
-                {imageMethod === 'none' && (
-                    <div className="pattern-form__form-subgroup">
-                        <button
-                            className="button"
-                            onClick={() => setImageMethod('links')}
-                        >
-                            Links
-                        </button>
-                        <div className="pattern-form__image-button-text">
-                            OR
-                        </div>
-                        <button
-                            className="button"
-                            onClick={() => setImageMethod('upload')}
-                        >
-                            Upload
-                        </button>
-                    </div>
-                )}
-                {imageMethod !== 'none' && (
-                    <div className="pattern-form__image-form">
-                        {imageMethod === 'upload' ? (
-                            <div className="pattern-form__image-upload-form">
-                                {images.length > 0 &&
-                                    images.map((image, i) => {
-                                        return (
-                                            <div
-                                                key={i}
-                                                className="image-upload-group"
-                                            >
-                                                <input
-                                                    type="file"
-                                                    accept=".png, .jpg, .gif, .bmp"
-                                                    name="image"
-                                                    placeholder="Choose image to upload"
-                                                    onChange={(evt) => {
-                                                        if (
-                                                            evt.target.files
-                                                                .length > 0
-                                                        ) {
-                                                            setImages(
-                                                                (prevState) => {
-                                                                    let newState = [
-                                                                        ...prevState,
-                                                                    ];
-
-                                                                    newState[
-                                                                        i
-                                                                    ] =
-                                                                        evt.target.files;
-                                                                    return newState;
-                                                                }
-                                                            );
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
-                                        );
-                                    })}
-                                <i
-                                    className="fas fa-plus-circle fa-2x"
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => {
-                                        setImages((prevState) => {
-                                            return [...prevState, {}];
-                                        });
-                                    }}
-                                ></i>
-                            </div>
-                        ) : (
-                            <div className="pattern-form__image-link-form">
-                                {images.length > 0 &&
-                                    images.map((image, i) => {
-                                        return (
-                                            <div
-                                                key={i}
-                                                className="image-link-group"
-                                            >
-                                                <label htmlFor="image-link-url">
-                                                    Image URL
-                                                </label>
-                                                <input
-                                                    type="url"
-                                                    name="image-link-url"
-                                                    autoComplete="off"
-                                                    onChange={(evt) => {
+            </div>
+            <div className="pattern-form__section-title">Add Images</div>
+            {imageMethod === 'none' && (
+                <div className="pattern-form__form-subgroup">
+                    <button
+                        className="button"
+                        onClick={() => setImageMethod('links')}
+                    >
+                        Links
+                    </button>
+                    <div className="pattern-form__image-button-text">OR</div>
+                    <button
+                        className="button"
+                        onClick={() => setImageMethod('upload')}
+                    >
+                        Upload
+                    </button>
+                </div>
+            )}
+            {imageMethod !== 'none' && (
+                <div className="pattern-form__image-form">
+                    {imageMethod === 'upload' ? (
+                        <div className="pattern-form__image-upload-form">
+                            {images.length > 0 &&
+                                images.map((image, i) => {
+                                    return (
+                                        <div
+                                            key={i}
+                                            className="image-upload-group"
+                                        >
+                                            <input
+                                                type="file"
+                                                accept=".png, .jpg, .gif, .bmp"
+                                                name="image"
+                                                placeholder="Choose image to upload"
+                                                onChange={(evt) => {
+                                                    if (
+                                                        evt.target.files
+                                                            .length > 0
+                                                    ) {
                                                         setImages(
                                                             (prevState) => {
                                                                 let newState = [
                                                                     ...prevState,
                                                                 ];
-                                                                newState[i] = {
-                                                                    url:
-                                                                        evt
-                                                                            .target
-                                                                            .value,
-                                                                };
+
+                                                                newState[i] =
+                                                                    evt.target.files;
                                                                 return newState;
                                                             }
                                                         );
-                                                    }}
-                                                />
-                                            </div>
-                                        );
-                                    })}
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            <div className="add-upload-group">
                                 <i
                                     className="fas fa-plus-circle fa-2x"
                                     style={{ cursor: 'pointer' }}
@@ -463,69 +422,112 @@ export const PatternForm = () => {
                                         });
                                     }}
                                 ></i>
+                                <div className="size-button-label">
+                                    Upload another image
+                                </div>
                             </div>
-                        )}
-                    </div>
-                )}
-                <div className="pattern-form__section-title">
-                    Add Pattern Files
+                        </div>
+                    ) : (
+                        <div className="pattern-form__image-link-form">
+                            {images.length > 0 &&
+                                images.map((image, i) => {
+                                    return (
+                                        <div
+                                            key={i}
+                                            className="image-link-group"
+                                        >
+                                            <label htmlFor="image-link-url">
+                                                Image URL
+                                            </label>
+                                            <input
+                                                type="url"
+                                                name="image-link-url"
+                                                autoComplete="off"
+                                                onChange={(evt) => {
+                                                    setImages((prevState) => {
+                                                        let newState = [
+                                                            ...prevState,
+                                                        ];
+                                                        newState[i] = {
+                                                            url:
+                                                                evt.target
+                                                                    .value,
+                                                        };
+                                                        return newState;
+                                                    });
+                                                }}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            <div className="add-size-button">
+                                <i
+                                    className="fas fa-plus-circle fa-2x"
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => {
+                                        setImages((prevState) => {
+                                            return [...prevState, {}];
+                                        });
+                                    }}
+                                ></i>
+                                <div className="size-button-label">
+                                    Add another image link
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
-                <div className="pattern-form__form-subgroup">
-                    <div className="pattern-__file-upload-form">
-                        {files.length > 0 &&
-                            files.map((file, i) => {
-                                return (
-                                    <div key={i} className="file-upload-group">
-                                        <label htmlFor="file-name">
-                                            File Name
-                                        </label>
-                                        <input
-                                            name="file-name"
-                                            type="text"
-                                            required
-                                            autoComplete="off"
-                                            value={files[i].name}
-                                            onChange={(evt) => {
+            )}
+            <div className="pattern-form__section-title">Add Pattern Files</div>
+            <div className="pattern-form__form-subgroup">
+                <div className="pattern-form__file-upload-form">
+                    {files.length > 0 &&
+                        files.map((file, i) => {
+                            return (
+                                <div key={i} className="file-upload-group">
+                                    <label htmlFor="file-name">File Name <small>{'(e.g. "Instructions", "Projector File", "A0")'}</small></label>
+                                    <input
+                                        name="file-name"
+                                        type="text"
+                                        required
+                                        autoComplete="off"
+                                        value={files[i].name}
+                                        onChange={(evt) => {
+                                            setFiles((prevState) => {
+                                                let newState = [...prevState];
+                                                newState[i] = {
+                                                    ...newState[i],
+                                                    name: evt.target.value,
+                                                };
+                                                return newState;
+                                            });
+                                        }}
+                                    />
+                                    <input
+                                        type="file"
+                                        accept=".png, .jpg, .gif, .bmp, .pdf"
+                                        name="file"
+                                        placeholder="Choose file to upload"
+                                        onChange={(evt) => {
+                                            if (evt.target.files.length > 0) {
                                                 setFiles((prevState) => {
                                                     let newState = [
                                                         ...prevState,
                                                     ];
+
                                                     newState[i] = {
                                                         ...newState[i],
-                                                        name: evt.target.value,
+                                                        file: evt.target.files,
                                                     };
                                                     return newState;
                                                 });
-                                            }}
-                                        />
-                                        <input
-                                            type="file"
-                                            accept=".png, .jpg, .gif, .bmp, .pdf"
-                                            name="file"
-                                            placeholder="Choose file to upload"
-                                            onChange={(evt) => {
-                                                if (
-                                                    evt.target.files.length > 0
-                                                ) {
-                                                    setFiles((prevState) => {
-                                                        let newState = [
-                                                            ...prevState,
-                                                        ];
-
-                                                        newState[i] = {
-                                                            ...newState[i],
-                                                            file:
-                                                                evt.target
-                                                                    .files,
-                                                        };
-                                                        return newState;
-                                                    });
-                                                }
-                                            }}
-                                        />
-                                    </div>
-                                );
-                            })}
+                                            }
+                                        }}
+                                    />
+                                </div>
+                            );
+                        })}
+                    <div className="add-size-button">
                         <i
                             className="fas fa-plus-circle fa-2x"
                             style={{ cursor: 'pointer' }}
@@ -535,15 +537,20 @@ export const PatternForm = () => {
                                 });
                             }}
                         ></i>
+                        <div className="size-button-label">
+                            Add another file
+                        </div>
                     </div>
                 </div>
             </div>
-            <button className="button" onClick={handleClickSave}>
-                Submit
-            </button>
-            <button className="button" onClick={handleClearForm}>
-                Clear Form
-            </button>
+            <div className="form-button-group">
+                <button className="button" onClick={handleClickSave}>
+                    Submit
+                </button>
+                <button className="button" onClick={handleClearForm}>
+                    Clear Form
+                </button>
+            </div>
         </main>
     );
 };

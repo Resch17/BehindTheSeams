@@ -61,7 +61,7 @@ export const ProgressCard = ({ project }) => {
                 </Link>
             </div>
             <div className="progress-card__fabric">
-                {project.fabric[0].name}
+                {project.fabric.length > 0 ? project.fabric[0].name : 'No Fabric Selected'}
             </div>
             <div className="progress-card__bottom">
                 <div className="progress-card__status-controls">

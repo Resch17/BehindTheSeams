@@ -9,5 +9,6 @@ namespace BehindTheSeams.Repositories
         Pattern GetById(int id);
         void Delete(int id, List<Project> patternProjects);
         void Add(Pattern pattern);
+        void Update(Pattern pattern);
     }
 }

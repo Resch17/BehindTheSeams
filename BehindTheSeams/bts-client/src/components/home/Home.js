@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ProgressCard } from './ProgressCard';
 import { ProjectContext } from '../../providers/ProjectProvider';
 import '../../styles/Home.css';
@@ -43,12 +43,19 @@ export const Home = () => {
                 <div className="home__in-progress-title">In Progress</div>
                 <div className="home__in-progress-list">
                     {projects.length > 0 ? (
-                        projects.map((p) => {
-                            return <ProgressCard project={p} key={p.id} />;
+                        projects.map((p, i) => {
+                            if (i < 3) {
+                                return <ProgressCard project={p} key={p.id} />;
+                            }
                         })
                     ) : (
                         <h1>No Active Projects Found</h1>
                     )}
+                    {projects.length >= 4 ? (
+                        <Link to="/projects">
+                            <h1>plus {projects.length - 3} more</h1>
+                        </Link>
+                    ) : null}
                 </div>
             </section>
         </main>

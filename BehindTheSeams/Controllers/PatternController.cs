@@ -60,6 +60,22 @@ namespace BehindTheSeams.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Pattern pattern)
+        {
+            var currentUser = GetCurrentUser();
+            if (pattern.UserId != currentUser.Id)
+            {
+                return Unauthorized();
+            }
+            if (id != pattern.Id)
+            {
+                return BadRequest();
+            }
+            _patternRepository.Update(pattern);
+            return NoContent();
+        }
+
         private User GetCurrentUser()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
