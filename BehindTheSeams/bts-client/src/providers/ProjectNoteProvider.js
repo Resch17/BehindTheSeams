@@ -1,14 +1,14 @@
-import React, { useContext} from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from './UserProvider';
 
-export const ProjectFabricContext = React.createContext();
+export const ProjectNoteContext = React.createContext();
 
-export const ProjectFabricProvider = (props) => {
+export const ProjectNoteProvider = (props) => {
     const { getToken } = useContext(UserContext);
 
-    const apiUrl = '/api/projectFabric';
+    const apiUrl = '/api/projectNote';
 
-    const addProjectFabric = (projectFabric) => {
+    const addProjectNote = (projectNote) => {
         return getToken().then((token) =>
             fetch(apiUrl, {
                 method: 'POST',
@@ -16,14 +16,14 @@ export const ProjectFabricProvider = (props) => {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(projectFabric),
+                body: JSON.stringify(projectNote),
             })
         );
     };
 
-    const deleteProjectFabric = (projectFabricId) => {
+    const deleteProjectNote = (projectNoteId) => {
         return getToken().then((token) =>
-            fetch(`${apiUrl}/${projectFabricId}`, {
+            fetch(`${apiUrl}/${projectNoteId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -33,10 +33,10 @@ export const ProjectFabricProvider = (props) => {
     };
 
     return (
-        <ProjectFabricContext.Provider
-            value={{ addProjectFabric, deleteProjectFabric }}
+        <ProjectNoteContext.Provider
+            value={{ addProjectNote, deleteProjectNote }}
         >
             {props.children}
-        </ProjectFabricContext.Provider>
+        </ProjectNoteContext.Provider>
     );
 };

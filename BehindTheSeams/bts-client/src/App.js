@@ -16,38 +16,41 @@ import { PatternImageProvider } from './providers/PatternImageProvider';
 import { SizeProvider } from './providers/SizeProvider';
 import { PatternSizeProvider } from './providers/PatternSizeProvider';
 import { ProjectFabricProvider } from './providers/ProjectFabricProvider';
+import { ProjectNoteProvider } from './providers/ProjectNoteProvider';
 
 export const App = () => {
     return (
         <Router>
             <UserProvider>
                 <FileProvider>
-                    <ProjectFabricProvider>
-                        <PublisherProvider>
-                            <PatternSizeProvider>
-                                <SizeProvider>
-                                    <RetailerProvider>
-                                        <FabricTypeProvider>
-                                            <FabricImageProvider>
-                                                <CategoryProvider>
-                                                    <PatternImageProvider>
-                                                        <PatternProvider>
-                                                            <FabricProvider>
-                                                                <ProjectProvider>
-                                                                    <Navbar />
-                                                                    <ApplicationViews />
-                                                                </ProjectProvider>
-                                                            </FabricProvider>
-                                                        </PatternProvider>
-                                                    </PatternImageProvider>
-                                                </CategoryProvider>
-                                            </FabricImageProvider>
-                                        </FabricTypeProvider>
-                                    </RetailerProvider>
-                                </SizeProvider>
-                            </PatternSizeProvider>
-                        </PublisherProvider>
-                    </ProjectFabricProvider>
+                    <ProjectNoteProvider>
+                        <ProjectFabricProvider>
+                            <PublisherProvider>
+                                <PatternSizeProvider>
+                                    <SizeProvider>
+                                        <RetailerProvider>
+                                            <FabricTypeProvider>
+                                                <FabricImageProvider>
+                                                    <CategoryProvider>
+                                                        <PatternImageProvider>
+                                                            <PatternProvider>
+                                                                <FabricProvider>
+                                                                    <ProjectProvider>
+                                                                        <Navbar />
+                                                                        <ApplicationViews />
+                                                                    </ProjectProvider>
+                                                                </FabricProvider>
+                                                            </PatternProvider>
+                                                        </PatternImageProvider>
+                                                    </CategoryProvider>
+                                                </FabricImageProvider>
+                                            </FabricTypeProvider>
+                                        </RetailerProvider>
+                                    </SizeProvider>
+                                </PatternSizeProvider>
+                            </PublisherProvider>
+                        </ProjectFabricProvider>
+                    </ProjectNoteProvider>
                 </FileProvider>
             </UserProvider>
         </Router>

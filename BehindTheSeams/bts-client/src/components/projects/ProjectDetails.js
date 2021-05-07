@@ -1,13 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ProjectContext } from '../../providers/ProjectProvider';
+import { ProjectFabricContext } from '../../providers/ProjectFabricProvider';
+import { ProjectNoteContext } from '../../providers/ProjectNoteProvider';
 import '../../styles/Project.css';
 
 export const ProjectDetails = () => {
     const [project, setProject] = useState(null);
     const [statusId, setStatusId] = useState(null);
+    const [updatedNotes, setUpdatedNotes] = useState([]);
+    const [addingNotes, setAddingNotes] = useState(false);
+    const [deleteNoteMode, setDeleteNoteMode] = useState(false);
     const { getAllProjects, getProjectById, updateProject } = useContext(
         ProjectContext
+    );
+    const { addProjectNote, deleteProjectNote } = useContext(
+        ProjectNoteContext
     );
     const { id } = useParams();
 
@@ -43,11 +51,38 @@ export const ProjectDetails = () => {
         }
     };
 
+    const handleAddNote = () => {
+        updatedNotes.forEach((n) => {
+            if (!n.id) {
+                addProjectNote(n).then(() =>
+                    getProjectById(id).then((parsed) => {
+                        setProject(parsed);
+                        setStatusId(parsed.projectStatusId);
+                        setUpdatedNotes(parsed.notes);
+                        setAddingNotes(false);
+                    })
+                );
+            }
+        });
+    };
+
+    const handleDeleteNote = (noteId) => {
+        deleteProjectNote(noteId).then(() => {
+            getProjectById(id).then((parsed) => {
+                setProject(parsed);
+                setStatusId(parsed.projectStatusId);
+                setUpdatedNotes(parsed.notes);
+                setDeleteNoteMode(false);
+            });
+        });
+    };
+
     useEffect(() => {
         if (id) {
             getProjectById(id).then((parsed) => {
                 setProject(parsed);
                 setStatusId(parsed.projectStatusId);
+                setUpdatedNotes(parsed.notes);
             });
         }
     }, []);
@@ -66,6 +101,26 @@ export const ProjectDetails = () => {
                 });
         }
     }, [statusId]);
+
+    useEffect(() => {
+        if (addingNotes) {
+            // if no notes exist yet
+            if (updatedNotes.length === 0) {
+                setUpdatedNotes([{ projectId: parseInt(id), text: '' }]);
+                return;
+            }
+
+            // check if last "new" note is empty, add another if not
+            if (updatedNotes[updatedNotes.length - 1].text.length > 0) {
+                setUpdatedNotes((prevState) => {
+                    return [
+                        ...prevState,
+                        { projectId: parseInt(id), text: '' },
+                    ];
+                });
+            }
+        }
+    }, [addingNotes]);
 
     if (!project) {
         return null;
@@ -214,32 +269,115 @@ export const ProjectDetails = () => {
                                 Notes
                             </div>
                             <div className="project-details__notes-controls">
-                                <i className="fas fa-plus-circle fa-2x"></i>
-                                <i className="fas fa-trash fa-2x"></i>
+                                {!addingNotes && (
+                                    <i
+                                        className="fas fa-plus-circle fa-2x"
+                                        onClick={() => setAddingNotes(true)}
+                                    ></i>
+                                )}
+                                <i
+                                    className="fas fa-trash fa-2x"
+                                    onClick={() =>
+                                        setDeleteNoteMode(!deleteNoteMode)
+                                    }
+                                ></i>
                                 <i className="fas fa-pencil-alt fa-2x"></i>
                             </div>
                         </div>
-                        <div className="project-details__notes-list">
-                            {project.notes.length > 0 ? (
-                                project.notes.map((n) => (
+                        {addingNotes ? (
+                            <div className="project-details__notes-list">
+                                {project.notes.length > 0 &&
+                                    project.notes.map((n) => (
+                                        <div
+                                            key={n.id}
+                                            className="project-details__note"
+                                        >
+                                            {deleteNoteMode && (
+                                                <i
+                                                    className="fas fa-times"
+                                                    onClick={() =>
+                                                        handleDeleteNote(n.id)
+                                                    }
+                                                />
+                                            )}
+                                            {n.text}
+                                        </div>
+                                    ))}
+                                {updatedNotes.map((n, i) => {
+                                    if (!n.id) {
+                                        return (
+                                            <div
+                                                className="project-details__new-note"
+                                                key={i}
+                                            >
+                                                <input
+                                                    type="text"
+                                                    autoComplete="off"
+                                                    value={n.text}
+                                                    onChange={(evt) => {
+                                                        setUpdatedNotes(
+                                                            (prevState) => {
+                                                                let newState = [
+                                                                    ...prevState,
+                                                                ];
+                                                                newState[
+                                                                    i
+                                                                ].text =
+                                                                    evt.target.value;
+                                                                return newState;
+                                                            }
+                                                        );
+                                                    }}
+                                                />
+                                                <i
+                                                    className="fas fa-check"
+                                                    onClick={handleAddNote}
+                                                ></i>
+                                                <i
+                                                    className="fas fa-times"
+                                                    onClick={() => {
+                                                        setUpdatedNotes(
+                                                            project.notes
+                                                        );
+                                                        setAddingNotes(false);
+                                                    }}
+                                                ></i>
+                                            </div>
+                                        );
+                                    }
+                                })}
+                            </div>
+                        ) : (
+                            <div className="project-details__notes-list">
+                                {project.notes.length > 0 ? (
+                                    project.notes.map((n) => (
+                                        <div
+                                            key={n.id}
+                                            className="project-details__note"
+                                        >
+                                            {deleteNoteMode && (
+                                                <i
+                                                    className="fas fa-times"
+                                                    onClick={() =>
+                                                        handleDeleteNote(n.id)
+                                                    }
+                                                />
+                                            )}
+                                            {n.text}
+                                        </div>
+                                    ))
+                                ) : (
                                     <div
-                                        key={n.id}
                                         className="project-details__note"
+                                        style={{ textAlign: 'center' }}
                                     >
-                                        {n.text}
+                                        Click the{' '}
+                                        <i className="fas fa-plus-circle"></i>{' '}
+                                        above to write a note!
                                     </div>
-                                ))
-                            ) : (
-                                <div
-                                    className="project-details__note"
-                                    style={{ textAlign: 'center' }}
-                                >
-                                    Click the{' '}
-                                    <i className="fas fa-plus-circle"></i> above
-                                    to write a note!
-                                </div>
-                            )}
-                        </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="project-details__content-fabric">

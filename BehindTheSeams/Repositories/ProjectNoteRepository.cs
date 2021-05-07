@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace BehindTheSeams.Repositories
 {
-    public class ProjectFabricRepository : BaseRepository, IProjectFabricRepository
+    public class ProjectNoteRepository : BaseRepository, IProjectNoteRepository
     {
-        public ProjectFabricRepository(IConfiguration configuration) : base(configuration) { }
+        public ProjectNoteRepository(IConfiguration configuration) : base(configuration) { }
 
-        public void Add(ProjectFabric projectFabric)
+        public void Add(ProjectNotes projectNote)
         {
             using (var conn = Connection)
             {
@@ -20,18 +20,18 @@ namespace BehindTheSeams.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO ProjectFabric (ProjectId, FabricId)
+                        INSERT INTO ProjectNotes (ProjectId, Text)
                         OUTPUT INSERTED.ID
-                        VALUES (@ProjectId, @FabricId)";
-                    DbUtils.AddParameter(cmd, "@ProjectId", projectFabric.ProjectId);
-                    DbUtils.AddParameter(cmd, "@FabricId", projectFabric.FabricId);
+                        VALUES (@ProjectId, @Text)";
+                    DbUtils.AddParameter(cmd, "@ProjectId", projectNote.ProjectId);
+                    DbUtils.AddParameter(cmd, "@Text", projectNote.Text);
 
-                    projectFabric.Id = (int)cmd.ExecuteScalar();
+                    projectNote.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
 
-        public void Delete(int projectFabricId)
+        public void Delete(int noteId)
         {
             using (var conn = Connection)
             {
@@ -39,9 +39,9 @@ namespace BehindTheSeams.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        DELETE ProjectFabric
+                        DELETE ProjectNotes
                         WHERE Id = @Id";
-                    DbUtils.AddParameter(cmd, "@Id", projectFabricId);
+                    DbUtils.AddParameter(cmd, "@Id", noteId);
 
                     cmd.ExecuteNonQuery();
                 }
