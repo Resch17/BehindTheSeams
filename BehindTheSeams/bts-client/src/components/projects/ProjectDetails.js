@@ -268,21 +268,20 @@ export const ProjectDetails = () => {
                             <div className="project-details__notes-title">
                                 Notes
                             </div>
-                            <div className="project-details__notes-controls">
-                                {!addingNotes && (
+                            {!addingNotes && (
+                                <div className="project-details__notes-controls">
                                     <i
                                         className="fas fa-plus-circle fa-2x"
                                         onClick={() => setAddingNotes(true)}
                                     ></i>
-                                )}
-                                <i
-                                    className="fas fa-trash fa-2x"
-                                    onClick={() =>
-                                        setDeleteNoteMode(!deleteNoteMode)
-                                    }
-                                ></i>
-                                <i className="fas fa-pencil-alt fa-2x"></i>
-                            </div>
+                                    <i
+                                        className="fas fa-trash fa-2x"
+                                        onClick={() =>
+                                            setDeleteNoteMode(!deleteNoteMode)
+                                        }
+                                    ></i>
+                                </div>
+                            )}
                         </div>
                         {addingNotes ? (
                             <div className="project-details__notes-list">
