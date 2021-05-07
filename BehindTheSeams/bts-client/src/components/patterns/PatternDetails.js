@@ -99,7 +99,7 @@ export const PatternDetails = () => {
                         <div className="pattern-details__size-list">
                             {pattern.patternSizes.map((ps) => {
                                 return (
-                                    <div key={ps.id} className="pattern-size">
+                                    <div key={ps.id} className="pattern-details__pattern-size">
                                         <div className="pattern-size-name">
                                             {ps.size.abbreviation}
                                         </div>
