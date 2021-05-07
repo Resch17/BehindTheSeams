@@ -15,19 +15,6 @@ export const FabricDetails = () => {
     const { id } = useParams();
     const history = useHistory();
 
-    useEffect(() => {
-        if (id) {
-            getFabricById(id).then(setFabric);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (fabric) {
-            setUpdatedStock(fabric.yardsInStock);
-            setUpdatedNotes(fabric.notes);
-        }
-    }, [fabric]);
-
     const handleDelete = () => {
         if (
             window.confirm(
@@ -85,6 +72,19 @@ export const FabricDetails = () => {
             </div>
         );
     };
+
+    useEffect(() => {
+        if (id) {
+            getFabricById(id).then(setFabric);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (fabric) {
+            setUpdatedStock(fabric.yardsInStock);
+            setUpdatedNotes(fabric.notes);
+        }
+    }, [fabric]);
 
     if (!fabric) {
         return null;

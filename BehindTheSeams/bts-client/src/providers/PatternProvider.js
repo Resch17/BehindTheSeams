@@ -52,6 +52,19 @@ export const PatternProvider = (props) => {
         );
     };
 
+    const updatePattern = (pattern) => {
+        return getToken().then((token) =>
+            fetch(`${apiUrl}/${pattern.id}`, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(pattern),
+            })
+        );
+    };
+
     const deletePattern = (id) => {
         return getToken().then((token) =>
             fetch(`${apiUrl}/${id}`, {
@@ -69,6 +82,7 @@ export const PatternProvider = (props) => {
                 getAllPatterns,
                 getPatternById,
                 addPattern,
+                updatePattern,
                 deletePattern,
                 patterns,
                 setPatterns,

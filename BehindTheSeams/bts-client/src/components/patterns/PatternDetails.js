@@ -5,7 +5,11 @@ import { Slideshow } from '../Slideshow';
 
 export const PatternDetails = () => {
     const [pattern, setPattern] = useState(null);
-    const { getPatternById, deletePattern } = useContext(PatternContext);
+    const [editingNotes, setEditingNotes] = useState(false);
+    const [updatedNotes, setUpdatedNotes] = useState('');
+    const { getPatternById, updatePattern, deletePattern } = useContext(
+        PatternContext
+    );
     const { id } = useParams();
     const history = useHistory();
 
@@ -32,11 +36,28 @@ export const PatternDetails = () => {
         }
     };
 
+    const handleUpdateNotes = () => {
+        let newPattern = { ...pattern };
+        newPattern.notes = updatedNotes;
+        updatePattern(newPattern).then(() => {
+            getPatternById(id).then((parsed) => {
+                setPattern(parsed);
+                setEditingNotes(false);
+            });
+        });
+    };
+
     useEffect(() => {
         if (id) {
             getPatternById(id).then(setPattern);
         }
     }, []);
+
+    useEffect(() => {
+        if (pattern) {
+            setUpdatedNotes(pattern.notes);
+        }
+    }, [pattern]);
 
     if (!pattern) {
         return null;
@@ -99,7 +120,10 @@ export const PatternDetails = () => {
                         <div className="pattern-details__size-list">
                             {pattern.patternSizes.map((ps) => {
                                 return (
-                                    <div key={ps.id} className="pattern-details__pattern-size">
+                                    <div
+                                        key={ps.id}
+                                        className="pattern-details__pattern-size"
+                                    >
                                         <div className="pattern-size-name">
                                             {ps.size.abbreviation}
                                         </div>
@@ -142,10 +166,44 @@ export const PatternDetails = () => {
             <section className="pattern-details__notes">
                 <div className="pattern-details__notes-top-row">
                     <div className="pattern-details__notes-title">Notes</div>
+                    {!editingNotes && (
+                        <i
+                            className="fas fa-pencil-alt fa-2x"
+                            onClick={() => setEditingNotes(true)}
+                        ></i>
+                    )}
                 </div>
-                <div className="pattern-details__notes-content">
-                    {pattern.notes}
-                </div>
+                {editingNotes ? (
+                    <div className="pattern-details__notes-form">
+                        <textarea
+                            value={updatedNotes}
+                            onChange={(evt) =>
+                                setUpdatedNotes(evt.target.value)
+                            }
+                        ></textarea>
+                        <div className="pattern-details__notes-form-buttons">
+                            <button
+                                className="button"
+                                onClick={handleUpdateNotes}
+                            >
+                                Save Notes
+                            </button>
+                            <button
+                                className="button"
+                                onClick={() => {
+                                    setEditingNotes(false);
+                                    setUpdatedNotes(pattern.notes);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="pattern-details__notes-content">
+                        {pattern.notes}
+                    </div>
+                )}
             </section>
         </main>
     );
