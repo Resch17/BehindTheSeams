@@ -64,7 +64,7 @@ export const PatternForm = () => {
             .then((parsed) => {
                 if (parsed) {
                     let [unused, path] = parsed.outputPath.split('public\\');
-                    return { url: '..\\' + path, patternId: createdPatternId };
+                    return { url: '\\' + path, patternId: createdPatternId };
                 }
             });
     };
@@ -84,7 +84,7 @@ export const PatternForm = () => {
                         'public\\'
                     );
                     return {
-                        path: '..\\' + filepath,
+                        path: '\\' + filepath,
                         patternId: createdPatternId,
                         name: file.name,
                     };
@@ -97,7 +97,8 @@ export const PatternForm = () => {
             pattern.name.length < 1 ||
             pattern.fabricTypeId < 1 ||
             pattern.categoryId < 1 ||
-            pattern.publisherId < 1
+            pattern.publisherId < 1 ||
+            pattern.purchaseDate === ''
         ) {
             window.alert('Please fill out all required fields');
             return;
@@ -126,10 +127,11 @@ export const PatternForm = () => {
                 }
 
                 files.forEach((file) => {
-                    handleFileUpload(
-                        file,
-                        createdPattern.id
-                    ).then((patternFile) => addFile(patternFile));
+                    if (file.name !== '')
+                        handleFileUpload(
+                            file,
+                            createdPattern.id
+                        ).then((patternFile) => addFile(patternFile));
                 });
 
                 patternSizes.forEach((patternSize) => {
@@ -485,7 +487,14 @@ export const PatternForm = () => {
                         files.map((file, i) => {
                             return (
                                 <div key={i} className="file-upload-group">
-                                    <label htmlFor="file-name">File Name <small>{'(e.g. "Instructions", "Projector File", "A0")'}</small></label>
+                                    <label htmlFor="file-name">
+                                        File Name{' '}
+                                        <small>
+                                            {
+                                                '(e.g. "Instructions", "Projector File", "A0")'
+                                            }
+                                        </small>
+                                    </label>
                                     <input
                                         name="file-name"
                                         type="text"

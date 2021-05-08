@@ -22,7 +22,7 @@ export const FabricForm = () => {
 
     const { getAllRetailers, retailers } = useContext(RetailerContext);
     const { getAllFabricTypes, fabricTypes } = useContext(FabricTypeContext);
-    const { addFabric } = useContext(FabricContext);
+    const { addFabric, getFabricById } = useContext(FabricContext);
     const { addFabricImage } = useContext(FabricImageContext);
     const { uploadImage } = useContext(FileContext);
     const history = useHistory();
@@ -39,23 +39,6 @@ export const FabricForm = () => {
         });
         setImageMethod('none');
         setImages([{}]);
-    };
-
-    const handleImageUpload = (image, createdFabricId) => {
-        return uploadImage(image)
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    throw new Error('Image upload failed');
-                }
-            })
-            .then((parsed) => {
-                if (parsed) {
-                    let [unused, path] = parsed.outputPath.split('public\\');
-                    return { url: '..\\' + path, fabricId: createdFabricId };
-                }
-            });
     };
 
     const handleClickSave = () => {
@@ -75,21 +58,44 @@ export const FabricForm = () => {
                 }
             })
             .then((createdFabric) => {
+                let imagesToAdd = [];
                 if (imageMethod === 'upload') {
-                    images.forEach((image) => {
-                        handleImageUpload(
-                            image,
-                            createdFabric.id
-                        ).then((fabricImage) => addFabricImage(fabricImage));
-                    });
+                    let promises = images.map((i) => uploadImage(i));
+                    Promise.all(promises)
+                        .then((res) => Promise.all(res.map((r) => r.json())))
+                        .then((parsed) => {
+                            parsed.forEach((fi) => {
+                                if (fi) {
+                                    let [unused, path] = fi.outputPath.split(
+                                        'public\\'
+                                    );
+                                    imagesToAdd.push({
+                                        url: '\\' + path,
+                                        fabricId: createdFabric.id,
+                                    });
+                                }
+                            });
+                            let fiPromises = imagesToAdd.map((image) =>
+                                addFabricImage(image)
+                            );
+                            Promise.all(fiPromises).then(() => {
+                                handleClearForm();
+                                history.push(`/fabric/${createdFabric.id}`);
+                            });
+                        });
                 } else if (imageMethod === 'links') {
                     images.forEach((image) => {
                         image.fabricId = createdFabric.id;
-                        addFabricImage(image);
+                        imagesToAdd.push(image);
+                    });
+                    let promises = imagesToAdd.map((image) =>
+                        addFabricImage(image)
+                    );
+                    Promise.all(promises).then(() => {
+                        handleClearForm();
+                        history.push(`/fabric/${createdFabric.id}`);
                     });
                 }
-                handleClearForm();
-                history.push(`/fabric/${createdFabric.id}`);
             });
     };
 

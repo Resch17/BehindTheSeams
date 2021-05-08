@@ -27,7 +27,7 @@ export const FileProvider = (props) => {
     };
 
     const uploadFile = (files) => {
-        if (files.length === 0) {
+        if (!files) {
             return;
         }
 

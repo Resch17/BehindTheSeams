@@ -84,7 +84,7 @@ export const PatternDetails = () => {
                             containerWidth={400}
                         />
                     ) : (
-                        <img src="./assets/patternPlaceholder.png" />
+                        <img src="/assets/patternPlaceholder.png" />
                     )}
                 </div>
                 <div className="pattern-details__content">

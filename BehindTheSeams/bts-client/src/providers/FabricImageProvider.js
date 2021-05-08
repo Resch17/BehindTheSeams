@@ -18,7 +18,7 @@ export const FabricImageProvider = (props) => {
                 },
                 body: JSON.stringify(fabricImage),
             })
-        );
+        )
     };
 
     return (

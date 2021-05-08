@@ -120,7 +120,7 @@ export const PatternList = () => {
                     className="button"
                     onClick={() => setModifying(!modifying)}
                 >
-                    Delete/Edit
+                    Delete Pattern
                 </button>
                 <button
                     className="button"
@@ -174,6 +174,7 @@ export const PatternList = () => {
                                 key={p.id}
                                 modifying={modifying}
                                 setModifying={setModifying}
+                                setPatterns={setPatterns}
                             />
                         );
                     })
