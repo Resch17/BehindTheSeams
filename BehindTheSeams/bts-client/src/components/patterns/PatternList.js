@@ -185,17 +185,19 @@ export const PatternList = () => {
                 )}
             </div>
             {showingModal ? (
-                <PatternFilterModal
-                    filtering={filtering}
-                    setFiltering={setFiltering}
-                    currentCategoryFilter={currentCategoryFilter}
-                    setCurrentCategoryFilter={setCurrentCategoryFilter}
-                    currentPublisherFilter={currentPublisherFilter}
-                    setCurrentPublisherFilter={setCurrentPublisherFilter}
-                    currentSort={currentSort}
-                    setCurrentSort={setCurrentSort}
-                    setShowingModal={setShowingModal}
-                />
+                <div className="modal-backdrop">
+                    <PatternFilterModal
+                        filtering={filtering}
+                        setFiltering={setFiltering}
+                        currentCategoryFilter={currentCategoryFilter}
+                        setCurrentCategoryFilter={setCurrentCategoryFilter}
+                        currentPublisherFilter={currentPublisherFilter}
+                        setCurrentPublisherFilter={setCurrentPublisherFilter}
+                        currentSort={currentSort}
+                        setCurrentSort={setCurrentSort}
+                        setShowingModal={setShowingModal}
+                    />
+                </div>
             ) : null}
         </main>
     );

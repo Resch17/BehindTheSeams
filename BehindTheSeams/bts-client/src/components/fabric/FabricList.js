@@ -196,19 +196,21 @@ export const FabricList = () => {
                 )}
             </div>
             {showingModal ? (
-                <FabricFilterModal
-                    filtering={filtering}
-                    setFiltering={setFiltering}
-                    currentFabricFilter={currentFabricFilter}
-                    setCurrentFabricFilter={setCurrentFabricFilter}
-                    currentStockFilter={currentStockFilter}
-                    setCurrentStockFilter={setCurrentStockFilter}
-                    currentRetailerFilter={currentRetailerFilter}
-                    setCurrentRetailerFilter={setCurrentRetailerFilter}
-                    currentSort={currentSort}
-                    setCurrentSort={setCurrentSort}
-                    setShowingModal={setShowingModal}
-                />
+                <div className="modal-backdrop">
+                    <FabricFilterModal
+                        filtering={filtering}
+                        setFiltering={setFiltering}
+                        currentFabricFilter={currentFabricFilter}
+                        setCurrentFabricFilter={setCurrentFabricFilter}
+                        currentStockFilter={currentStockFilter}
+                        setCurrentStockFilter={setCurrentStockFilter}
+                        currentRetailerFilter={currentRetailerFilter}
+                        setCurrentRetailerFilter={setCurrentRetailerFilter}
+                        currentSort={currentSort}
+                        setCurrentSort={setCurrentSort}
+                        setShowingModal={setShowingModal}
+                    />
+                </div>
             ) : null}
         </main>
     );

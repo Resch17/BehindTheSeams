@@ -158,7 +158,8 @@ export const PatternForm = () => {
 
     return (
         <>
-            {saving ? <div
+            {saving ? (
+                <div
                     style={{
                         width: '100vw',
                         height: '100vh',
@@ -169,7 +170,8 @@ export const PatternForm = () => {
                     }}
                 >
                     <ClipLoader color={'#2b4743'} loading={true} size={50} />
-                </div> : (
+                </div>
+            ) : (
                 <main className="pattern-form">
                     <div className="pattern-form__title">New Pattern</div>
                     <div className="pattern-form__form">
@@ -634,22 +636,14 @@ export const PatternForm = () => {
                             </div>
                         </div>
                     </div>
-                    {!saving && (
-                        <div className="form-button-group">
-                            <button
-                                className="button"
-                                onClick={handleClickSave}
-                            >
-                                Submit
-                            </button>
-                            <button
-                                className="button"
-                                onClick={handleClearForm}
-                            >
-                                Clear Form
-                            </button>
-                        </div>
-                    )}
+                    <div className="form-button-group">
+                        <button className="button" onClick={handleClickSave}>
+                            Submit
+                        </button>
+                        <button className="button" onClick={handleClearForm}>
+                            Clear Form
+                        </button>
+                    </div>
                 </main>
             )}
         </>
