@@ -59,8 +59,19 @@ export const FileProvider = (props) => {
         );
     };
 
+    const deleteFile = (fileId) => {
+        return getToken().then((token) =>
+            fetch(`/api/patternfile/${fileId}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+        );
+    };
+
     return (
-        <FileContext.Provider value={{ uploadImage, uploadFile, addFile }}>
+        <FileContext.Provider value={{ uploadImage, uploadFile, addFile, deleteFile }}>
             {props.children}
         </FileContext.Provider>
     );

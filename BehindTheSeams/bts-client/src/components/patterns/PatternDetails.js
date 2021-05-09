@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { FileContext } from '../../providers/FileProvider';
 import { PatternContext } from '../../providers/PatternProvider';
 import { Slideshow } from '../Slideshow';
 
@@ -7,9 +8,11 @@ export const PatternDetails = () => {
     const [pattern, setPattern] = useState(null);
     const [editingNotes, setEditingNotes] = useState(false);
     const [updatedNotes, setUpdatedNotes] = useState('');
+    const [deletingFiles, setDeletingFiles] = useState(false);
     const { getPatternById, updatePattern, deletePattern } = useContext(
         PatternContext
     );
+    const { deleteFile } = useContext(FileContext);
     const { id } = useParams();
     const history = useHistory();
 
@@ -45,6 +48,21 @@ export const PatternDetails = () => {
                 setEditingNotes(false);
             });
         });
+    };
+
+    const handleFileDelete = (fileId) => {
+        if (
+            window.confirm(
+                'Are you sure you want to remove this file? This cannot be undone.'
+            )
+        ) {
+            deleteFile(fileId).then(() => {
+                getPatternById(id).then((parsed) => {
+                    setPattern(parsed);
+                    setDeletingFiles(false);
+                });
+            });
+        }
     };
 
     useEffect(() => {
@@ -139,7 +157,12 @@ export const PatternDetails = () => {
                         <div className="pattern-details__files-container">
                             <div className="pattern-details__files-top-row">
                                 <div className="pattern-details__deleteFile">
-                                    <i className="fas fa-trash fa-2x cursorPointer"></i>
+                                    <i
+                                        className="fas fa-trash fa-2x cursorPointer"
+                                        onClick={() => {
+                                            setDeletingFiles(!deletingFiles);
+                                        }}
+                                    ></i>
                                 </div>
                                 <div className="pattern-details__files-title">
                                     Files
@@ -149,15 +172,33 @@ export const PatternDetails = () => {
                                 </div>
                             </div>
                             <div className="pattern-details__files">
-                                {pattern.files.map((f) => (
-                                    <a
-                                        key={f.id}
-                                        className="pattern-details__file"
-                                        href={f.path}
-                                    >
-                                        {f.name}
-                                    </a>
-                                ))}
+                                {pattern.files.map((f) => {
+                                    if (!deletingFiles) {
+                                        return (
+                                            <a
+                                                key={f.id}
+                                                className="pattern-details__file"
+                                                href={f.path}
+                                            >
+                                                {f.name}
+                                            </a>
+                                        );
+                                    } else {
+                                        return (
+                                            <div className="pattern-details__file-with-delete">
+                                                <i
+                                                    className="fas fa-times cursorPointer"
+                                                    onClick={() =>
+                                                        handleFileDelete(f.id)
+                                                    }
+                                                ></i>
+                                                <div className="pattern-details__file">
+                                                    {f.name}
+                                                </div>
+                                            </div>
+                                        );
+                                    }
+                                })}
                             </div>
                         </div>
                     ) : null}
