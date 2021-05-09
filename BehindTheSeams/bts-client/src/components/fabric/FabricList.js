@@ -134,7 +134,7 @@ export const FabricList = () => {
                     className="button"
                     onClick={() => setModifying(!modifying)}
                 >
-                    Delete/Edit
+                    Delete Fabric
                 </button>
                 <button
                     className="button"

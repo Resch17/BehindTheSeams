@@ -58,6 +58,10 @@ export const FabricForm = () => {
                 }
             })
             .then((createdFabric) => {
+                if (images.length === 0 || imageMethod === 'none') {
+                    handleClearForm();
+                    history.push(`/fabric/${createdFabric.id}`);
+                }
                 let imagesToAdd = [];
                 if (imageMethod === 'upload') {
                     let promises = images.map((i) => uploadImage(i));
@@ -96,6 +100,7 @@ export const FabricForm = () => {
                         history.push(`/fabric/${createdFabric.id}`);
                     });
                 }
+
             });
     };
 

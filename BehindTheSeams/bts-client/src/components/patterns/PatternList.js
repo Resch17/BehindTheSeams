@@ -149,7 +149,7 @@ export const PatternList = () => {
                 <div className="pattern__alert">{alertMessage}</div>
             )}
             {filtering && (
-                <div className="project__filter-display">
+                <div className="pattern__filter-display">
                     <strong>Showing: </strong>
                     {currentCategoryFilter > 0 ? `${
                         categories.find((c) => c.id === currentCategoryFilter)
