@@ -132,6 +132,11 @@ export const FabricList = () => {
 
                 <button
                     className="button"
+                    style={
+                        modifying
+                            ? { backgroundColor: 'var(--dark-color2)' }
+                            : { backgroundColor: 'var(--dark-color1)' }
+                    }
                     onClick={() => setModifying(!modifying)}
                 >
                     Delete Fabric

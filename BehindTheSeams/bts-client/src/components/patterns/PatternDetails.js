@@ -159,6 +159,17 @@ export const PatternDetails = () => {
                                 <div className="pattern-details__deleteFile">
                                     <i
                                         className="fas fa-trash fa-2x cursorPointer"
+                                        style={
+                                            deletingFiles
+                                                ? {
+                                                      color:
+                                                          'var(--dark-color2)',
+                                                  }
+                                                : {
+                                                      color:
+                                                          'var(--dark-color1)',
+                                                  }
+                                        }
                                         onClick={() => {
                                             setDeletingFiles(!deletingFiles);
                                         }}
