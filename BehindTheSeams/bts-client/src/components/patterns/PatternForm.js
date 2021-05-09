@@ -61,6 +61,12 @@ export const PatternForm = () => {
         });
         Promise.all(sizePromises).then(() => {
             let filesToAdd = [];
+            if (!files[0].name) {
+                setSaving(false);
+                handleClearForm();
+                history.push(`/pattern/${createdPattern.id}`);
+                return;
+            }
             let filePromises = files.map((f) => {
                 if (f.name !== '') {
                     filesToAdd.push({ name: f.name });
@@ -86,7 +92,7 @@ export const PatternForm = () => {
                     Promise.all(patternFilePromises).then(() => {
                         setSaving(false);
                         handleClearForm();
-                        history.push('/patterns');
+                        history.push(`/pattern/${createdPattern.id}`);
                     });
                 });
         });
@@ -103,6 +109,10 @@ export const PatternForm = () => {
             window.alert('Please fill out all required fields');
             return;
         }
+        if (!patternSizes[0].sizeId) {
+            window.alert('Please add at least one pattern size (N/A works...)');
+            return;
+        }
         setSaving(true);
         addPattern(pattern)
             .then((response) => {
@@ -113,6 +123,9 @@ export const PatternForm = () => {
             })
             .then((createdPattern) => {
                 let imagesToAdd = [];
+                if (images.length === 0 || imageMethod === 'none') {
+                    addSizesAndFiles(createdPattern);
+                }
                 if (imageMethod === 'upload') {
                     let promises = images.map((i) => uploadImage(i));
                     Promise.all(promises)

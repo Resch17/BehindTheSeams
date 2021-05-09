@@ -184,49 +184,59 @@ export const ProjectForm = () => {
                         Select a Pattern
                     </div>
                     <div className="project-form__pattern-filter">
-                        <label htmlFor="category-filter">Category</label>
-                        <select
-                            name="category-filter"
-                            value={patternFilter}
-                            onChange={(evt) => {
-                                setPatternFilter(parseInt(evt.target.value));
-                            }}
-                        >
-                            <option value="0">Select a Category</option>
-                            {categories.length > 0 &&
-                                categories.map((c) => {
-                                    return (
-                                        <option key={c.id} value={c.id}>
-                                            {c.name}
-                                        </option>
+                        <div className="project-form__form-group">
+                            <label htmlFor="category-filter">Category</label>
+                            <select
+                                name="category-filter"
+                                value={patternFilter}
+                                onChange={(evt) => {
+                                    setPatternFilter(
+                                        parseInt(evt.target.value)
                                     );
-                                })}
-                        </select>
-                        <label htmlFor="pattern-search">Search Patterns</label>
-                        <input
-                            type="search"
-                            name="pattern-search"
-                            value={patternSearchTerms}
-                            onChange={(evt) => {
-                                setPatternSearchTerms(evt.target.value);
-                            }}
-                        />
+                                }}
+                            >
+                                <option value="0">Select a Category</option>
+                                {categories.length > 0 &&
+                                    categories.map((c) => {
+                                        return (
+                                            <option key={c.id} value={c.id}>
+                                                {c.name}
+                                            </option>
+                                        );
+                                    })}
+                            </select>
+                        </div>
+                        <div className="project-form__form-group">
+                            <label htmlFor="pattern-search">
+                                Search Patterns
+                            </label>
+                            <input
+                                type="search"
+                                name="pattern-search"
+                                value={patternSearchTerms}
+                                onChange={(evt) => {
+                                    setPatternSearchTerms(evt.target.value);
+                                }}
+                            />
+                        </div>
                     </div>
                 </>
             )}
             <section className="project-form__patterns">
                 {project.patternId === 0 ? (
-                    patterns.map((pat) => {
-                        return (
-                            <PatternCard
-                                key={pat.id}
-                                pattern={pat}
-                                style={{ cursor: 'pointer' }}
-                                projectUse={project}
-                                setProjectPattern={setProject}
-                            />
-                        );
-                    })
+                    patterns
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((pat) => {
+                            return (
+                                <PatternCard
+                                    key={pat.id}
+                                    pattern={pat}
+                                    style={{ cursor: 'pointer' }}
+                                    projectUse={project}
+                                    setProjectPattern={setProject}
+                                />
+                            );
+                        })
                 ) : selectedPattern.images ? (
                     <PatternCard pattern={selectedPattern} />
                 ) : null}

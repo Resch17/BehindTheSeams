@@ -76,6 +76,7 @@
     flex-direction: column;
     justify-content: center;
     min-height: 250px;
+    max-height: 450px;
     margin: 23px 15px;
     width: 400px;
 }
