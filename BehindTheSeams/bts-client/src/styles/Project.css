@@ -476,7 +476,8 @@
 }
 
 .project-form__form-group input,
-.project-form__form-group select {
+.project-form__form-group select,
+.project-form__size-select {
     background-color: var(--light-color2);
     border: none;
     border-radius: 6px;
@@ -491,6 +492,7 @@
 .project-form__section-title {
     font-family: var(--heading-font);
     font-size: 26px;
+    text-align: center;
 }
 
 .project-form__pattern-filter {
@@ -503,7 +505,15 @@
     margin: 0 10px;
 }
 
-.project-form__patterns {
+.project-form__selected-pattern {
+    align-items: center;
+    border-top: 2px solid var(--dark-color1);
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.project-form__patterns, .project-form__fabric-list {
     background-color: #cccccc;
     display: flex;
     flex-direction: row;
@@ -512,6 +522,38 @@
     border-radius: 7px;
     height: 650px;
     overflow-y: scroll;
+    margin-bottom: 20px;
     margin-top: 10px;
     width: 70%;
+}
+
+.project-form__size-select {
+    margin-bottom: 20px;
+}
+
+.project-form__selected-size {
+    font-size: 24px;
+    padding-bottom: 1em;
+    border-bottom: 2px solid var(--dark-color1);
+    text-align: center;
+    width: 400px;
+}
+
+.project-form__fabric {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-form__fabric-list {
+    margin-bottom: 20px;
+}
+
+.project-form__buttons {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    width: 400px;
 }

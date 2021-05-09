@@ -8,6 +8,8 @@ import { ProjectFabricContext } from '../../providers/ProjectFabricProvider';
 import { ProjectContext } from '../../providers/ProjectProvider';
 import { FabricCard } from '../fabric/FabricCard';
 import { PatternCard } from '../patterns/PatternCard';
+import ClipLoader from 'react-spinners/ClipLoader';
+import '../../styles/Project.css';
 
 export const ProjectForm = () => {
     const [project, setProject] = useState({
@@ -26,6 +28,7 @@ export const ProjectForm = () => {
     const [selectedSize, setSelectedSize] = useState({ id: 0 });
     const [projectFabric, setProjectFabric] = useState([]);
     const [addingFabric, setAddingFabric] = useState(true);
+    const [saving, setSaving] = useState(false);
 
     const { addProject } = useContext(ProjectContext);
     const { getAllPatterns, getPatternById } = useContext(PatternContext);
@@ -55,7 +58,7 @@ export const ProjectForm = () => {
             window.alert('Please fill out all required fields');
             return;
         }
-
+        setSaving(true);
         addProject(project)
             .then((response) => {
                 console.log(response);
@@ -71,6 +74,7 @@ export const ProjectForm = () => {
                     });
                 });
                 handleClearForm();
+                setSaving(false);
                 history.push(`/project/${createdProject.id}`);
             });
     };
@@ -159,199 +163,252 @@ export const ProjectForm = () => {
     }, [patternSearchTerms]);
 
     return (
-        <main className="project-form">
-            <div className="project-form__title">New Project</div>
-            <div className="project-form__form-group">
-                <label htmlFor="project-name">Project Name</label>
-                <input
-                    type="text"
-                    autoComplete="off"
-                    required
-                    onChange={(evt) => {
-                        setProject((prevState) => {
-                            return { ...prevState, name: evt.target.value };
-                        });
+        <>
+            {saving ? (
+                <div
+                    style={{
+                        width: '100vw',
+                        height: '100vh',
+                        backgroundColor: 'var(--light-color1)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                     }}
-                />
-            </div>
-            {project.patternId > 0 ? (
-                <div className="project-form__selected-pattern">
-                    Selected pattern:
+                >
+                    <ClipLoader color={'#2b4743'} loading={true} size={50} />
                 </div>
             ) : (
-                <>
-                    <div className="project-form__section-title">
-                        Select a Pattern
+                <main className="project-form">
+                    <div className="project-form__title">New Project</div>
+                    <div className="project-form__form-group">
+                        <label htmlFor="project-name">Project Name</label>
+                        <input
+                            type="text"
+                            autoComplete="off"
+                            value={project.name}
+                            required
+                            onChange={(evt) => {
+                                setProject((prevState) => {
+                                    return {
+                                        ...prevState,
+                                        name: evt.target.value,
+                                    };
+                                });
+                            }}
+                        />
                     </div>
-                    <div className="project-form__pattern-filter">
-                        <div className="project-form__form-group">
-                            <label htmlFor="category-filter">Category</label>
-                            <select
-                                name="category-filter"
-                                value={patternFilter}
-                                onChange={(evt) => {
-                                    setPatternFilter(
-                                        parseInt(evt.target.value)
-                                    );
-                                }}
-                            >
-                                <option value="0">Select a Category</option>
-                                {categories.length > 0 &&
-                                    categories.map((c) => {
-                                        return (
-                                            <option key={c.id} value={c.id}>
-                                                {c.name}
-                                            </option>
-                                        );
-                                    })}
-                            </select>
-                        </div>
-                        <div className="project-form__form-group">
-                            <label htmlFor="pattern-search">
-                                Search Patterns
-                            </label>
-                            <input
-                                type="search"
-                                name="pattern-search"
-                                value={patternSearchTerms}
-                                onChange={(evt) => {
-                                    setPatternSearchTerms(evt.target.value);
-                                }}
+                    {project.patternId > 0 ? (
+                        <div className="project-form__selected-pattern">
+                            <div className="project-form__section-title">
+                                Selected Pattern
+                            </div>
+                            <PatternCard
+                                pattern={patterns.find(
+                                    (p) => p.id === project.patternId
+                                )}
                             />
                         </div>
-                    </div>
-                </>
-            )}
-            <section className="project-form__patterns">
-                {project.patternId === 0 ? (
-                    patterns
-                        .sort((a, b) => a.name.localeCompare(b.name))
-                        .map((pat) => {
-                            return (
-                                <PatternCard
-                                    key={pat.id}
-                                    pattern={pat}
-                                    style={{ cursor: 'pointer' }}
-                                    projectUse={project}
-                                    setProjectPattern={setProject}
-                                />
-                            );
-                        })
-                ) : selectedPattern.images ? (
-                    <PatternCard pattern={selectedPattern} />
-                ) : null}
-            </section>
-            {project.patternId > 0 ? (
-                <section className="project-form__sizes">
-                    {project.patternSizeId > 0 ? (
-                        <div className="project-form__selected-size">
-                            {selectedSize.id > 0 &&
-                                `Selected size: ${selectedSize.size.abbreviation}`}
-                        </div>
                     ) : (
                         <>
                             <div className="project-form__section-title">
-                                Select a Size
+                                Select a Pattern
                             </div>
-                            <select
-                                className="project-form__size-select"
-                                onChange={(evt) => {
-                                    setProject((prevState) => {
-                                        return {
-                                            ...prevState,
-                                            patternSizeId: parseInt(
-                                                evt.target.value
-                                            ),
-                                        };
-                                    });
-                                }}
-                            >
-                                <option value="0">Select a Size</option>
-                                {sizes.map((ps) => {
-                                    return (
-                                        <option key={ps.id} value={ps.id}>
-                                            {ps.size.abbreviation} | {ps.yards}{' '}
-                                            yards
+                            <div className="project-form__pattern-filter">
+                                <div className="project-form__form-group">
+                                    <label htmlFor="category-filter">
+                                        Category
+                                    </label>
+                                    <select
+                                        name="category-filter"
+                                        value={patternFilter}
+                                        onChange={(evt) => {
+                                            setPatternFilter(
+                                                parseInt(evt.target.value)
+                                            );
+                                        }}
+                                    >
+                                        <option value="0">
+                                            Select a Category
                                         </option>
-                                    );
-                                })}
-                            </select>
+                                        {categories.length > 0 &&
+                                            categories.map((c) => {
+                                                return (
+                                                    <option
+                                                        key={c.id}
+                                                        value={c.id}
+                                                    >
+                                                        {c.name}
+                                                    </option>
+                                                );
+                                            })}
+                                    </select>
+                                </div>
+                                <div className="project-form__form-group">
+                                    <label htmlFor="pattern-search">
+                                        Search Patterns
+                                    </label>
+                                    <input
+                                        type="search"
+                                        name="pattern-search"
+                                        value={patternSearchTerms}
+                                        onChange={(evt) => {
+                                            setPatternSearchTerms(
+                                                evt.target.value
+                                            );
+                                        }}
+                                    />
+                                </div>
+                            </div>
                         </>
                     )}
-                </section>
-            ) : null}
-            {selectedSize.id > 0 && selectedPattern && (
-                <section className="project-form__fabric">
-                    {projectFabric.length === 0 ? (
-                        <div className="project-form__section-title">
-                            Select Fabric
-                        </div>
-                    ) : (
-                        <div className="project-form__selected-fabric">
-                            <div className="project-form__section-title">
-                                Selected Fabric
-                            </div>
-                            <div className="project-form__selected-fabric-list">
-                                {projectFabric.map((f) => {
-                                    return <FabricCard key={f.id} fabric={f} />;
-                                })}
-                            </div>
-                        </div>
+                    {project.patternId === 0 && (
+                        <section className="project-form__patterns">
+                            {project.patternId === 0
+                                ? patterns
+                                      .sort((a, b) =>
+                                          a.name.localeCompare(b.name)
+                                      )
+                                      .map((pat) => {
+                                          return (
+                                              <PatternCard
+                                                  key={pat.id}
+                                                  pattern={pat}
+                                                  style={{ cursor: 'pointer' }}
+                                                  projectUse={project}
+                                                  setProjectPattern={setProject}
+                                              />
+                                          );
+                                      })
+                                : null}
+                        </section>
                     )}
-                    {addingFabric && (
-                        <>
-                            <div className="project-form__fabric-search-group">
-                                <label htmlFor="fabric-search">
-                                    Search Fabric
-                                </label>
-                                <input
-                                    type="search"
-                                    name="fabric-search"
-                                    value={fabricSearchTerms}
-                                    onChange={(evt) => {
-                                        setFabricSearchTerms(evt.target.value);
-                                    }}
-                                />
-                            </div>
-                            <div className="project-form__fabric-list">
-                                {fabrics.length > 0 ? (
-                                    fabrics.map((f) => {
-                                        if (
-                                            !projectFabric.find(
-                                                (pf) => pf.id === f.id
-                                            )
-                                        ) {
+                    {project.patternId > 0 ? (
+                        <section className="project-form__sizes">
+                            {project.patternSizeId > 0 ? (
+                                <div className="project-form__selected-size">
+                                    {selectedSize.id > 0 &&
+                                        `Selected size: ${selectedSize.size.abbreviation}`}
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="project-form__section-title">
+                                        Select a Size
+                                    </div>
+                                    <select
+                                        className="project-form__size-select"
+                                        onChange={(evt) => {
+                                            setProject((prevState) => {
+                                                return {
+                                                    ...prevState,
+                                                    patternSizeId: parseInt(
+                                                        evt.target.value
+                                                    ),
+                                                };
+                                            });
+                                        }}
+                                    >
+                                        <option value="0">Select a Size</option>
+                                        {sizes.map((ps) => {
+                                            return (
+                                                <option
+                                                    key={ps.id}
+                                                    value={ps.id}
+                                                >
+                                                    {ps.size.abbreviation} |{' '}
+                                                    {ps.yards} yards
+                                                </option>
+                                            );
+                                        })}
+                                    </select>
+                                </>
+                            )}
+                        </section>
+                    ) : null}
+                    {selectedSize.id > 0 && selectedPattern && (
+                        <section className="project-form__fabric">
+                            {projectFabric.length === 0 ? (
+                                <div className="project-form__section-title">
+                                    Select Fabric
+                                </div>
+                            ) : (
+                                <div className="project-form__selected-fabric">
+                                    <div className="project-form__section-title">
+                                        Selected Fabric
+                                    </div>
+                                    <div className="project-form__selected-fabric-list">
+                                        {projectFabric.map((f) => {
                                             return (
                                                 <FabricCard
                                                     key={f.id}
                                                     fabric={f}
-                                                    projectUse={projectFabric}
-                                                    setProjectFabric={
-                                                        setProjectFabric
-                                                    }
-                                                    setFabricSearchTerms={
-                                                        setFabricSearchTerms
-                                                    }
                                                 />
                                             );
-                                        }
-                                    })
-                                ) : (
-                                    <div className="project-form__fabric-empty-message">
-                                        No Fabric Found
+                                        })}
                                     </div>
-                                )}
-                            </div>
-                        </>
+                                </div>
+                            )}
+                            {addingFabric && (
+                                <>
+                                    <div className="project-form__form-group">
+                                        <label htmlFor="fabric-search">
+                                            Search Fabric
+                                        </label>
+                                        <input
+                                            type="search"
+                                            name="fabric-search"
+                                            value={fabricSearchTerms}
+                                            onChange={(evt) => {
+                                                setFabricSearchTerms(
+                                                    evt.target.value
+                                                );
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="project-form__fabric-list">
+                                        {fabrics.length > 0 ? (
+                                            fabrics.map((f) => {
+                                                if (
+                                                    !projectFabric.find(
+                                                        (pf) => pf.id === f.id
+                                                    )
+                                                ) {
+                                                    return (
+                                                        <FabricCard
+                                                            key={f.id}
+                                                            fabric={f}
+                                                            projectUse={
+                                                                projectFabric
+                                                            }
+                                                            setProjectFabric={
+                                                                setProjectFabric
+                                                            }
+                                                            setFabricSearchTerms={
+                                                                setFabricSearchTerms
+                                                            }
+                                                        />
+                                                    );
+                                                }
+                                            })
+                                        ) : (
+                                            <div className="project-form__fabric-empty-message">
+                                                No Fabric Found
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+                        </section>
                     )}
-                </section>
+                    <div className="project-form__buttons">
+                        <button className="button" onClick={handleClickSave}>
+                            Save Project
+                        </button>
+                        <button className="button" onClick={handleClearForm}>
+                            Clear Form
+                        </button>
+                    </div>
+                </main>
             )}
-            <button className="button" onClick={handleClickSave}>
-                Save Project
-            </button>
-            <button className="button" onClick={handleClearForm}>
-                Clear Form
-            </button>
-        </main>
+        </>
     );
 };
