@@ -151,10 +151,10 @@ export const PatternList = () => {
             {filtering && (
                 <div className="project__filter-display">
                     <strong>Showing: </strong>
-                    {`${
+                    {currentCategoryFilter > 0 ? `${
                         categories.find((c) => c.id === currentCategoryFilter)
                             .name
-                    } patterns from `}
+                    } patterns from ` : 'All patterns from '}
                     {currentPublisherFilter > 0
                         ? `${
                               publishers.find(
