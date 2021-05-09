@@ -4,6 +4,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+    height: 85vh;
     padding: 1em;
 }
 
@@ -22,10 +23,44 @@
     font-size: 42px;
 }
 
+.pattern__search {
+    border: 2px solid var(--dark-color1);
+    border-radius: 7px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.pattern__search i {
+    padding: 0 10px;
+}
+
+.pattern__search input {
+    background-color: var(--light-color2);
+    border: none;
+    border-radius: 0 7px 7px 0;
+    color: var(--dark-color1);
+    font-family: var(--body-font);
+    font-size: 16px;
+    height: 36px;
+    padding: 0 0.5em;
+    outline: none;
+}
+
+.pattern__filter-display {
+    background-color: var(--light-color1);
+    border: 2px dashed var(--dark-color2);
+    border-radius: 5px;
+    color: var(--dark-color2);
+    margin: 10px 0;
+    padding: 15px;
+}
+
 .patterns__pattern-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    overflow-y: scroll;
     width: 97%;
     margin: 0 auto;
 }
@@ -41,6 +76,7 @@
     flex-direction: column;
     justify-content: center;
     min-height: 250px;
+    max-height: 450px;
     margin: 23px 15px;
     width: 400px;
 }
@@ -388,7 +424,7 @@
     color: var(--dark-color1);
     font-family: var(--body-font);
     font-size: 16px;
-    position: absolute;    
+    position: absolute;
     right: 0;
 }
 
@@ -413,4 +449,79 @@
     margin-bottom: 2em;
     margin-top: 10px;
     width: 450px;
+}
+
+/* pattern filter modal */
+
+.modal-backdrop {
+    background-color: #333333dd;
+    height: 100vh;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+}
+
+.pattern-filter__modal {
+    background-color: #ffffff;
+    border: 2px dashed var(--dark-color2);
+    border-radius: 7px;
+    height: 300px;
+    max-height: 100%;
+    left: 50%;
+    max-width: 100%;
+    position: fixed;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+}
+
+.pattern-filter {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    left: 0;
+    top: 0;
+    padding-top: 20px;
+    position: absolute;
+    width: 100%;
+}
+
+.pattern-filter__title {
+    font-family: var(--heading-font);
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.pattern-filter__filters {
+    background-color: #cccccc;
+    border-radius: 7px;
+    margin-bottom: 10px;
+    padding: 1em 1em 0.5em;
+}
+
+.pattern-filter__filters div label {
+    margin-right: 1em;
+}
+
+.pattern-filter__filters div {
+    margin-bottom: 10px;
+}
+
+.pattern-filter__filters div select {
+    background-color: var(--light-color2);
+    border: none;
+    border-radius: 5px;
+    height: 22px;
+    font-family: var(--body-font);
+    font-size: 16px;
+    outline: none;
+}
+
+.pattern-filter__buttons button {
+    font-size: 18px;
+    height: 45px;
+    min-width: 150px;
+    margin: 0 1em;
 }

@@ -120,7 +120,7 @@ export const PatternList = () => {
                     className="button"
                     onClick={() => setModifying(!modifying)}
                 >
-                    Delete/Edit
+                    Delete Pattern
                 </button>
                 <button
                     className="button"
@@ -149,12 +149,12 @@ export const PatternList = () => {
                 <div className="pattern__alert">{alertMessage}</div>
             )}
             {filtering && (
-                <div className="project__filter-display">
+                <div className="pattern__filter-display">
                     <strong>Showing: </strong>
-                    {`${
+                    {currentCategoryFilter > 0 ? `${
                         categories.find((c) => c.id === currentCategoryFilter)
                             .name
-                    } patterns from `}
+                    } patterns from ` : 'All patterns from '}
                     {currentPublisherFilter > 0
                         ? `${
                               publishers.find(
@@ -174,6 +174,7 @@ export const PatternList = () => {
                                 key={p.id}
                                 modifying={modifying}
                                 setModifying={setModifying}
+                                setPatterns={setPatterns}
                             />
                         );
                     })
@@ -184,17 +185,19 @@ export const PatternList = () => {
                 )}
             </div>
             {showingModal ? (
-                <PatternFilterModal
-                    filtering={filtering}
-                    setFiltering={setFiltering}
-                    currentCategoryFilter={currentCategoryFilter}
-                    setCurrentCategoryFilter={setCurrentCategoryFilter}
-                    currentPublisherFilter={currentPublisherFilter}
-                    setCurrentPublisherFilter={setCurrentPublisherFilter}
-                    currentSort={currentSort}
-                    setCurrentSort={setCurrentSort}
-                    setShowingModal={setShowingModal}
-                />
+                <div className="modal-backdrop">
+                    <PatternFilterModal
+                        filtering={filtering}
+                        setFiltering={setFiltering}
+                        currentCategoryFilter={currentCategoryFilter}
+                        setCurrentCategoryFilter={setCurrentCategoryFilter}
+                        currentPublisherFilter={currentPublisherFilter}
+                        setCurrentPublisherFilter={setCurrentPublisherFilter}
+                        currentSort={currentSort}
+                        setCurrentSort={setCurrentSort}
+                        setShowingModal={setShowingModal}
+                    />
+                </div>
             ) : null}
         </main>
     );

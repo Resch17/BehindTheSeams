@@ -84,7 +84,7 @@ export const PatternDetails = () => {
                             containerWidth={400}
                         />
                     ) : (
-                        <img src="./assets/patternPlaceholder.png" />
+                        <img src="/assets/patternPlaceholder.png" />
                     )}
                 </div>
                 <div className="pattern-details__content">
@@ -139,13 +139,13 @@ export const PatternDetails = () => {
                         <div className="pattern-details__files-container">
                             <div className="pattern-details__files-top-row">
                                 <div className="pattern-details__deleteFile">
-                                    <i className="fas fa-trash fa-2x"></i>
+                                    <i className="fas fa-trash fa-2x cursorPointer"></i>
                                 </div>
                                 <div className="pattern-details__files-title">
                                     Files
                                 </div>
                                 <div className="pattern-details__addFile">
-                                    <i className="fas fa-plus-circle fa-2x"></i>
+                                    <i className="fas fa-plus-circle fa-2x cursorPointer"></i>
                                 </div>
                             </div>
                             <div className="pattern-details__files">

@@ -71,11 +71,6 @@ export const FabricCard = ({
                 >
                     {fabric.name}
                 </div>
-                {modifying ? (
-                    <div className="fabric-card__edit-button">
-                        <i className="fas fa-pencil-alt fa-2x"></i>
-                    </div>
-                ) : null}
             </div>
             <div className="fabric-card__body">
                 <div className="fabric-card__image-container">

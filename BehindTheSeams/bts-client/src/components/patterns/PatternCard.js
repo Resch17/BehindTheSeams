@@ -8,6 +8,7 @@ export const PatternCard = ({
     setModifying,
     projectUse,
     setProjectPattern,
+    setPatterns
 }) => {
     const { getAllPatterns, deletePattern } = useContext(PatternContext);
     const history = useHistory();
@@ -30,7 +31,8 @@ export const PatternCard = ({
             ) {
                 deletePattern(pattern.id)
                     .then(getAllPatterns)
-                    .then(() => {
+                    .then((parsed) => {
+                        setPatterns(parsed)
                         setModifying(false);
                     });
             } else {
@@ -45,7 +47,7 @@ export const PatternCard = ({
         <div className="pattern-card">
             {projectUse ? (
                 <i
-                    className="fas fa-plus-circle fa-2x pattern-add-button"
+                    className="fas fa-plus-circle fa-2x pattern-add-button cursorPointer"
                     style={{ marginTop: '5px' }}
                     onClick={() => {
                         setProjectPattern((prevState) => {
@@ -67,7 +69,7 @@ export const PatternCard = ({
                         className="pattern-card__delete-button"
                         onClick={handleDelete}
                     >
-                        <i className="fas fa-trash fa-2x"></i>
+                        <i className="fas fa-trash fa-2x cursorPointer"></i>
                     </div>
                 ) : null}
                 <div
@@ -76,11 +78,6 @@ export const PatternCard = ({
                 >
                     {pattern.name}
                 </div>
-                {modifying ? (
-                    <div className="pattern-card__edit-button">
-                        <i className="fas fa-pencil-alt fa-2x"></i>
-                    </div>
-                ) : null}
             </div>
             <div className="pattern-card__body">
                 <div className="pattern-card__image-container">
