@@ -330,13 +330,15 @@ export const ProjectDetails = () => {
                                         >
                                             {deleteNoteMode && (
                                                 <i
-                                                    className="fas fa-times"
+                                                    className="fas fa-times cursorPointer"
                                                     onClick={() =>
                                                         handleDeleteNote(n.id)
                                                     }
                                                 />
                                             )}
-                                            {n.text}
+                                            <div className="project-details__note-text">
+                                                {n.text}
+                                            </div>
                                         </div>
                                     ))}
                                 {updatedNotes.map((n, i) => {
@@ -366,11 +368,11 @@ export const ProjectDetails = () => {
                                                     }}
                                                 />
                                                 <i
-                                                    className="fas fa-check"
+                                                    className="fas fa-check cursorPointer"
                                                     onClick={handleAddNote}
                                                 ></i>
                                                 <i
-                                                    className="fas fa-times"
+                                                    className="fas fa-times cursorPointer"
                                                     onClick={() => {
                                                         setUpdatedNotes(
                                                             project.notes

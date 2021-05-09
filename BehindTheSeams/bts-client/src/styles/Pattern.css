@@ -257,6 +257,16 @@
     word-wrap: break-word;
 }
 
+.pattern-details__file-with-delete {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.pattern-details__file-with-delete i {
+    margin-right: 1em;
+}
+
 .pattern-details__notes {
     align-items: center;
     display: flex;

@@ -118,6 +118,11 @@ export const PatternList = () => {
                 </button>
                 <button
                     className="button"
+                    style={
+                        modifying
+                            ? { backgroundColor: 'var(--dark-color2)' }
+                            : { backgroundColor: 'var(--dark-color1)' }
+                    }
                     onClick={() => setModifying(!modifying)}
                 >
                     Delete Pattern
@@ -151,10 +156,13 @@ export const PatternList = () => {
             {filtering && (
                 <div className="pattern__filter-display">
                     <strong>Showing: </strong>
-                    {currentCategoryFilter > 0 ? `${
-                        categories.find((c) => c.id === currentCategoryFilter)
-                            .name
-                    } patterns from ` : 'All patterns from '}
+                    {currentCategoryFilter > 0
+                        ? `${
+                              categories.find(
+                                  (c) => c.id === currentCategoryFilter
+                              ).name
+                          } patterns from `
+                        : 'All patterns from '}
                     {currentPublisherFilter > 0
                         ? `${
                               publishers.find(

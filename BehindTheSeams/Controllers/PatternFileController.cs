@@ -28,5 +28,12 @@ namespace BehindTheSeams.Controllers
             _patternFileRepository.Add(patternFile);
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeletePatternFile(int id)
+        {
+            _patternFileRepository.Delete(id);
+            return NoContent();
+        }
     }
 }
