@@ -36,7 +36,15 @@ export const PatternProvider = (props) => {
                     },
                 })
             )
-            .then((res) => res.json());
+            .then((res) => {
+                if (!res.ok) {
+                    throw Error(res.statusText);
+                }
+                return res.json();
+            })
+            .catch(() => {
+                return false;
+            });
     };
 
     const addPattern = (pattern) => {

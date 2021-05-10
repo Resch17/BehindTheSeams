@@ -114,17 +114,15 @@
 }
 
 .pattern-card__image-container {
-    border: 2px solid var(--dark-color1);
-    border-radius: 5px;
     cursor: pointer;
-    height: 125px;
-    width: 100px;
-    overflow: hidden;
 }
 
-.pattern-card__image {
-    height: auto;
-    width: 100%;
+.pattern-card__image-container img {
+    border: 2px solid var(--dark-color1);
+    border-radius: 5px;
+    height: 125px;
+    width: 100px;
+    object-fit: scale-down;
 }
 
 .pattern-card__properties {
@@ -181,13 +179,7 @@
 .pattern-details__image-container {
     border: 2px dashed var(--dark-color2);
     border-radius: 5px;
-    flex-basis: 400px;
     margin-right: 2em;
-}
-
-.pattern-details__image-container img {
-    height: auto;
-    width: 100%;
 }
 
 .pattern-details__content {
@@ -272,16 +264,21 @@
     display: flex;
     flex-direction: column;
     margin-top: 1em;
-    width: 90%;
+    width: 800px;
 }
 
 .pattern-details__notes-top-row {
+    align-items: center;
     border-bottom: 2px solid var(--dark-color1);
     display: flex;
     flex-direction: row;
     justify-content: center;
     margin-bottom: 0.5em;
     width: 100%;
+}
+
+.pattern-details__notes-top-row i {
+    margin-left: 1em;
 }
 
 .pattern-details__notes-title {
@@ -291,6 +288,24 @@
 
 .pattern-details__notes-content {
     font-size: 18px;
+}
+
+.pattern-details__notes-form textarea {
+    background-color: var(--light-color2);
+    border: none;
+    border-radius: 6px;
+    font-family: var(--body-font);
+    font-size: 16px;
+    outline: none;
+    margin: 1em 0;
+    padding: 1em;
+}
+
+.pattern-details__notes-form-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
 }
 
 /* pattern form */

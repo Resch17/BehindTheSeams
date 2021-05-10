@@ -42,8 +42,8 @@ export const Slideshow = ({ images, containerWidth }) => {
                 <img
                     src={images[counter].url}
                     style={{
-                        width: '100%',
-                        height: 'auto',
+                        maxHeight: `${containerWidth + containerWidth * 0.33}`,
+                        objectFit: 'scale-down',
                         width: `${containerWidth}px`,
                     }}
                 />

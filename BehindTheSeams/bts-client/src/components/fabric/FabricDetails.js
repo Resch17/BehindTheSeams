@@ -9,6 +9,8 @@ export const FabricDetails = () => {
     const [updatedStock, setUpdatedStock] = useState(0);
     const [editingNotes, setEditingNotes] = useState(false);
     const [updatedNotes, setUpdatedNotes] = useState('');
+    const [editingName, setEditingName] = useState(false);
+    const [updatedName, setUpdatedName] = useState('');
     const { getFabricById, updateFabric, deleteFabric } = useContext(
         FabricContext
     );
@@ -49,21 +51,36 @@ export const FabricDetails = () => {
         });
     };
 
+    const handleUpdateName = () => {
+        let newFabric = { ...fabric };
+        newFabric.name = updatedName;
+        updateFabric(newFabric).then(() => {
+            getFabricById(id).then((parsed) => {
+                setFabric(parsed);
+                setEditingName(false);
+            });
+        });
+    };
+
     const editStockForm = () => {
         return (
             <div className="edit-stock-form">
                 <label htmlFor="edit-stock-input">Yards in stock:</label>
                 <input
                     className="edit-stock-input"
+                    name="edit-stock-input"
                     type="number"
                     value={updatedStock}
                     onChange={(evt) => {
                         setUpdatedStock(evt.target.value);
                     }}
                 />
-                <i className="fas fa-check" onClick={handleUpdateStock}></i>
                 <i
-                    className="fas fa-times"
+                    className="fas fa-check cursorPointer"
+                    onClick={handleUpdateStock}
+                ></i>
+                <i
+                    className="fas fa-times cursorPointer"
                     onClick={() => {
                         setEditingStock(false);
                         setUpdatedStock(fabric.yardsInStock);
@@ -73,16 +90,54 @@ export const FabricDetails = () => {
         );
     };
 
+    const editNameForm = () => {
+        return (
+            <div className="edit-name-form">
+                <label htmlFor="edit-name-input">Fabric name:</label>
+                <input
+                    className="edit-name-input"
+                    name="edit-name-input"
+                    value={updatedName}
+                    type="text"
+                    autoComplete="off"
+                    onChange={(evt) => {
+                        setUpdatedName(evt.target.value);
+                    }}
+                />
+                <i
+                    className="fas fa-check cursorPointer"
+                    onClick={handleUpdateName}
+                ></i>
+                <i
+                    className="fas fa-times cursorPointer"
+                    onClick={() => {
+                        setEditingName(false);
+                        setUpdatedName(fabric.name);
+                    }}
+                ></i>
+            </div>
+        );
+    };
+
     useEffect(() => {
         if (id) {
-            getFabricById(id).then(setFabric);
+            getFabricById(id)
+                .then((parsed) => {
+                    if (!parsed) {
+                        throw new Error();
+                    } else {
+                        setFabric(parsed);
+                    }
+                })
+                .catch(() => history.push('/fabric'));
         }
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         if (fabric) {
             setUpdatedStock(fabric.yardsInStock);
             setUpdatedNotes(fabric.notes);
+            setUpdatedName(fabric.name);
         }
     }, [fabric]);
 
@@ -94,10 +149,21 @@ export const FabricDetails = () => {
         <main className="fabric-details">
             <div className="fabric-details__top-row">
                 <div className="fabric-details__top-row-title">
-                    {fabric.name}
+                    {editingName ? (
+                        editNameForm()
+                    ) : (
+                        <>
+                            {fabric.name}
+
+                            <i
+                                style={{ marginLeft: '1em', fontSize: '26px' }}
+                                className="fas fa-pencil-alt cursorPointer"
+                                onClick={() => setEditingName(true)}
+                            ></i>
+                        </>
+                    )}
                 </div>
                 <div className="fabric-details__top-row-buttons">
-                    <button className="button">Edit Fabric</button>
                     <button className="button" onClick={handleDelete}>
                         Delete Fabric
                     </button>
@@ -144,6 +210,7 @@ export const FabricDetails = () => {
                             {fabric.url ? (
                                 <a
                                     href={fabric.url}
+                                    style={{ fontWeight: 'bold' }}
                                     target="_blank"
                                     rel="noreferrer"
                                 >
@@ -165,6 +232,8 @@ export const FabricDetails = () => {
                         {editingNotes ? (
                             <div className="fabric-details__notes-form">
                                 <textarea
+                                    cols="70"
+                                    rows="10"
                                     value={updatedNotes}
                                     onChange={(evt) =>
                                         setUpdatedNotes(evt.target.value)

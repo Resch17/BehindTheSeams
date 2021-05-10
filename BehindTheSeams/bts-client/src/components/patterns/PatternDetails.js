@@ -67,9 +67,17 @@ export const PatternDetails = () => {
 
     useEffect(() => {
         if (id) {
-            getPatternById(id).then(setPattern);
+            getPatternById(id)
+                .then((parsed) => {
+                    if (!parsed) {
+                        throw new Error();
+                    } else {
+                        setPattern(parsed);
+                    }
+                })
+                .catch(() => history.push('/patterns'));
         }
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         if (pattern) {
@@ -88,7 +96,6 @@ export const PatternDetails = () => {
                     {pattern.name}
                 </div>
                 <div className="pattern-details__top-row-buttons">
-                    <button className="button">Edit Pattern</button>
                     <button className="button" onClick={handleDelete}>
                         Delete Pattern
                     </button>
@@ -125,6 +132,7 @@ export const PatternDetails = () => {
                                     href={pattern.url}
                                     target="_blank"
                                     rel="noreferrer"
+                                    style={{ fontWeight: 'bold' }}
                                 >
                                     Purchase Link
                                 </a>
@@ -153,35 +161,33 @@ export const PatternDetails = () => {
                             })}
                         </div>
                     </div>
-                    {pattern.files.length > 0 ? (
-                        <div className="pattern-details__files-container">
-                            <div className="pattern-details__files-top-row">
-                                <div className="pattern-details__deleteFile">
-                                    <i
-                                        className="fas fa-trash fa-2x cursorPointer"
-                                        style={
-                                            deletingFiles
-                                                ? {
-                                                      color:
-                                                          'var(--dark-color2)',
-                                                  }
-                                                : {
-                                                      color:
-                                                          'var(--dark-color1)',
-                                                  }
-                                        }
-                                        onClick={() => {
-                                            setDeletingFiles(!deletingFiles);
-                                        }}
-                                    ></i>
-                                </div>
-                                <div className="pattern-details__files-title">
-                                    Files
-                                </div>
-                                <div className="pattern-details__addFile">
-                                    <i className="fas fa-plus-circle fa-2x cursorPointer"></i>
-                                </div>
+                    <div className="pattern-details__files-container">
+                        <div className="pattern-details__files-top-row">
+                            <div className="pattern-details__deleteFile">
+                                <i
+                                    className="fas fa-trash fa-2x cursorPointer"
+                                    style={
+                                        deletingFiles
+                                            ? {
+                                                  color: 'var(--dark-color2)',
+                                              }
+                                            : {
+                                                  color: 'var(--dark-color1)',
+                                              }
+                                    }
+                                    onClick={() => {
+                                        setDeletingFiles(!deletingFiles);
+                                    }}
+                                ></i>
                             </div>
+                            <div className="pattern-details__files-title">
+                                Files
+                            </div>
+                            <div className="pattern-details__addFile">
+                                <i className="fas fa-plus-circle fa-2x cursorPointer"></i>
+                            </div>
+                        </div>
+                        {pattern.files.length > 0 ? (
                             <div className="pattern-details__files">
                                 {pattern.files.map((f) => {
                                     if (!deletingFiles) {
@@ -211,8 +217,17 @@ export const PatternDetails = () => {
                                     }
                                 })}
                             </div>
-                        </div>
-                    ) : null}
+                        ) : (
+                            <div
+                                className="no-files-message"
+                                style={{ marginTop: '10px', fontSize: '18px' }}
+                            >
+                                No files associated with this pattern. Click{' '}
+                                <i className="fas fa-plus-circle"></i> above to
+                                upload some.
+                            </div>
+                        )}
+                    </div>
                 </div>
             </section>
             <section className="pattern-details__notes">
@@ -229,6 +244,8 @@ export const PatternDetails = () => {
                     <div className="pattern-details__notes-form">
                         <textarea
                             value={updatedNotes}
+                            cols="70"
+                            rows="10"
                             onChange={(evt) =>
                                 setUpdatedNotes(evt.target.value)
                             }

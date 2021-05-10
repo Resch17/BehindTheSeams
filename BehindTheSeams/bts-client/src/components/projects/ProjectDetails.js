@@ -101,11 +101,15 @@ export const ProjectDetails = () => {
         if (id) {
             getProjectById(id)
                 .then((parsed) => {
-                    initializeProjectState(parsed);
+                    if (!parsed) {
+                        throw new Error();
+                    } else {
+                        initializeProjectState(parsed);
+                    }
                 })
                 .catch(() => history.push('/projects'));
         }
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         if (statusId && statusId !== project.projectStatusId) {
