@@ -65,6 +65,11 @@
     margin: 0 auto;
 }
 
+.fabric__fabric-list-empty {
+    text-align: center;
+    width: 100%;
+}
+
 /* fabric card */
 
 .fabric-card {

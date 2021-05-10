@@ -264,7 +264,7 @@ export const ProjectForm = () => {
                     {project.patternId === 0 && (
                         <section className="project-form__patterns">
                             {project.patternId === 0
-                                ? patterns
+                                ? (patterns.length > 0 ? patterns
                                       .sort((a, b) =>
                                           a.name.localeCompare(b.name)
                                       )
@@ -278,7 +278,7 @@ export const ProjectForm = () => {
                                                   setProjectPattern={setProject}
                                               />
                                           );
-                                      })
+                                      }) : <h1>No Patterns Found</h1>)
                                 : null}
                         </section>
                     )}

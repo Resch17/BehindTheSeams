@@ -188,7 +188,7 @@ export const PatternList = () => {
                     })
                 ) : (
                     <div className="pattern__pattern-list-empty">
-                        No Patterns Found
+                        <h1>No Patterns Found</h1>
                     </div>
                 )}
             </div>

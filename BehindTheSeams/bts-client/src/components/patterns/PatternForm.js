@@ -91,7 +91,6 @@ export const PatternForm = () => {
                     );
                     Promise.all(patternFilePromises).then(() => {
                         setSaving(false);
-                        handleClearForm();
                         history.push(`/pattern/${createdPattern.id}`);
                     });
                 });
