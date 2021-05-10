@@ -9,10 +9,12 @@ export const PatternDetails = () => {
     const [editingNotes, setEditingNotes] = useState(false);
     const [updatedNotes, setUpdatedNotes] = useState('');
     const [deletingFiles, setDeletingFiles] = useState(false);
+    const [addingFile, setAddingFile] = useState(false);
     const { getPatternById, updatePattern, deletePattern } = useContext(
         PatternContext
     );
-    const { deleteFile } = useContext(FileContext);
+    const [fileToUpload, setFileToUpload] = useState({ name: '' });
+    const { deleteFile, uploadFile, addFile } = useContext(FileContext);
     const { id } = useParams();
     const history = useHistory();
 
@@ -65,6 +67,24 @@ export const PatternDetails = () => {
         }
     };
 
+    const handleClickSaveFile = () => {
+        if (fileToUpload.name.length > 0 && fileToUpload.file) {
+            uploadFile(fileToUpload.file)
+                .then((res) => res.json())
+                .then((parsed) => {
+                    let [unused, filePath] = parsed.outputPath.split('public\\');
+                    fileToUpload.path = '\\' + filePath;
+                    fileToUpload.patternId = pattern.id;
+                    addFile(fileToUpload).then(() => {
+                        getPatternById(id).then((parsed) => {
+                            setPattern(parsed);
+                            setAddingFile(false);
+                        });
+                    });
+                });
+        }
+    };
+
     useEffect(() => {
         if (id) {
             getPatternById(id)
@@ -84,6 +104,12 @@ export const PatternDetails = () => {
             setUpdatedNotes(pattern.notes);
         }
     }, [pattern]);
+
+    useEffect(() => {
+        if (!addingFile) {
+            setFileToUpload({ name: '' });
+        }
+    }, [addingFile]);
 
     if (!pattern) {
         return null;
@@ -184,7 +210,19 @@ export const PatternDetails = () => {
                                 Files
                             </div>
                             <div className="pattern-details__addFile">
-                                <i className="fas fa-plus-circle fa-2x cursorPointer"></i>
+                                <i
+                                    className="fas fa-plus-circle fa-2x cursorPointer"
+                                    onClick={() => setAddingFile(!addingFile)}
+                                    style={
+                                        addingFile
+                                            ? {
+                                                  color: 'var(--dark-color2)',
+                                              }
+                                            : {
+                                                  color: 'var(--dark-color1)',
+                                              }
+                                    }
+                                ></i>
                             </div>
                         </div>
                         {pattern.files.length > 0 ? (
@@ -225,6 +263,70 @@ export const PatternDetails = () => {
                                 No files associated with this pattern. Click{' '}
                                 <i className="fas fa-plus-circle"></i> above to
                                 upload some.
+                            </div>
+                        )}
+                        {addingFile && (
+                            <div className="pattern-details__file-form">
+                                <h2 style={{ textAlign: 'center' }}>
+                                    New File
+                                </h2>
+                                <div className="file-upload-group">
+                                    <label htmlFor="file-name">
+                                        File Name{' '}
+                                        <small>
+                                            (e.g. "Instructions", "Projector
+                                            File", etc)
+                                        </small>
+                                    </label>
+                                    <input
+                                        name="file-name"
+                                        type="text"
+                                        required
+                                        autoComplete="off"
+                                        value={fileToUpload.name}
+                                        onChange={(evt) => {
+                                            setFileToUpload((prevState) => {
+                                                return {
+                                                    ...prevState,
+                                                    name: evt.target.value,
+                                                };
+                                            });
+                                        }}
+                                    />
+                                    <input
+                                        type="file"
+                                        accept=".png, .jpg, .gif, .bmp, .pdf"
+                                        name="file"
+                                        placeholder="Choose file to upload"
+                                        onChange={(evt) => {
+                                            if (evt.target.files.length > 0) {
+                                                setFileToUpload((prevState) => {
+                                                    let newState = {
+                                                        ...prevState,
+                                                    };
+                                                    newState.file =
+                                                        evt.target.files;
+
+                                                    return newState;
+                                                });
+                                            }
+                                        }}
+                                    />
+                                    <div className="pattern-details__file-upload-buttons">
+                                        <button
+                                            className="button"
+                                            onClick={handleClickSaveFile}
+                                        >
+                                            Save File
+                                        </button>
+                                        <button
+                                            className="button"
+                                            onClick={() => setAddingFile(false)}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </div>
