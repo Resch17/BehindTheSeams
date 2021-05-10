@@ -61,7 +61,7 @@ export const ProjectDetails = () => {
 
     const initializeProjectState = (apiProject) => {
         setProject(apiProject);
-        setStatusId(apiProject.projectStatusId);
+        // setStatusId(apiProject.projectStatusId);
         setUpdatedNotes(apiProject.notes);
         setUpdatedProjectFabric(apiProject.fabric);
         setAddingNotes(false);
@@ -105,6 +105,7 @@ export const ProjectDetails = () => {
                         throw new Error();
                     } else {
                         initializeProjectState(parsed);
+                        setStatusId(parsed.projectStatusId);
                     }
                 })
                 .catch(() => history.push('/projects'));

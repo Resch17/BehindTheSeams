@@ -31,7 +31,7 @@ export const ProgressCard = ({ project }) => {
     };
 
     useEffect(() => {
-        if (statusId > 0) {
+        if (statusId > 0 && statusId !== project.projectStatusId) {
             const newProject = { ...project };
             newProject.projectStatusId = statusId;
             updateProject(newProject).then(getAllProjects);

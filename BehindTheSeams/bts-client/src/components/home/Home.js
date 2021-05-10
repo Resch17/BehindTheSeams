@@ -1,17 +1,18 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { ProgressCard } from './ProgressCard';
 import { ProjectContext } from '../../providers/ProjectProvider';
 import '../../styles/Home.css';
 
 export const Home = () => {
-    const { projects, getAllProjects } = useContext(ProjectContext);
+    const [projects, setProjects] = useState([]);
+    const { getAllProjects } = useContext(ProjectContext);
     const history = useHistory();
 
     const username = JSON.parse(localStorage.getItem('userProfile')).username;
 
     useEffect(() => {
-        getAllProjects();
+        getAllProjects().then(setProjects);
     }, []);
 
     return (
