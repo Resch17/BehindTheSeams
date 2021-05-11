@@ -64,6 +64,8 @@ export const PatternDetails = () => {
                     setDeletingFiles(false);
                 });
             });
+        } else {
+            setDeletingFiles(false);
         }
     };
 
@@ -72,7 +74,9 @@ export const PatternDetails = () => {
             uploadFile(fileToUpload.file)
                 .then((res) => res.json())
                 .then((parsed) => {
-                    let [unused, filePath] = parsed.outputPath.split('public\\');
+                    let [unused, filePath] = parsed.outputPath.split(
+                        'public\\'
+                    );
                     fileToUpload.path = '\\' + filePath;
                     fileToUpload.patternId = pattern.id;
                     addFile(fileToUpload).then(() => {

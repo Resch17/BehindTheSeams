@@ -88,24 +88,38 @@ export const ProjectFabricModal = ({
 
     return (
         <section className="fabric-modal">
-            <div className="fabric-modal__title">Add fabric</div>
+            <div className="fabric-modal__title">Add Fabric</div>
             <div className="fabric-modal__selected-fabric">
                 {newFabric.length > 0 && (
                     <>
-                        <h3>Selected Fabric</h3>
-                        {newFabric.map((f) => (
-                            <FabricCard key={f.id} fabric={f} />
+                        <span>Selected Fabric</span>
+                        {newFabric.map((f, i) => (
+                            <div className="selected-fabric-item">
+                                <i
+                                    className="fas fa-times cursorPointer"
+                                    onClick={() => {
+                                        setNewFabric((prevState) => {
+                                            let newState = [...prevState];
+                                            newState.splice(i, 1);
+                                            return newState;
+                                        });
+                                    }}
+                                ></i>
+                                <div className="selected-fabric-item__name">
+                                    {f.name}
+                                </div>
+                            </div>
                         ))}
                     </>
                 )}
             </div>
-            <h3>Choose Fabric</h3>
             <div className="project-form__fabric-search-group">
-                <label htmlFor="fabric-search">Search Fabric</label>
+                <i className="fas fa-search"></i>
                 <input
                     type="search"
                     name="fabric-search"
                     value={fabricSearchTerms}
+                    autoComplete="off"
                     onChange={(evt) => {
                         setFabricSearchTerms(evt.target.value);
                     }}

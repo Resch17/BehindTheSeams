@@ -141,6 +141,10 @@ export const ProjectForm = () => {
                     setFabricSearchTerms('');
                 });
             }
+        } else {
+            getAllFabric().then((parsed) => {
+                setFabrics(parsed);
+            });
         }
     }, [fabricSearchTerms]);
 
@@ -250,6 +254,7 @@ export const ProjectForm = () => {
                                     <input
                                         type="search"
                                         name="pattern-search"
+                                        autoComplete="off"
                                         value={patternSearchTerms}
                                         onChange={(evt) => {
                                             setPatternSearchTerms(
@@ -263,23 +268,31 @@ export const ProjectForm = () => {
                     )}
                     {project.patternId === 0 && (
                         <section className="project-form__patterns">
-                            {project.patternId === 0
-                                ? (patterns.length > 0 ? patterns
-                                      .sort((a, b) =>
-                                          a.name.localeCompare(b.name)
-                                      )
-                                      .map((pat) => {
-                                          return (
-                                              <PatternCard
-                                                  key={pat.id}
-                                                  pattern={pat}
-                                                  style={{ cursor: 'pointer' }}
-                                                  projectUse={project}
-                                                  setProjectPattern={setProject}
-                                              />
-                                          );
-                                      }) : <h1>No Patterns Found</h1>)
-                                : null}
+                            {project.patternId === 0 ? (
+                                patterns.length > 0 ? (
+                                    patterns
+                                        .sort((a, b) =>
+                                            a.name.localeCompare(b.name)
+                                        )
+                                        .map((pat) => {
+                                            return (
+                                                <PatternCard
+                                                    key={pat.id}
+                                                    pattern={pat}
+                                                    style={{
+                                                        cursor: 'pointer',
+                                                    }}
+                                                    projectUse={project}
+                                                    setProjectPattern={
+                                                        setProject
+                                                    }
+                                                />
+                                            );
+                                        })
+                                ) : (
+                                    <h1>No Patterns Found</h1>
+                                )
+                            ) : null}
                         </section>
                     )}
                     {project.patternId > 0 ? (
@@ -355,6 +368,7 @@ export const ProjectForm = () => {
                                         </label>
                                         <input
                                             type="search"
+                                            autoComplete="off"
                                             name="fabric-search"
                                             value={fabricSearchTerms}
                                             onChange={(evt) => {

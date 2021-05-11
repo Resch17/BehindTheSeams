@@ -318,6 +318,17 @@ export const ProjectDetails = () => {
                                     ></i>
                                     <i
                                         className="fas fa-trash fa-2x"
+                                        style={
+                                            deleteNoteMode
+                                                ? {
+                                                      color:
+                                                          'var(--dark-color2)',
+                                                  }
+                                                : {
+                                                      color:
+                                                          'var(--dark-color1)',
+                                                  }
+                                        }
                                         onClick={() =>
                                             setDeleteNoteMode(!deleteNoteMode)
                                         }
@@ -400,7 +411,7 @@ export const ProjectDetails = () => {
                                         >
                                             {deleteNoteMode && (
                                                 <i
-                                                    className="fas fa-times"
+                                                    className="fas fa-times cursorPointer"
                                                     onClick={() =>
                                                         handleDeleteNote(n.id)
                                                     }
@@ -440,6 +451,11 @@ export const ProjectDetails = () => {
                         {!project.isComplete && (
                             <i
                                 className="fas fa-trash fa-2x"
+                                style={
+                                    deleteFabricMode
+                                        ? { color: 'var(--dark-color2)' }
+                                        : { color: 'var(--dark-color1)' }
+                                }
                                 onClick={() =>
                                     setDeleteFabricMode(!deleteFabricMode)
                                 }
