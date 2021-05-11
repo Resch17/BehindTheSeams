@@ -53,7 +53,15 @@ export const ProjectProvider = (props) => {
                     },
                 })
             )
-            .then((res) => res.json());
+            .then((res) => {
+                if (!res.ok) {
+                    throw Error(res.statusText);
+                }
+                return res.json();
+            })
+            .catch(() => {
+                return false;
+            });
     };
 
     const addProject = (project) => {
@@ -67,7 +75,7 @@ export const ProjectProvider = (props) => {
                 body: JSON.stringify(project),
             })
         );
-    } 
+    };
 
     const updateProject = (project) => {
         return getToken().then((token) =>

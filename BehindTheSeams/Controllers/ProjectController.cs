@@ -42,7 +42,17 @@ namespace BehindTheSeams.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            return Ok(_projectRepository.GetById(id));
+            var user = GetCurrentUser();
+            var project = _projectRepository.GetById(id);
+            if (project == null)
+            {
+                return BadRequest();
+            }
+            if (user.Id != project.UserId)
+            {
+                return Unauthorized();
+            }
+            return Ok(project);
         }
 
         [HttpPost]

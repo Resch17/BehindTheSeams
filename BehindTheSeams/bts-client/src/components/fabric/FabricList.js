@@ -196,7 +196,7 @@ export const FabricList = () => {
                     ))
                 ) : (
                     <div className="fabric__fabric-list-empty">
-                        No Fabric Found
+                        <h1>No Fabric Found</h1>
                     </div>
                 )}
             </div>

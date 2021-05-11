@@ -36,7 +36,15 @@ export const FabricProvider = (props) => {
                     },
                 })
             )
-            .then((res) => res.json());
+            .then((res) => {
+                if (!res.ok) {
+                    throw Error(res.statusText);
+                }
+                return res.json();
+            })
+            .catch(() => {
+                return false;
+            });
     };
 
     const addFabric = (fabric) => {

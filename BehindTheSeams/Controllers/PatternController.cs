@@ -37,7 +37,17 @@ namespace BehindTheSeams.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            return Ok(_patternRepository.GetById(id));
+            var user = GetCurrentUser();
+            var pattern = _patternRepository.GetById(id);
+            if (pattern == null)
+            {
+                return BadRequest();
+            }
+            if (user.Id != pattern.UserId)
+            {
+                return Unauthorized();
+            }
+            return Ok(pattern);
         }
 
         [HttpPost]

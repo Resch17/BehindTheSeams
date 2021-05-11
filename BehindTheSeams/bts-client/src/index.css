@@ -44,6 +44,10 @@ button {
     min-width: 185px;
 }
 
+textarea {
+    resize: none;
+}
+
 .cursorPointer {
     cursor: pointer;
 }

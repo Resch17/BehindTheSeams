@@ -61,7 +61,7 @@ export const ProjectDetails = () => {
 
     const initializeProjectState = (apiProject) => {
         setProject(apiProject);
-        setStatusId(apiProject.projectStatusId);
+        // setStatusId(apiProject.projectStatusId);
         setUpdatedNotes(apiProject.notes);
         setUpdatedProjectFabric(apiProject.fabric);
         setAddingNotes(false);
@@ -101,11 +101,16 @@ export const ProjectDetails = () => {
         if (id) {
             getProjectById(id)
                 .then((parsed) => {
-                    initializeProjectState(parsed);
+                    if (!parsed) {
+                        throw new Error();
+                    } else {
+                        initializeProjectState(parsed);
+                        setStatusId(parsed.projectStatusId);
+                    }
                 })
                 .catch(() => history.push('/projects'));
         }
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         if (statusId && statusId !== project.projectStatusId) {
@@ -313,6 +318,17 @@ export const ProjectDetails = () => {
                                     ></i>
                                     <i
                                         className="fas fa-trash fa-2x"
+                                        style={
+                                            deleteNoteMode
+                                                ? {
+                                                      color:
+                                                          'var(--dark-color2)',
+                                                  }
+                                                : {
+                                                      color:
+                                                          'var(--dark-color1)',
+                                                  }
+                                        }
                                         onClick={() =>
                                             setDeleteNoteMode(!deleteNoteMode)
                                         }
@@ -395,7 +411,7 @@ export const ProjectDetails = () => {
                                         >
                                             {deleteNoteMode && (
                                                 <i
-                                                    className="fas fa-times"
+                                                    className="fas fa-times cursorPointer"
                                                     onClick={() =>
                                                         handleDeleteNote(n.id)
                                                     }
@@ -435,6 +451,11 @@ export const ProjectDetails = () => {
                         {!project.isComplete && (
                             <i
                                 className="fas fa-trash fa-2x"
+                                style={
+                                    deleteFabricMode
+                                        ? { color: 'var(--dark-color2)' }
+                                        : { color: 'var(--dark-color1)' }
+                                }
                                 onClick={() =>
                                     setDeleteFabricMode(!deleteFabricMode)
                                 }

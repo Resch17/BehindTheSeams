@@ -37,6 +37,10 @@ namespace BehindTheSeams.Controllers
         {
             var user = GetCurrentUser();
             var fabric = _fabricRepository.GetById(id);
+            if (fabric == null)
+            {
+                return BadRequest();
+            }
             if (user.Id != fabric.UserId)
             {
                 return Unauthorized();
