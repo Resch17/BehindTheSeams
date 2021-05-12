@@ -16,7 +16,6 @@ export const ProjectList = () => {
     }, []);
 
     useEffect(() => {
-        console.log(viewingActive);
         if (!viewingActive) {
             getCompletedProjects().then(setCompleteProjects);
         } else {

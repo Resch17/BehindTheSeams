@@ -17,8 +17,8 @@ export const Login = () => {
     };
 
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="login">
+            <h1>Log In</h1>
             <form onSubmit={loginSubmit}>
                 <div className="form-group">
                     <label htmlFor="login-email">Email</label>
@@ -38,7 +38,7 @@ export const Login = () => {
                         onChange={(evt) => setPassword(evt.target.value)}
                     />
                 </div>
-                <button>Login</button>
+                <button>Submit</button>
             </form>
         </div>
     );

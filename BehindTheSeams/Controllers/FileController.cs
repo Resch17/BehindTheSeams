@@ -34,7 +34,7 @@ namespace BehindTheSeams.Controllers
                 var folderName = Path.Combine("bts-client", "public", "fileuploads");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
-                if (file.Length > 0)
+                if (file.Length > 0 && file.Length < 10485760)
                 {
                     var inputFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
 

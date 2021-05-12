@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 export const Slideshow = ({ images, containerWidth }) => {
     const [counter, setCounter] = useState(0);
@@ -46,6 +46,7 @@ export const Slideshow = ({ images, containerWidth }) => {
                         objectFit: 'scale-down',
                         width: `${containerWidth}px`,
                     }}
+                    alt="slideshow"
                 />
                 <div
                     className="slideshow__controls"

@@ -58,11 +58,13 @@ export const ProjectCard = ({ project, setProjects }) => {
                         <img
                             className="project-card__image"
                             src={project.pattern.images[0].url}
+                            alt={`${project.pattern.name}`}
                         />
                     ) : (
                         <img
                             className="project-card__image"
                             src="/assets/patternPlaceholder.png"
+                            alt="Pattern placeholder"
                         />
                     )}
                 </Link>

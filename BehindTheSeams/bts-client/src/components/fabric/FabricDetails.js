@@ -177,7 +177,7 @@ export const FabricDetails = () => {
                             containerWidth={400}
                         />
                     ) : (
-                        <img src="/assets/patternPlaceholder.png" />
+                        <img src="/assets/patternPlaceholder.png" alt="Fabric placeholder" />
                     )}
                 </div>
                 <div className="fabric-details__content">
