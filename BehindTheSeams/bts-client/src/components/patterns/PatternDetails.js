@@ -10,9 +10,8 @@ export const PatternDetails = () => {
     const [updatedNotes, setUpdatedNotes] = useState('');
     const [deletingFiles, setDeletingFiles] = useState(false);
     const [addingFile, setAddingFile] = useState(false);
-    const { getPatternById, updatePattern, deletePattern } = useContext(
-        PatternContext
-    );
+    const { getPatternById, updatePattern, deletePattern } =
+        useContext(PatternContext);
     const [fileToUpload, setFileToUpload] = useState({ name: '' });
     const { deleteFile, uploadFile, addFile } = useContext(FileContext);
     const { id } = useParams();
@@ -72,11 +71,16 @@ export const PatternDetails = () => {
     const handleClickSaveFile = () => {
         if (fileToUpload.name.length > 0 && fileToUpload.file) {
             uploadFile(fileToUpload.file)
-                .then((res) => res.json())
+                .then((res) => {
+                    if (!res.ok) {
+                        setAddingFile(false);
+                        throw Error();
+                    }
+                    return res.json();
+                })
                 .then((parsed) => {
-                    let [unused, filePath] = parsed.outputPath.split(
-                        'public\\'
-                    );
+                    let [unused, filePath] =
+                        parsed.outputPath.split('public\\');
                     fileToUpload.path = '\\' + filePath;
                     fileToUpload.patternId = pattern.id;
                     addFile(fileToUpload).then(() => {
@@ -85,6 +89,11 @@ export const PatternDetails = () => {
                             setAddingFile(false);
                         });
                     });
+                })
+                .catch(() => {
+                    window.alert(
+                        'File upload failed. Is your file greater than 10Mb?'
+                    );
                 });
         }
     };
@@ -272,7 +281,7 @@ export const PatternDetails = () => {
                         {addingFile && (
                             <div className="pattern-details__file-form">
                                 <h2 style={{ textAlign: 'center' }}>
-                                    New File
+                                    New File (10 mb size limit)
                                 </h2>
                                 <div className="file-upload-group">
                                     <label htmlFor="file-name">

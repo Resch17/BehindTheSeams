@@ -74,21 +74,33 @@ export const PatternForm = () => {
                 }
             });
             Promise.all(filePromises)
-                .then((res) => Promise.all(res.map((r) => r.json())))
+                .then((res) =>
+                    Promise.all(
+                        res.map((r) => {
+                            if (r.ok) {
+                                return r.json();
+                            }
+                            r.json();
+                        })
+                    )
+                )
                 .then((parsed) => {
                     parsed.forEach((pf, i) => {
-                        let [unused, filePath] = pf.outputPath.split(
-                            'public\\'
-                        );
-                        filesToAdd[i] = {
-                            ...filesToAdd[i],
-                            path: '\\' + filePath,
-                            patternId: createdPattern.id,
-                        };
+                        if (pf !== undefined) {
+                            let [unused, filePath] =
+                                pf.outputPath.split('public\\');
+                            filesToAdd[i] = {
+                                ...filesToAdd[i],
+                                path: '\\' + filePath,
+                                patternId: createdPattern.id,
+                            };
+                        }
                     });
-                    let patternFilePromises = filesToAdd.map((pf) =>
-                        addFile(pf)
-                    );
+                    let patternFilePromises = filesToAdd.map((pf) => {
+                        if (pf.path) {
+                            return addFile(pf);
+                        }
+                    });
                     Promise.all(patternFilePromises).then(() => {
                         setSaving(false);
                         history.push(`/pattern/${createdPattern.id}`);
@@ -115,7 +127,6 @@ export const PatternForm = () => {
         setSaving(true);
         addPattern(pattern)
             .then((response) => {
-                console.log(response);
                 if (response.ok) {
                     return response.json();
                 }
@@ -131,9 +142,8 @@ export const PatternForm = () => {
                         .then((res) => Promise.all(res.map((r) => r.json())))
                         .then((parsed) => {
                             parsed.forEach((pi) => {
-                                let [unused, path] = pi.outputPath.split(
-                                    'public\\'
-                                );
+                                let [unused, path] =
+                                    pi.outputPath.split('public\\');
                                 imagesToAdd.push({
                                     url: '\\' + path,
                                     patternId: createdPattern.id,
@@ -469,9 +479,10 @@ export const PatternForm = () => {
                                                                     (
                                                                         prevState
                                                                     ) => {
-                                                                        let newState = [
-                                                                            ...prevState,
-                                                                        ];
+                                                                        let newState =
+                                                                            [
+                                                                                ...prevState,
+                                                                            ];
 
                                                                         newState[
                                                                             i
@@ -520,16 +531,16 @@ export const PatternForm = () => {
                                                         onChange={(evt) => {
                                                             setImages(
                                                                 (prevState) => {
-                                                                    let newState = [
-                                                                        ...prevState,
-                                                                    ];
+                                                                    let newState =
+                                                                        [
+                                                                            ...prevState,
+                                                                        ];
                                                                     newState[
                                                                         i
                                                                     ] = {
-                                                                        url:
-                                                                            evt
-                                                                                .target
-                                                                                .value,
+                                                                        url: evt
+                                                                            .target
+                                                                            .value,
                                                                     };
                                                                     return newState;
                                                                 }
@@ -590,19 +601,19 @@ export const PatternForm = () => {
                                                         ];
                                                         newState[i] = {
                                                             ...newState[i],
-                                                            name:
-                                                                evt.target
-                                                                    .value,
+                                                            name: evt.target
+                                                                .value,
                                                         };
                                                         return newState;
                                                     });
                                                 }}
                                             />
+                                            <label htmlFor="file">(10 mb file size limit)</label>
                                             <input
                                                 type="file"
                                                 accept=".png, .jpg, .gif, .bmp, .pdf"
                                                 name="file"
-                                                placeholder="Choose file to upload"
+                                                placeholder="Choose file to upload (limit 10Mb)"
                                                 onChange={(evt) => {
                                                     if (
                                                         evt.target.files
@@ -618,10 +629,9 @@ export const PatternForm = () => {
                                                                     ...newState[
                                                                         i
                                                                     ],
-                                                                    file:
-                                                                        evt
-                                                                            .target
-                                                                            .files,
+                                                                    file: evt
+                                                                        .target
+                                                                        .files,
                                                                 };
                                                                 return newState;
                                                             }
