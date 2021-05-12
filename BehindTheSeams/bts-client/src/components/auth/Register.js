@@ -22,7 +22,7 @@ export const Register = () => {
     };
 
     return (
-        <div>
+        <div className="register">
             <h1>Register</h1>
             <form onSubmit={registerClick}>
                 <div className="form-group">
