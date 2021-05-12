@@ -148,7 +148,7 @@ export const PatternDetails = () => {
                             containerWidth={400}
                         />
                     ) : (
-                        <img src="/assets/patternPlaceholder.png" />
+                        <img src="/assets/patternPlaceholder.png" alt="Pattern placeholder" />
                     )}
                 </div>
                 <div className="pattern-details__content">
@@ -166,7 +166,7 @@ export const PatternDetails = () => {
                             Purchase date: {dateFormatter(pattern.purchaseDate)}
                         </div>
                         <div className="pattern-details__property">
-                            {pattern.url != '' ? (
+                            {pattern.url !== '' ? (
                                 <a
                                     href={pattern.url}
                                     target="_blank"

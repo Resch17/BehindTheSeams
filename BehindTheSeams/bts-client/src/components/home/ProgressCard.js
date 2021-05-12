@@ -1,12 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ProjectContext } from '../../providers/ProjectProvider';
 
 export const ProgressCard = ({ project }) => {
     const [statusId, setStatusId] = useState(project.projectStatusId);
     const { updateProject, getAllProjects } = useContext(ProjectContext);
-    const history = useHistory();
 
     const highestCheckedBoxStyle = (boxNum) => {
         if (statusId === boxNum) {
@@ -49,13 +47,13 @@ export const ProgressCard = ({ project }) => {
                         <img
                             className="progress-card__image"
                             src={project.pattern.images[0].url}
-                            alt="pattern image"
+                            alt="pattern"
                         />
                     ) : (
                         <img
                             className="progress-card__image"
                             src="/assets/patternPlaceholder.png"
-                            alt="pattern image"
+                            alt="pattern"
                         />
                     )}
                 </Link>

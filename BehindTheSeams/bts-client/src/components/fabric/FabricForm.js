@@ -22,7 +22,7 @@ export const FabricForm = () => {
 
     const { getAllRetailers, retailers } = useContext(RetailerContext);
     const { getAllFabricTypes, fabricTypes } = useContext(FabricTypeContext);
-    const { addFabric, getFabricById } = useContext(FabricContext);
+    const { addFabric } = useContext(FabricContext);
     const { addFabricImage } = useContext(FabricImageContext);
     const { uploadImage } = useContext(FileContext);
     const history = useHistory();

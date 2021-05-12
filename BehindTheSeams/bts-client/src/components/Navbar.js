@@ -29,7 +29,7 @@ export const Navbar = () => {
         <nav className="navbar" style={loggedOutStyle()}>
             <div className="navbar__link">
                 <Link to="/">
-                    <img className="navbar-logo" src="/assets/logo.png" />
+                    <img className="navbar-logo" src="/assets/logo.png" alt="Behind The Seams logo" />
                 </Link>
             </div>
             {isLoggedIn ? (

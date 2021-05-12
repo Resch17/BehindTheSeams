@@ -260,6 +260,7 @@ export const ProjectDetails = () => {
                         <Link to={`/pattern/${project.pattern.id}`}>
                             <img
                                 className="project-details__pattern-image"
+                                alt="Pattern"
                                 src={
                                     project.pattern.images.length > 0
                                         ? project.pattern.images[0].url
@@ -493,7 +494,7 @@ export const ProjectDetails = () => {
                                         <Link to={`/fabric/${f.id}`}>
                                             <img
                                                 className="project-details__fabric-card-image"
-                                                alt="fabric image"
+                                                alt="fabric"
                                                 src={
                                                     f.images.length > 0
                                                         ? f.images[0].url

@@ -8,7 +8,7 @@ export const PatternCard = ({
     setModifying,
     projectUse,
     setProjectPattern,
-    setPatterns
+    setPatterns,
 }) => {
     const { getAllPatterns, deletePattern } = useContext(PatternContext);
     const history = useHistory();
@@ -32,7 +32,7 @@ export const PatternCard = ({
                 deletePattern(pattern.id)
                     .then(getAllPatterns)
                     .then((parsed) => {
-                        setPatterns(parsed)
+                        setPatterns(parsed);
                         setModifying(false);
                     });
             } else {
@@ -85,6 +85,7 @@ export const PatternCard = ({
                         <img
                             className="pattern-card__image"
                             src={pattern.images[0].url}
+                            alt={`${pattern.name}`}
                             onClick={() =>
                                 history.push(`/pattern/${pattern.id}`)
                             }
@@ -93,6 +94,7 @@ export const PatternCard = ({
                         <img
                             className="pattern-card__image"
                             src="/assets/patternPlaceholder.png"
+                            alt="Pattern placeholder"
                             onClick={() =>
                                 history.push(`/pattern/${pattern.id}`)
                             }

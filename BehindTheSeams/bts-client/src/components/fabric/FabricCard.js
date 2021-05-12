@@ -79,12 +79,14 @@ export const FabricCard = ({
                             onClick={() => history.push(`/fabric/${fabric.id}`)}
                             className="fabric-card__image"
                             src={fabric.images[0].url}
+                            alt={`${fabric.name}`}
                         />
                     ) : (
                         <img
                             onClick={() => history.push(`/fabric/${fabric.id}`)}
                             className="fabric-card__image"
                             src="/assets/patternPlaceholder.png"
+                            alt="Fabric placeholder"
                         />
                     )}
                 </div>
