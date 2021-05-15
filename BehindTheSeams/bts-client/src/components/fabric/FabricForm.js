@@ -70,9 +70,8 @@ export const FabricForm = () => {
                         .then((parsed) => {
                             parsed.forEach((fi) => {
                                 if (fi) {
-                                    let [unused, path] = fi.outputPath.split(
-                                        'public\\'
-                                    );
+                                    let [unused, path] =
+                                        fi.outputPath.split('public\\');
                                     imagesToAdd.push({
                                         url: '\\' + path,
                                         fabricId: createdFabric.id,
@@ -100,7 +99,6 @@ export const FabricForm = () => {
                         history.push(`/fabric/${createdFabric.id}`);
                     });
                 }
-
             });
     };
 
@@ -157,17 +155,19 @@ export const FabricForm = () => {
                     >
                         <option value="0">Select a Retailer</option>
                         {retailers.length > 0 &&
-                            retailers.map((r) => {
-                                return (
-                                    <option
-                                        className="fabric-retailer__option"
-                                        value={r.id}
-                                        key={r.id}
-                                    >
-                                        {r.name}
-                                    </option>
-                                );
-                            })}
+                            retailers
+                                .sort((a, b) => a.name.localeCompare(b.name))
+                                .map((r) => {
+                                    return (
+                                        <option
+                                            className="fabric-retailer__option"
+                                            value={r.id}
+                                            key={r.id}
+                                        >
+                                            {r.name}
+                                        </option>
+                                    );
+                                })}
                     </select>
                 </div>
                 <div className="fabric-form__form-group">
@@ -293,9 +293,10 @@ export const FabricForm = () => {
                                                         ) {
                                                             setImages(
                                                                 (prevState) => {
-                                                                    let newState = [
-                                                                        ...prevState,
-                                                                    ];
+                                                                    let newState =
+                                                                        [
+                                                                            ...prevState,
+                                                                        ];
 
                                                                     newState[
                                                                         i
@@ -346,10 +347,9 @@ export const FabricForm = () => {
                                                                     ...prevState,
                                                                 ];
                                                                 newState[i] = {
-                                                                    url:
-                                                                        evt
-                                                                            .target
-                                                                            .value,
+                                                                    url: evt
+                                                                        .target
+                                                                        .value,
                                                                 };
                                                                 return newState;
                                                             }
